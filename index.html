@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello World!</title>
+  </head>
+  <body>
+    <h1>Hello World!</h1>
+    We are using io.js <script>document.write(process.version)</script>
+    and Electron <script>document.write(process.versions['electron'])</script>.
+  </body>
+  
+  <div id="holder">
+    Drag your file here
+  </div>
+
+  <script>
+    var holder = document.getElementById('holder');
+    holder.ondragover = function () {
+      return false;
+    };
+    holder.ondragleave = holder.ondragend = function () {
+      return false;
+    };
+    holder.ondrop = function (e) {
+      e.preventDefault();
+      var file = e.dataTransfer.files[0];
+      console.log('File you dragged here is', file.path);
+      document.body.append('hello');
+      return false;
+    };
+  </script>
+</html>
