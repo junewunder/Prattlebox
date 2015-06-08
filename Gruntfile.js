@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           //compile to: compile from
-          "main.js": "app/main.js"
+          // "main.js": "app/main.js"
         }
       }
     },
@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       compile: {
         files: {
           // compile to: compile from
-          // 'public/css/style.css': 'public/css/style.styl'
+          'app/css/style.css': 'app/css/style.styl'
         }
       }
     },

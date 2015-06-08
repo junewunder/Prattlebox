@@ -1,0 +1,1 @@
+*{background:#000}.content{display:flex;flex-direction:column}.logo-container{display:flex;flex-direction:column;background:#f00}.login-container{display:flex;flex-direction:column;background:#00f}.login-form{display:flex;flex-direction:column;align-items:center}.login-input{width:50%}

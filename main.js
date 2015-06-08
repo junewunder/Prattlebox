@@ -16,7 +16,11 @@ app.on('ready', function () {
 	mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600,
-		title: 'irc chat' });
+		title: 'irc chat' 
+		// fullscreen: false,
+		// frame: false,
+		// transparent: true
+		});
 
 	mainWindow.on('closed', function () {
 		mainWindow = null;
@@ -216,7 +220,3 @@ app.on('ready', function () {
 		mainWindow.setMenu(menu);
 	}
 });
-
-// fullscreen: false,
-// frame: false,
-// transparent: true
