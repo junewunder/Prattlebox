@@ -1,0 +1,48 @@
+//darkcyan
+//cadetblue
+//darkslategrey
+body-background = darkslategrey
+
+*
+  padding 0px
+  margin 0px
+  // font-family
+
+body
+  background body-background
+
+container()
+  padding 15px
+
+container-col()
+  container()
+  flex-direction column
+
+container-row()
+  container()
+  flex-direction row
+
+.content
+  container-col()
+
+.logo-container
+  container-col()
+  background cadetblue
+
+.login-container
+  container-col()
+  background darkcyan
+  padding
+
+.login-form
+  container-col()
+  align-items: center
+
+.login-input
+  width 50%
+  font-size 20px
+  font-color black
+  border none
+  border-bottom black 1px solid
+  padding 0.5em 1.5em
+  background gray

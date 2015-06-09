@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+</head>
+
+<!-- Elements -->
+
+<body>
+  <div class="content">
+    <div class="logo-container">
+      <h1 style="color:aliceblue">THIS IS THE LOGO DUUUUDE</h1>
+    </div>
+    <div class="login-container">
+      <form class="login-form" id="login-form">
+        <h3>Host</h3>
+        <input type="text" id="host-address" placeholder="Server" class="login-input"
+        autocomplete="false">
+        <h3>Real Name</h3>
+        <input type="text" id="real-name" placeholder="Real Name" class="login-input"
+        autocomplete="false">
+        <h3>Nickname</h3>
+        <input type="text" id="nick-name" placeholder="Nick" class="login-input"
+        autocomplete="false">
+        <h3>Nickname Password</h3>
+        <input type="text" id="nick-pass" placeholder="Nick Pass (optional)" class="login-input"
+        autocomplete="false">
+        <button id="login-connect" class="login-input">connect</button>
+      </form>
+    </div>
+  </div>
+</body>
+
+<!-- Scripts -->
+<script type="text/javascript">
+  'use strict';
+  var $ = require("../lib/jquery-1.11.3.min.js");
+  var ipc = require('ipc');
+
+  $('#login-form').on('submit', function (e) {
+    e.preventDefault();
+    console.log('login submitted');
+    var loginData = {
+      hostAddr: $('#host-address').val(),
+      realName: $('#real-name').val(),
+      nickName: $('#nick-name').val(),
+      nickPass: $('#nick-pass').val()
+    }
+    console.log(loginData);
+    // ipc.send('try-connect', DATA)
+  })
+
+  var remote = require('remote');
+  var currentWindow = remote.getCurrentWindow();
+  // currentWindow.loadUrl('file://' + __dirname + '/index.html');
+</script>
+</html>
