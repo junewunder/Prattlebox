@@ -9,7 +9,7 @@ module.exports = function(grunt) {
       dist: {
         files: {
           //compile to: compile from
-          // "main.js": "app/main.js"
+          //there's no need for babel right now
         }
       }
     },
@@ -22,13 +22,6 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      babel: {
-        files: ['./app/**.js', '!**/node_modules/**'],
-        tasks: ['babel'],
-        options: {
-          livereload: true
-        }
-      },
       stylus: {
         files: ['**/*.styl', '!**/node_modules/**'],
         tasks: ['stylus'],
