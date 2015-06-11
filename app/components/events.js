@@ -1,11 +1,11 @@
 'use strict';
-var ipc = require('ipc');
+//THESE TWO ARE EASY TO MIX UP BE CARFUL WITH THEM
+var ipc = require('ipc'); //inter protocol communicator
+var Client = require('./irc/client.js');
 
 module.exports = function (app, mainWindow) {
   //Bind to events
-  console.log('> making bindings');
-  ipc.on('try-connect', function (event, userData) {
-    console.log("> recieved userData: " + userData.nickName);
-
+  ipc.on('try-connect', function (event, clientData) { //get event from "client"
+    event.sender.send('connect', new Client(clientData));
   });
 };

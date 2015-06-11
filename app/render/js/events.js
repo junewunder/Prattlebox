@@ -1,5 +1,5 @@
 'use strict';
-var ipc = require('ipc');
+var ipc = require('ipc'); //inter protocol communicator
 var $ = require('../lib/jquery-1.11.3.min.js');
 
 module.exports = function () {
@@ -7,13 +7,20 @@ module.exports = function () {
 
   $('#login-form').on('submit', function (e) {
     e.preventDefault();
-    // console.log('login submitted');
-    // console.log(loginData);
+
     ipc.send('try-connect', {
       hostAddr: $('#host-address').val(),
       realName: $('#real-name').val(),
       nickName: $('#nick-name').val(),
       nickPass: $('#nick-pass').val()
+    });
+
+    ipc.on('connect', function (client) {
+      console.log(client);
+
+      // client.addListener('error', function(message) {
+      //     console.log('error: ', message);
+      // });
     });
   });
 };
