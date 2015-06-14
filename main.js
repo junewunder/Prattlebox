@@ -21,12 +21,13 @@ app.on('ready', function () {
 		});
 
 	mainWindow.on('closed', function () {
-		mainWindow = null;
+		app.quit();
 	});
 
-	mainWindow.loadUrl('file://' + __dirname + '/app/public/pages/login.html');
+	mainWindow.loadUrl(`file://${__dirname}/app/render/pages/login.html`);
 
 	//add menus
 	require('./app/components/menu.js')(app, mainWindow);
-	require('./app/components/events.js')(app, mainWindow);
+	//bind to events
+	require('./app/components/ipc-events.js')(app, mainWindow);
 });
