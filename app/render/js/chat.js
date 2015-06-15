@@ -12,6 +12,10 @@ angular.module('chat', [])
   this.currentMessage = '';
   this.channel = '#botwar';
 
+  //////////////////////////
+  //CREATE ANGULAR METHODS//
+  //////////////////////////
+
   this.submitMessage = function () {
     if (this.currentMessage !== '') {//don't want to send an empty string now...
       //send message to server
@@ -22,10 +26,6 @@ angular.module('chat', [])
       this.currentMessage = '';
     }
   };
-
-  //////////////////////////
-  //CREATE ANGULAR METHODS//
-  //////////////////////////
 
   this.message = function (text) {
     //create an li.message element
@@ -43,10 +43,6 @@ angular.module('chat', [])
         .text(text)
         .addClass('annoucment')
     );
-  };
-
-  this.testMessage = function () {
-    this.message('hello, world');
   };
 
   /////////////////////////

@@ -23,7 +23,7 @@ module.exports = function (mainWindow) {
   });
 
   client.addListener('message', function (nick, to, text, message) {
-
+    actions.message(nick, to, text, message)
   });
 
   client.addListener('names', function (names) {
