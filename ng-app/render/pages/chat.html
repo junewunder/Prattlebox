@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="../css/style.css">
-  <script src="../lib/jquery-1.11.3.min.js" charset="utf-8"></script>
-  <script src="../lib/angular.min.js" charset="utf-8"></script>
-  <script src="../js/chat.js" charset="utf-8"></script>
+  <script src="../lib/jquery-1.11.3.min.js"></script>
+  <script src="../lib/angular.min.js"></script>
+  <script src="../js/chat.js"></script>
 </head>
 <body>
-  <div ng-controller="ChatController as chat" class="content">
+  <div ng-controller="ChatController as chat" ng-submit="chat.submitMessage()" class="content">
     chat me bb ;)
     <ul id="messages"></ul>
-    <button type="button" ng-click="chat.testMessage()">test the message</button>
+    <form>
+      <input type="text" ng-model="chat.currentMessage">
+      <button type="button" ng-click="chat.submitMessage()">send</button>
+    </form>
   </div>
 </body>
 </html>
