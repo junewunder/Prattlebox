@@ -9,7 +9,7 @@ module.exports = {
         .class('annoucment')
     );
   },
-  message: function (text) {
+  message: function (nick, to, text, message) {
     $('#messages').append(
       $('<li>')
         .text(text)

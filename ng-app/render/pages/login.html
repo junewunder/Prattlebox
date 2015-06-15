@@ -1,41 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="login">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="../lib/angular.min.js"></script>
+  <script src="../js/login.js"></script>
 </head>
-
-<!-- Elements -->
-
 <body>
-  <div class="content">
+  <div class="content" ng-controller="LoginController as login">
     <div class="logo-container">
       <h1 style="color:aliceblue">THIS IS THE LOGO DUUUUDE</h1>
     </div>
     <div class="login-container">
       <form class="login-form" id="login-form">
         <h3>Host</h3>
-        <input type="text" id="host-address" placeholder="Server" class="login-input"
-        autocomplete="false" value="irc.freenode.net">
+        <input type="text" ng-model="login.hostAddr" class="login-input" required>
+
         <h3>Real Name</h3>
-        <input type="text" id="real-name" placeholder="Real Name" class="login-input"
-        autocomplete="false" value="Wunder Bot">
+        <input type="text" ng-model="login.realName" class="login-input" required>
+
         <h3>Nickname</h3>
-        <input type="text" id="nick-name" placeholder="Nick" class="login-input"
-        autocomplete="false" value="wunder-bot">
-        <h3>Nickname Password</h3>
-        <input type="password" id="nick-pass" placeholder="Nick Pass (optional)" class="login-input"
-        autocomplete="false" value="bot-pass">
-        <button id="login-connect" class="login-input">connect</button>
+        <input type="text" ng-model="login.nickName" class="login-input" required>
+
+        <h3>Password</h3>
+        <input type="password" ng-model="login.nickPass" class="login-input">
+
+        <button ng-click="login.connectionTry()" class="login-input">connect</button>
       </form>
     </div>
   </div>
 </body>
-
-<!-- Scripts -->
-<script type="text/javascript">
-  'use strict';
-  var $ = require("../lib/jquery-1.11.3.min.js");
-  require('../js/login-events.js')();
-</script>
 </html>
