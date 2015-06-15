@@ -17,7 +17,6 @@ angular.module('login', [])
   };
 
   this.connectionReady = function () {
-    console.log('the connection is ready');
     ipc.send('load-page', 'chat');
   };
 

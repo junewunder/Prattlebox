@@ -1,13 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="chat">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <script src="../lib/jquery-1.11.3.min.js" charset="utf-8"></script>
+  <script src="../lib/angular.min.js" charset="utf-8"></script>
+  <script src="../js/chat.js" charset="utf-8"></script>
 </head>
 <body>
+  <div ng-controller="ChatController as chat" class="content">
     chat me bb ;)
-    <!-- <ul id="messages">
-
-    </ul> -->
+    <ul id="messages"></ul>
+    <button type="button" ng-click="chat.testMessage()">test the message</button>
+  </div>
 </body>
 </html>

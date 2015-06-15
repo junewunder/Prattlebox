@@ -8,6 +8,7 @@ module.exports = function (app, mainWindow, clientData) {
   });
 
   mainWindow.client.connect();
+  //TODO: try commenting this line to see if the dounble connection issue goes away
 
   mainWindow.client.addListener('registered', function () {
     mainWindow.send('connect-ready');

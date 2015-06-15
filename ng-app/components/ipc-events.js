@@ -7,12 +7,11 @@ module.exports = function (app, mainWindow) {
   ipc.on('connect-try', function (event, clientData) {
     //attach a client to the mainWindow AND bind to its events
     new Client(app, mainWindow, clientData);
-    console.log('> trying to connect');
+    console.log('\n> trying to connect\n');
   });
 
   ipc.on('load-page', function (event, page) {
-    console.log('> page: ', page);
-    mainWindow.loadUrl(`${__dirname}/../render/pages/${page}.html`);
-    console.log(`> loading: ${__dirname}/../render/pages/${page}.html`);
+    mainWindow.loadUrl(`file://${__dirname}/../render/pages/${page}.html`);
+    console.log(`\n> loading: ${__dirname}/../render/pages/${page}.html\n`);
   });
 };

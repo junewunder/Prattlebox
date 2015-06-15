@@ -9,7 +9,7 @@
 <body>
   <div class="content" ng-controller="LoginController as login">
     <div class="logo-container">
-      <h1 style="color:aliceblue">THIS IS THE LOGO DUUUUDE</h1>
+      <h1 style="color:aliceblue">Logo</h1>
     </div>
     <div class="login-container">
       <form class="login-form" id="login-form">
@@ -25,7 +25,8 @@
         <h3>Password</h3>
         <input type="password" ng-model="login.nickPass" class="login-input">
 
-        <button ng-click="login.connectionTry()" class="login-input">connect</button>
+        <button ng-click="login.connectionReady()" class="login-input">connect</button>
+        <!-- replace this  ^^^^^^^^^^^^^^^^^^^ to login.connectionTry() when done testing -->
       </form>
     </div>
   </div>
