@@ -3,17 +3,29 @@ angular.module('chat', [])
   'use strict';
   var $ = require('../lib/jquery-1.11.3.min.js');
   var ipc = require('ipc');
+  var remote = require('remote');
+  var mainWindow = remote.getCurrentWindow();
+  var client = mainWindow.client;
+  var chat = this;
 
   this.pastMessages = [];
   this.currentMessage = '';
+  this.channel = '#botwar';
 
   this.submitMessage = function () {
-    if (this.currentMessage !== '') {
-      this.message(this.currentMessage); //show current message
-      this.pastMessages.push(this.currentMessage); //append to message history
-      this.currentMessage = ''; //clear the current message
+    if (this.currentMessage !== '') {//don't want to send an empty string now...
+      //send message to server
+      client.say('#botwar', '' + this.currentMessage);
+      //append to message history
+      this.pastMessages.push(this.currentMessage);
+      //clear the current message
+      this.currentMessage = '';
     }
   };
+
+  //////////////////////////
+  //CREATE ANGULAR METHODS//
+  //////////////////////////
 
   this.message = function (text) {
     //create an li.message element
@@ -40,50 +52,41 @@ angular.module('chat', [])
   /////////////////////////
   //BIND TO CLIENT EVENTS//
   /////////////////////////
-  var remote = require('remote');
-  var mainWindow = remote.getCurrentWindow();
-  var client = mainWindow.client;
-  var chat = this;
 
-  client.addListener('error', function (error) {
+  ipc.on('client-error', function (error) {
     chat.message('error: ' + error);
     console.log(error);
   });
 
-  client.addListener('motd', function (motd) {
+  ipc.on('client-motd', function (motd) {
     chat.message(motd);
   });
 
-  client.addListener('message', function (nick, to, text, message) {
-    // chat.message(`from:${from}\nto:${to}\ntext:${text}\nmessage:${message}`);
-    console.log('> got a message');
+  ipc.on('client-message', function (nick, to, text, message) {
+    chat.message(`nick:${nick}\nto:${to}\ntext:${text}`);
   });
 
-  client.addListener('names', function (names) {
-
-  });
-
-  client.addListener('say', function () {
+  ipc.on('client-names', function (names) {
 
   });
 
-  client.addListener('kill', function (nick, reason, channels, message) {
+  ipc.on('client-selfMessage', function (to, text) {
+    chat.message(`to: ${to} \n text: ${text}`);
+  });
+
+  ipc.on('client-kill', function (nick, reason, channels, message) {
 
   });
 
-  client.addListener('selfMessage', function (to, text) {
+  ipc.on('client-pm', function (nick, text, message) {
 
   });
 
-  client.addListener('pm', function (nick, text, message) {
-
-  });
-
-  client.addListener('kick', function () {
+  ipc.on('client-kick', function () {
     chat.announce('You were kicked.. :(');
   });
 
-  client.addListener('', function () {
+  ipc.on('', function () {
 
   });
 
