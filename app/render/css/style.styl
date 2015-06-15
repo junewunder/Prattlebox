@@ -1,7 +1,9 @@
-//darkcyan
-//cadetblue
-//darkslategrey
-body-background = darkslategrey
+body-background = #D7DAE5
+color-background = #D7DAE5
+color-self-nick = #6B7D7D
+color-other-nick = #465362
+
+font-size = 20px
 
 *
   padding 0px
@@ -12,7 +14,7 @@ body
   background body-background
 
 container()
-  padding 15px
+  display flex
 
 container-col()
   container()
@@ -24,6 +26,15 @@ container-row()
 
 .content
   container-col()
+
+.wrapper
+  position absolute
+  width 100%
+  height 100%
+
+/////////
+//LOGIN//
+/////////
 
 .logo-container
   container-col()
@@ -47,12 +58,50 @@ container-row()
   padding 0.5em 1.5em
   background gray
 
+////////
+//CHAT//
+////////
+
+#messages-container
+  overflow scroll
+  margin 20px
+
+#input-container
+  container-row()
+  align-self flex-end
+  padding 25px
+
 #messages
-  background aliceblue
+  font-size font-size
+  list-style-type none
 
 .message
-  color black
-  background aliceblue
+  padding 0 10 //this does nothing for some reason
+
+#input-form
+  display flex
+  justify-content space-between
+
+#input-text
+  flex-grow 10
+  margin 3px
+  font-size font-size
+
+#input-button
+  flex-grow 1
+  margin 3px
+  font-size font-size
 
 .annoucment
   color gray
+  display:table;
+  margin:0px auto 0px auto;
+
+.nick
+  text-decoration bold
+
+.self
+  color color-self-nick
+
+.other
+  color color-other-nick

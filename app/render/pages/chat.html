@@ -8,13 +8,21 @@
   <script src="../js/chat.js"></script>
 </head>
 <body>
-  <div ng-controller="ChatController as chat" ng-submit="chat.submitMessage()" class="content">
-    chat me bb ;)
-    <ul id="messages"></ul>
-    <form>
-      <input type="text" ng-model="chat.currentMessage">
-      <button type="button" ng-click="chat.submitMessage()">send</button>
-    </form>
+  <div ng-controller="ChatController as chat" class="content wrapper">
+    <div id="messages-container">
+      <ul id="messages">
+        <li class="message" ng-repeat="message in chat.messages">
+          <span class="nick {{message.typeNick}}">{{message.nick}}</span>
+          <span class="{{message.typeMessage}}">{{message.text}}</span>
+        </li>
+      </ul>
+    </div>
+    <div id="input-container">
+      <form id="input-form" ng-submit="chat.submitMessage()" >
+        <input type="text" id="input-text" ng-model="chat.currentMessage">
+        <button type="button" id="input-button" ng-click="chat.submitMessage()">send</button>
+      </form>
+    </div>
   </div>
 </body>
 </html>

@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       compile: {
         files: {
           // compile to: compile from
-          'app/css/style.css': 'app/css/style.styl'
+          'app/render/css/style.css': 'app/render/css/style.styl'
         }
       }
     },
@@ -33,5 +33,5 @@ module.exports = function(grunt) {
   });
 
   grunt.registerTask('default', ['watch']);
-  grunt.registerTask('compile', ['babel', 'stylus']);
+  grunt.registerTask('compile', ['stylus']);
 };
