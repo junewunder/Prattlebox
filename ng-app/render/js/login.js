@@ -1,8 +1,7 @@
-var ipc = require('ipc'); //inter protocol communicator
-
 angular.module('login', [])
 .controller('LoginController', function () {
   'use strict';
+  var ipc = require('ipc'); //inter protocol communicator
   this.hostAddr = 'irc.freenode.net';
   this.realName = 'Wunder Bot';
   this.nickName = 'wunder-bot';
@@ -15,10 +14,12 @@ angular.module('login', [])
       nickName: this.nickName,
       nickPass: this.nickPass
     });
-    console.log('> trying to connect here');
   };
 
   this.connectionReady = function () {
-    mainWindow.loadUrl(`file://${__dirname}/../pages/chat.html`);
+    console.log('the connection is ready');
+    ipc.send('load-page', 'chat');
   };
+
+  ipc.on('connect-ready', this.connectionReady);
 });
