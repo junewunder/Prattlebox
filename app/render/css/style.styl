@@ -1,9 +1,10 @@
-body-background = #D7DAE5
-color-background = #D7DAE5
-color-self-nick = #6B7D7D
-color-other-nick = #465362
+@import './variables'
+/*
 
-font-size = 20px
+base03 base02 base01 base00 base0 base1 base2 base3
+dark <--------------------------------------> light
+*/
+
 
 *
   padding 0px
@@ -11,7 +12,7 @@ font-size = 20px
   font-family sans-serif
 
 body
-  background body-background
+  background base3
 
 container()
   display flex
@@ -26,6 +27,10 @@ container-row()
 
 .content
   container-col()
+  align-content stretch
+
+.content-row
+  container-row()
 
 .wrapper
   position absolute
@@ -38,12 +43,13 @@ container-row()
 
 .logo-container
   container-col()
-  background cadetblue
+  background base3
+  color base03
 
 .login-container
   container-col()
-  background darkcyan
-  padding
+  background base2
+  // padding
 
 .login-form
   container-col()
@@ -52,11 +58,19 @@ container-row()
 .login-input
   width 50%
   font-size 20px
-  font-color black
+  font-color base03
   border none
-  border-bottom black 1px solid
+  border-bottom base03 1px solid
   padding 0.5em 1.5em
-  background gray
+  background base1
+
+.login-logo-container
+  width: 200px;
+  height: 120px;
+
+// .login-logo-container img
+  // width: auto;
+  // height: auto;
 
 ////////
 //CHAT//
@@ -67,41 +81,97 @@ container-row()
   margin 20px
 
 #input-container
-  container-row()
-  align-self flex-end
-  padding 25px
+  padding 15px
+  // position relative
+  // bottom 20
 
 #messages
   font-size font-size
   list-style-type none
+  li
+    &:nth-child(odd)
+      background base2
 
 .message
-  padding 0 10 //this does nothing for some reason
+  margin 0px 10px //this does nothing for some reason
 
 #input-form
-  display flex
-  justify-content space-between
+  container-row()
+  justify-content space-around
+  width 100%
 
 #input-text
   flex-grow 10
+  width 80%
   margin 3px
   font-size font-size
+  border 2px solid base01
+  background base2
 
 #input-button
   flex-grow 1
   margin 3px
   font-size font-size
+  border 2px solid base03
+  border-radius 7px
+  background base02
+  color base0
+  padding 5px
 
 .annoucment
-  color gray
-  display:table;
-  margin:0px auto 0px auto;
+  color base01
+  display table
+  margin 0px auto 0px auto
 
 .nick
-  text-decoration bold
+  text-decoration underline
+  font-family monospace
+
+// .nick::after
+  // content ':'
 
 .self
-  color color-self-nick
+  color sol-blue
 
 .other
-  color color-other-nick
+  color sol-cyan
+
+////////
+//TABS//
+////////
+
+.tab-container
+  container-row()
+  background base1
+  height 30px
+
+.tab
+  background base1
+  border none
+  border-left base0 3px solid
+  border-bottom base0 1px solid
+  display flex
+  flex-direction row
+  align-content center
+  padding 10px
+
+.tab-title
+  color base02
+  text-align center
+
+.tab-title::after
+  content attr(data-name)
+  font-size initial
+
+.tab-close-icon
+  // width 10px
+  padding 5px
+
+.tab-close-icon::before
+  content 'x'
+
+.tab-active
+  color base00
+  background base3
+  border-bottom none
+  border-left sol-yellow 3px solid

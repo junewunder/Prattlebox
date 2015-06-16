@@ -93,12 +93,12 @@ angular.module('chat', [])
   /////////////////////////
 
   ipc.on('client-error', function (error) {
-    chat.message('error: ' + error);
+    chat.message('error: ', error);
     console.log(error);
   });
 
   ipc.on('client-motd', function (motd) {
-    chat.message(motd);
+    chat.announce(motd);
   });
 
   ipc.on('client-selfMessage', function (to, text) {
@@ -114,7 +114,7 @@ angular.module('chat', [])
   });
 
   ipc.on('client-kill', function (nick, reason, channels, message) {
-    chat.message()
+    chat.message();
   });
 
   ipc.on('client-pm', function (nick, text, message) {

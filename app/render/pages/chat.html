@@ -7,8 +7,18 @@
   <script src="../lib/angular.min.js"></script>
   <script src="../js/chat.js"></script>
 </head>
-<body>
-  <div ng-controller="ChatController as chat" class="content wrapper">
+<body ng-controller="ChatController as chat">
+  <div class="tab-container">
+    <button class="tab">
+      <div class="tab-title" data-name="#botwar"></div>
+      <div class="tab-close-icon"></div>
+    </button>
+    <button class="tab tab-active">
+      <div class="tab-title" data-name="#botwar"></div>
+      <div class="tab-close-icon"></div>
+    </button>
+  </div>
+  <div class="content wrapper">
     <div id="messages-container">
       <ul id="messages">
         <li class="message" ng-repeat="message in chat.messages">
