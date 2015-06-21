@@ -4,7 +4,6 @@ var ipc = require('ipc');
 
 module.exports = function (app, mainWindow, clientData) {
   mainWindow.client = new irc.Client(clientData.hostAddr, clientData.nickName, {
-    channels: ['#botwar'],
     port: 6667
   });
 

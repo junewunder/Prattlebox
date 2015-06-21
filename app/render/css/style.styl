@@ -28,6 +28,9 @@ container-row()
 .content
   container-col()
   align-content stretch
+  // display flex
+  // justify-content center
+  // align-items center
 
 .content-row
   container-row()
@@ -159,19 +162,21 @@ container-row()
   color base02
   text-align center
 
-.tab-title::after
+.tab-title::before
   content attr(data-name)
   font-size initial
 
 .tab-close-icon
-  // width 10px
   padding 5px
 
 .tab-close-icon::before
   content 'x'
 
-.tab-active
+.tab-active-true
   color base00
   background base3
   border-bottom none
   border-left sol-yellow 3px solid
+
+.tab-active-false
+  none
