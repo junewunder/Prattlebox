@@ -9,6 +9,7 @@ chat.controller('ChatController', function ($scope) {
   var chat = $scope;
 
   $scope.channels = {};
+  $scope.active = {};
 
   $scope.hello = 'world';
 
@@ -18,7 +19,12 @@ chat.controller('ChatController', function ($scope) {
       messages: [],
       active: false
     };
-    // $scope.makeActive(name);
+    $scope.makeActive(name);
+  };
+
+  $scope.leaveChannel = function (name) {
+    client.part(name);
+    delete $scope.channels[name];
   };
 
   $scope.makeActive = function (name) {

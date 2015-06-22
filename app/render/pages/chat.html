@@ -10,11 +10,11 @@
 </head>
 <body ng-controller="ChatController as chat">
   <div class="tab-container">
-    <button ng-repeat="(name, channel) in channels" class="tab tab-active-{{channel.active}}"
+    <div ng-repeat="(name, channel) in channels" class="tab tab-active-{{channel.active}}"
       ng-click="makeActive(name)">
       <div class="tab-title" data-name="{{name}}"></div>
-      <div class="tab-close-icon"></div>
-    </button>
+      <button type="button" ng-click="leaveChannel(name)" class="tab-close-icon"></button>
+    </div>
   </div>
   <div class="content wrapper">
     <!-- <div id="messages-container" ng-controller="ChannelController as channel">
