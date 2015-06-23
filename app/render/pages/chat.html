@@ -6,7 +6,6 @@
   <script src="../lib/jquery-1.11.3.min.js"></script>
   <script src="../lib/angular.min.js"></script>
   <script src="../js/chat.js"></script>
-  <!-- // <script src="../js/chat-channel.js"></script> -->
 </head>
 <body ng-controller="ChatController as chat">
   <div class="tab-container">
@@ -17,20 +16,21 @@
     </div>
   </div>
   <div class="content wrapper">
-    <!-- <div id="messages-container" ng-controller="ChannelController as channel">
+    <div id="messages-container" ng-controller="ChannelController as channel">
       <ul id="messages">
-        <li class="message" ng-repeat="message in chat.messages">
+        <li class="message" ng-repeat="message in channels[active].messages">
           <span class="nick {{message.typeNick}}">{{message.nick}}</span>
           <span class="{{message.typeMessage}}">{{message.text}}</span>
         </li>
       </ul>
     </div>
     <div id="input-container">
-      <form id="input-form" ng-submit="chat.submitMessage()" >
-        <input type="text" id="input-text" ng-model="chat.currentMessage">
-        <button type="button" id="input-button" ng-click="chat.submitMessage()">send</button>
+      <form id="input-form" ng-submit="submitMessage()" >
+        <input type="text" id="input-text" ng-model="currentMessage">
+        <button type="button" id="input-button" ng-click="submitMessage()">send</button>
+        <button type="button" id="input-button" ng-click="testMessage()">test</button>
       </form>
-    </div> -->
+    </div>
   </div>
 </body>
 </html>

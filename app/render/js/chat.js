@@ -8,40 +8,41 @@ chat.controller('ChatController', function ($scope) {
   var client = mainWindow.client;
   var chat = $scope;
 
-  $scope.channels = {};
-  $scope.active = {};
+  $scope.channels = {}; // { name : { channel-vars } }
+  $scope.active = ''; // the name of the channel that is active
 
-  $scope.hello = 'world';
+  $scope.hello = 'world'; // test variable
 
   $scope.joinChannel = function (name) {
-    client.join(name);
-    $scope.channels[name] = {
-      messages: [],
-      active: false
-    };
-    $scope.makeActive(name);
+    if (!$scope.channels[name]) { // check if the channel exists
+      client.join(name); // have the client join the channel
+      $scope.channels[name] = { // add the channel to the $scope.channels object
+        messages: [],
+        active: false
+      };
+      $scope.makeActive(name); // make the channel active
+    }
   };
 
   $scope.leaveChannel = function (name) {
-    client.part(name);
-    delete $scope.channels[name];
+    client.part(name); // have the client leave the channel
+    delete $scope.channels[name]; // delete the channel from the channel list
   };
 
   $scope.makeActive = function (name) {
-    for (var i = 0; i < Object.keys($scope.channels).length; i++) {
-      var key = Object.keys($scope.channels)[i];
-      $scope.channels[key].active = false;
+    for (var i = 0; i < Object.keys($scope.channels).length; i++) { // iterate over the keys
+      var key = Object.keys($scope.channels)[i]; // get the key
+      $scope.channels[key].active = false;// make everything inactive
     }
-    $scope.channels[name].active = true;
-
+    $scope.channels[name].active = true; // let the channel know it's active
+    $scope.active = name; // point $scope.active to the active channel
   };
 
+  // the order isn't preserved yet, they'll be in alphabetical order
+  // $scope.joinChannel('#botwar2');
   $scope.joinChannel('#botwar');
-  $scope.joinChannel('#botwar2');
-  $scope.joinChannel('#botwar3');
-  $scope.joinChannel('#botwar4');
-
-  $scope.makeActive('#botwar');
+  // $scope.joinChannel('#botwar3');
+  // $scope.joinChannel('#botwar4');
 })
 
 .directive('chatTab', function () { //not in use currently
@@ -67,32 +68,37 @@ chat.controller('ChatController', function ($scope) {
   $scope.currentMessage = '';
 
   $scope.submitMessage = function () {
-    if ($scope.currentMessage !== '') {//can't send empty strings
-      client.say('' + $scope.name, '' + $scope.currentMessage); //send message to server
-      $scope.currentMessage = ''; //clear the current message
+    console.log('trying to submit a message now');
+    if ($scope.currentMessage !== '') {// prevent sending empty strings
+      client.say('' + $scope.name, '' + $scope.currentMessage); // send message to server
+      $scope.currentMessage = ''; // clear the current message
     }
   };
 
   $scope.message = function (nick, text) {
+    console.log('Messaging');
     var typeNick = nick === client.nick ? 'self' : 'other';
-    $scope.messages.push({
-      typeNick: typeNick,
-      typeMessage: 'text',
-      nick: nick,
-      text: text
+    // push a message to the active channel's messages array
+    $scope.channels[$scope.active].messages.push({
+      typeNick: typeNick, // the css class the nick will be given: either 'self' or 'other'
+      typeMessage: 'text', // the css class the message will be given
+      nick: nick, // include the nickname
+      text: text // include the text
     });
   };
 
   $scope.announce = function (text) {
-    $scope.messages.push({
-      typeNick: 'none',
-      typeMessage: 'annoucment',
-      nick: '',
-      text: text
+    // push a message to the active channel's messages array
+    $scope.channels[$scope.active].messages.push({
+      typeNick: 'none', // have no nickname
+      typeMessage: 'annoucment', // the class the message text will be given
+      nick: '', // annoncments aren't sent by anyone
+      text: text // include the text of the message
     });
   };
 
   $scope.testMessage = function () {
+    // test the messages
     var numTests = 3;
     for (var i = 0; i <= numTests; i++) {
       $scope.message('chester', 'ayy lmao');
@@ -100,27 +106,27 @@ chat.controller('ChatController', function ($scope) {
     }
   };
 
-  // $scope.testMessage();
+  $scope.testMessage();
 
   /////////////////////////
   //BIND TO CLIENT EVENTS//
   /////////////////////////
 
   ipc.on('client-error', function (error) {
-    channel.message('error: ', error);
+    $scope.message('error: ', error);
     console.log(error);
   });
 
   ipc.on('client-motd', function (motd) {
-    channel.announce(motd);
+    $scope.announce(motd);
   });
 
   ipc.on('client-selfMessage', function (to, text) {
-    channel.message(client.nick, text);
+    $scope.message(client.nick, text);
   });
 
   ipc.on('client-message', function (nick, to, text, message) {
-    channel.message(nick, text);
+    $scope.message(nick, text);
   });
 
   ipc.on('client-names', function (names) {
@@ -128,7 +134,7 @@ chat.controller('ChatController', function ($scope) {
   });
 
   ipc.on('client-kill', function (nick, reason, channels, message) {
-    channel.message();
+    $scope.message();
   });
 
   ipc.on('client-pm', function (nick, text, message) {
@@ -136,7 +142,7 @@ chat.controller('ChatController', function ($scope) {
   });
 
   ipc.on('client-kick', function () {
-    channel.announce('You were kicked.. :(');
+    $scope.announce('You were kicked.. :(');
   });
 
   ipc.on('', function () {
