@@ -38,10 +38,8 @@ chat.controller('ChatController', function ($scope) {
     $scope.active = name; // point $scope.active to the active channel
   };
 
-  // the order of channels isn't preserved yet, they'll be in alphabetical order
-  // $scope.joinChannel('#botwar2');
-  $scope.joinChannel('#botwar');
-  // $scope.joinChannel('#botwar3');
+  // $scope.joinChannel('jaywunder');
+  $scope.joinChannel('#botwar'); // the order of channels isn't preserved yet, they'll be in alphabetical order
 
   /*
    * For right now I'm going to store all the messagin methods in this scope.  I don't
@@ -82,8 +80,21 @@ chat.controller('ChatController', function ($scope) {
   $scope.testMessage = function () {
     // test the messages
     $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.announce($scope.active, '$scope is something important');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.announce($scope.active, '$scope is something important');
   };
+
+  $scope.testMessage();
+  $scope.testMessage();
+  $scope.testMessage();
+  $scope.testMessage();
 })
 
 .controller('ChannelController', function ($scope) {

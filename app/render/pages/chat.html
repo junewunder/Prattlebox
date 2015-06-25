@@ -16,7 +16,7 @@
     </div>
     <button type="button" class="tab-join" ng-click=""> + </button> <!-- add channel button -->
   </div>
-  <div class="content wrapper">
+  <div class="content">
     <div id="messages-container" ng-controller="ChannelController as channel">
       <ul id="messages">
         <li class="message" ng-repeat="message in channels[active].messages">
@@ -29,6 +29,7 @@
       <form id="input-form" ng-submit="submitMessage()" >
         <input type="text" id="input-text" ng-model="currentMessage">
         <button type="button" id="input-button" ng-click="submitMessage()">send</button>
+        <button type="button" id="input-button" ng-click="testMessage()">test</button>
       </form>
     </div>
   </div>

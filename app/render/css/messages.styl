@@ -1,0 +1,69 @@
+////////
+//CHAT//
+////////
+
+#messages-container // the top level div
+  overflow scroll
+  padding-top 20px
+
+#input-container // the top level div
+  padding 15px
+  // position relative
+  // bottom 20
+
+#messages // the ul element
+  font-size font-size
+  list-style-type none
+  // margin-left 20px
+  li
+    &:nth-child(odd)
+      background base2
+
+.message
+  color 03
+  // margin 0px 10px //this does nothing for some reason
+
+#input-form
+  container-row()
+  justify-content space-around
+  width 100%
+
+#input-text
+  flex-grow 10
+  width 80%
+  margin 3px
+  font-size font-size
+  border 2px solid base01
+  background base2
+
+#input-button
+  flex-grow 1
+  margin 3px
+  font-size font-size
+  border 2px solid base03
+  border-radius 7px
+  background base02
+  color base0
+  padding 5px
+
+#input-button::highlight
+  display none
+
+.annoucment
+  color base01
+  display table
+  margin 0px auto 0px auto
+
+.nick
+  text-decoration underline
+  font-family monospace
+  padding-left 20px
+
+.nick::after
+  content ':'
+
+.self
+  color sol-blue
+
+.other
+  color sol-cyan
