@@ -3,9 +3,14 @@
 ////////
 
 .tab-container
+  position fixed
+  top 0px
+  right 0px
+  left 0px
   container-row()
-  background base1
+  background base01
   height 30px
+  border-bottom 4px solid base1
 
 .tab
   background base1
@@ -54,11 +59,14 @@
 
 .tab-join
   border none
-  background base01
+  background base1
   font-size font-size
   padding-left 5px
   padding-right 5px
   color base03
+  border base01 solid 2px
+  border-bottom none
+  margin-left 5px
 
 .tab-join::highlight
   display none

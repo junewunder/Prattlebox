@@ -1,20 +1,25 @@
-////////
-//CHAT//
-////////
-
 #messages-container // the top level div
+  // position fixed
+  // top 0px
   overflow scroll
-  padding-top 20px
+  padding-top 30px
+  padding-bottom 75px
+  overflow scroll
 
 #input-container // the top level div
+  border-top 2px solid base01
+  position fixed
+  bottom 0px
+  left 0px
+  right 0px
   padding 15px
+  background base0
   // position relative
   // bottom 20
 
 #messages // the ul element
   font-size font-size
   list-style-type none
-  // margin-left 20px
   li
     &:nth-child(odd)
       background base2
@@ -55,12 +60,15 @@
   margin 0px auto 0px auto
 
 .nick
-  text-decoration underline
+  // text-decoration underline
   font-family monospace
   padding-left 20px
 
+.nick::before
+  content '<'
+
 .nick::after
-  content ':'
+  content '>'
 
 .self
   color sol-blue

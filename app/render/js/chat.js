@@ -38,6 +38,11 @@ chat.controller('ChatController', function ($scope) {
     $scope.active = name; // point $scope.active to the active channel
   };
 
+  $scope.popUp = function () {
+    ipc.send('pop-up');
+
+  };
+
   // $scope.joinChannel('jaywunder');
   $scope.joinChannel('#botwar'); // the order of channels isn't preserved yet, they'll be in alphabetical order
 
@@ -64,6 +69,7 @@ chat.controller('ChatController', function ($scope) {
       text: text // include the text
     });
     if (typeNick !== 'self') $scope.$apply();
+    // $('#messages-container').animate({ scrollTop: $(document)[0].scrollHeight }, 100);
   };
 
   $scope.announce = function (name, text) {
