@@ -1,5 +1,5 @@
 {
   "esnext": true,
   "node": true,
-  "globalstrict": true
+  "globalstrict": false
 }

@@ -1,0 +1,77 @@
+#messages-container // the top level div
+  // position fixed
+  // top 0px
+  overflow scroll
+  padding-top 30px
+  padding-bottom 75px
+  overflow scroll
+
+#input-container // the top level div
+  border-top 2px solid base01
+  position fixed
+  bottom 0px
+  left 0px
+  right 0px
+  padding 15px
+  background base0
+  // position relative
+  // bottom 20
+
+#messages // the ul element
+  font-size font-size
+  list-style-type none
+  li
+    &:nth-child(odd)
+      background base2
+
+.message
+  color 03
+  // margin 0px 10px //this does nothing for some reason
+
+#input-form
+  container-row()
+  justify-content space-around
+  width 100%
+
+#input-text
+  flex-grow 10
+  width 80%
+  margin 3px
+  font-size font-size
+  border 2px solid base01
+  background base2
+
+#input-button
+  flex-grow 1
+  margin 3px
+  font-size font-size
+  border 2px solid base03
+  border-radius 7px
+  background base02
+  color base0
+  padding 5px
+
+#input-button::highlight
+  display none
+
+.annoucment
+  color base01
+  display table
+  margin 0px auto 0px auto
+
+.nick
+  // text-decoration underline
+  font-family monospace
+  padding-left 20px
+
+.nick::before
+  content '<'
+
+.nick::after
+  content '>'
+
+.self
+  color sol-blue
+
+.other
+  color sol-cyan

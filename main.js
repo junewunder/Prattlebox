@@ -14,7 +14,7 @@ app.on('ready', function () {
 	mainWindow = new BrowserWindow({
 		width: 800,
 		height: 600,
-		title: 'irc chat'
+		title: 'Prattlebox'
 		// fullscreen: false,
 		// frame: false,
 		// transparent: true

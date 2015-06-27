@@ -9,28 +9,27 @@
 </head>
 <body ng-controller="ChatController as chat">
   <div class="tab-container">
-    <button class="tab">
-      <div class="tab-title" data-name="#botwar"></div>
-      <div class="tab-close-icon"></div>
-    </button>
-    <button class="tab tab-active">
-      <div class="tab-title" data-name="#botwar"></div>
-      <div class="tab-close-icon"></div>
-    </button>
+    <div ng-repeat="(name, channel) in channels" class="tab tab-active-{{channel.active}}"
+      ng-click="makeActive(name)">
+      <div class="tab-title" data-name="{{name}}"></div>
+      <button type="button" ng-click="leaveChannel(name)" class="tab-close-icon"></button>
+    </div>
+    <button type="button" class="tab-join" ng-click="popUp()"> + </button> <!-- add channel button -->
   </div>
-  <div class="content wrapper">
-    <div id="messages-container">
+  <div class="content">
+    <div id="messages-container" ng-controller="ChannelController as channel">
       <ul id="messages">
-        <li class="message" ng-repeat="message in chat.messages">
+        <li class="message" ng-repeat="message in channels[active].messages">
           <span class="nick {{message.typeNick}}">{{message.nick}}</span>
           <span class="{{message.typeMessage}}">{{message.text}}</span>
         </li>
       </ul>
     </div>
     <div id="input-container">
-      <form id="input-form" ng-submit="chat.submitMessage()" >
-        <input type="text" id="input-text" ng-model="chat.currentMessage">
-        <button type="button" id="input-button" ng-click="chat.submitMessage()">send</button>
+      <form id="input-form" ng-submit="submitMessage()" >
+        <input type="text" id="input-text" ng-model="currentMessage">
+        <button type="button" id="input-button" ng-click="submitMessage()">send</button>
+        <button type="button" id="input-button" ng-click="testMessage()">test</button>
       </form>
     </div>
   </div>
