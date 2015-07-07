@@ -1,68 +1,29 @@
-#messages-container // the top level div
-  // position fixed
-  // top 0px
-  overflow scroll
-  padding-top 30px
-  padding-bottom 75px
+//VIEW
+.messages-view
+  display flex
+  flex-grow 5
   overflow scroll
 
-#input-container // the top level div
-  border-top 2px solid base01
-  position fixed
-  bottom 0px
-  left 0px
-  right 0px
-  padding 15px
-  background base0
-  // position relative
-  // bottom 20
+.messages-container
+  flex-grow 10
+  overflow scroll
 
-#messages // the ul element
-  font-size font-size
+.input-container
+  flex-grow 1
+
+// MESSAGES
+prattle-message
+  color base03
   list-style-type none
-  li
-    &:nth-child(odd)
-      background base2
+  font-size 1em
 
 .message
-  color 03
-  // margin 0px 10px //this does nothing for some reason
+  color base03
 
-#input-form
-  container-row()
-  justify-content space-around
-  width 100%
-
-#input-text
-  flex-grow 10
-  width 80%
-  margin 3px
-  font-size font-size
-  border 2px solid base01
-  background base2
-
-#input-button
-  flex-grow 1
-  margin 3px
-  font-size font-size
-  border 2px solid base03
-  border-radius 7px
-  background base02
-  color base0
-  padding 5px
-
-#input-button::highlight
-  display none
-
-.annoucment
-  color base01
-  display table
-  margin 0px auto 0px auto
+.message-text
 
 .nick
-  // text-decoration underline
-  font-family monospace
-  padding-left 20px
+  font-family sans-serif//monospace
 
 .nick::before
   content '<'
@@ -70,8 +31,71 @@
 .nick::after
   content '>'
 
-.self
+.self-true
   color sol-blue
 
-.other
+.self-false
   color sol-cyan
+
+//ANNOUNCEMENT
+prattle-annoucment
+  color base01
+  display table
+  margin 0 auto
+
+
+//////////////////////////////////////////////////
+// EVERYTHIG BELOW THIS LINE NEEDS TO BE APAPTED//
+//////////////////////////////////////////////////
+
+// #messages-container // the top level div
+//   // position fixed
+//   // top 0px
+//   overflow scroll
+//   padding-top 30px
+//   padding-bottom 75px
+//   // overflow scroll
+//
+// #input-container // the top level div
+//   border-top 2px solid base01
+//   position fixed
+//   bottom 0
+//   left 0
+//   right 0
+//   padding 15px
+//   background base0
+//   // position relative
+//   // bottom 20
+//
+// #messages // the ul element
+//   font-size font-size
+//   list-style-type none
+//   li
+//     &:nth-child(odd)
+//       background base2
+//
+// #input-form
+//   container-row()
+//   justify-content space-around
+//   width 100%
+//
+// #input-text
+//   flex-grow 10
+//   width 80%
+//   margin 3px
+//   font-size font-size
+//   border 2px solid base01
+//   background base2
+//
+// #input-button
+//   flex-grow 1
+//   margin 3px
+//   font-size font-size
+//   border 2px solid base03
+//   border-radius 7px
+//   background base02
+//   color base0
+//   padding 5px
+//
+// #input-button::highlight
+//   display none
