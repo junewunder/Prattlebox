@@ -18,6 +18,7 @@ module.exports = function (app, mainWindow) {
   });
 
   ipc.on('pop-up', function (event, args, cb) {
+    console.log(args, cb);
     new PopUp(args, cb);
   });
 };

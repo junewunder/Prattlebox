@@ -160,12 +160,6 @@ chat.controller('ChatController', function ($scope) {
   });
 })
 
-.directive('nope', function () {
-  return {
-    template: ''
-  };
-})
-
 .directive('chatPane', function () {
   return {
     template: '<div class="content wrapper">\n'+
