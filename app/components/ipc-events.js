@@ -2,25 +2,23 @@
 var ipc = require('ipc'); //inter protocol communicator
 var dialog = require('dialog');
 var Client = require('./irc/client.js');
+var PopUp = require('./pop-up.js');
 
 module.exports = function (app, mainWindow) {
-  //Bind to events
+  // Bind to events
   ipc.on('connect-try', function (event, clientData) {
-    //attach a client to the mainWindow AND bind to its events
+    // attach a client to the mainWindow AND bind to its events
     new Client(app, mainWindow, clientData);
-    console.log('\n> trying to connect\n');
+    console.log('> trying to connect');
   });
 
   ipc.on('load-page', function (event, page) {
     mainWindow.loadUrl(`file://${__dirname}/../render/pages/${page}.html`);
-    console.log(`\n> loading: ${__dirname}/../render/pages/${page}.html\n`);
+    console.log(`> loading: ${__dirname}/../render/pages/${page}.html`);
   });
 
-  ipc.on('pop-up', function (event) {
-    dialog.showMessageBox(mainWindow, {
-      type: 'info',
-      message: 'hello there',
-      buttons: ['okay', 'fuck']
-    });
+  ipc.on('pop-up', function (event, args, cb) {
+    console.log(args, cb);
+    new PopUp(args, cb);
   });
 };

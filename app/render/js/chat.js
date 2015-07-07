@@ -39,8 +39,11 @@ chat.controller('ChatController', function ($scope) {
   };
 
   $scope.popUp = function () {
-    ipc.send('pop-up');
-
+    ipc.send('pop-up', {
+      filename: 'join'
+    }, function () {
+      console.log('this is a callback');
+    });
   };
 
   // $scope.joinChannel('jaywunder');
@@ -155,12 +158,6 @@ chat.controller('ChatController', function ($scope) {
   ipc.on('', function () {
 
   });
-})
-
-.directive('nope', function () {
-  return {
-    template: ''
-  };
 })
 
 .directive('chatPane', function () {
