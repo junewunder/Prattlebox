@@ -16,9 +16,10 @@ chat.controller('ChatController', function ($scope) {
     if (!$scope.channels[name]) { // check if the channel exists
       client.join(name); // have the client join the channel
       $scope.channels[name] = { // add the channel to the $scope.channels object
-        name: name,
-        messages: [],
-        currentMessage: 'testing' // change back to nothing later
+        name: name,         // name of channel
+        messages: [],       // the list of messages
+        currentMessage: '', // change back to nothing later
+        numUnread: 0        // int value of unread messages
       };
       $scope.makeActive(name); // make the channel active
     }
@@ -49,7 +50,7 @@ chat.controller('ChatController', function ($scope) {
 
   // $scope.joinChannel('jaywunder');
   $scope.joinChannel('#botwar'); // the order of channels isn't preserved yet, they'll be in alphabetical order
-  $scope.joinChannel('#python');
+  $scope.joinChannel('#jaywunder');
 
   /*
    * For right now I'm going to store all the messaging methods in this scope.  I don't
@@ -67,7 +68,8 @@ chat.controller('ChatController', function ($scope) {
   $scope.message = function (name, nick, text) {
     var isSelf = nick === client.nick;
     // push a message to the active channel's messages array
-    $scope.active.messages.push({
+    console.log(name);
+    $scope.channels[name].messages.push({
       self: isSelf,    // the css class the nick will be given: either 'self-true' or 'self-false'
       type: 'message', // the css class the message will be given
       nick: nick,      // nickname of the sender
@@ -89,7 +91,7 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.testMessage = function () {
     // test the messages
-    $scope.message($scope.active, 'chester', 'ayy lmao');
+    $scope.message($scope.active.name, 'chester', 'ayy lmao');
   };
 
   $scope.testMessage();
@@ -101,7 +103,7 @@ chat.controller('ChatController', function ($scope) {
   // TODO: MOVE THE CLIENT EVENTS TO A SERVICE LATER
 
   ipc.on('client-error', function (error) {
-    $scope.message($scope.active, 'error', error);
+    $scope.message($scope.active.name, 'error', error);
     console.log(error);
   });
 
