@@ -53,10 +53,6 @@ prattle-annoucment
 //CHANNEL LIST
 .channel
   list-style-type none
-  &:before
-    content '▶'
-    font-size 0.8em
-    font-weight normal
 
 .channel-active-true
   color base02
@@ -64,6 +60,21 @@ prattle-annoucment
 
 .channel-active-false
   color base02
+
+.channel-arrow
+  &:before
+    content '▶'
+    font-size .8em
+    font-weight normal
+
+// .channel-name
+
+
+.channel-unread
+  font-size .8em
+  background base01
+  padding .2em
+  border-radius .5em
 
 
 //////////////////////////////////////////////////

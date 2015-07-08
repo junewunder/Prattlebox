@@ -19,7 +19,7 @@ chat.controller('ChatController', function ($scope) {
         name: name,         // name of channel
         messages: [],       // the list of messages
         currentMessage: '', // change back to nothing later
-        numUnread: 0        // int value of unread messages
+        unread: 0        // int value of unread messages
       };
       $scope.makeActive(name); // make the channel active
     }
@@ -38,6 +38,7 @@ chat.controller('ChatController', function ($scope) {
     $scope.active.active = false;
     $scope.active = $scope.channels[name];
     $scope.active.active = true;
+    $scope.active.unread = 0;
   };
 
   $scope.popUp = function () {
@@ -68,13 +69,13 @@ chat.controller('ChatController', function ($scope) {
   $scope.message = function (name, nick, text) {
     var isSelf = nick === client.nick;
     // push a message to the active channel's messages array
-    console.log(name);
     $scope.channels[name].messages.push({
       self: isSelf,    // the css class the nick will be given: either 'self-true' or 'self-false'
       type: 'message', // the css class the message will be given
       nick: nick,      // nickname of the sender
       text: text       // text in the message
     });
+    if(name !== $scope.active.name) $scope.channels[name].unread++;
     if (!isSelf) $scope.$apply();
   };
 

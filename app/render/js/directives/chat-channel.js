@@ -4,6 +4,7 @@ chat.directive('prattleChannel', function() {
     scope: {
       name:   '=', // String
       active: '=', // Bool
+      unread: '=', // Int
       names:  '='  // Array
     },
     // __dirname is ./app/render/pages/
