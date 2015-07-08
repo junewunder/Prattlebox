@@ -53,12 +53,6 @@ chat.controller('ChatController', function ($scope) {
   $scope.joinChannel('#botwar'); // the order of channels isn't preserved yet, they'll be in alphabetical order
   $scope.joinChannel('#jaywunder');
 
-  /*
-   * For right now I'm going to store all the messaging methods in this scope.  I don't
-   * like it this way, but the first version is a "good 'nuf" version. So this'll have to do.
-   * Maybe it'll get fixed? 😅
-   **/
-
   $scope.submitMessage = function () {
     if ($scope.active.currentMessage !== '') {// prevent sending empty strings
       client.say('' + $scope.active.name, '' + $scope.active.currentMessage); // send message to server
@@ -94,12 +88,6 @@ chat.controller('ChatController', function ($scope) {
     // test the messages
     $scope.message($scope.active.name, 'chester', 'ayy lmao');
   };
-
-  $scope.testMessage();
-  // $scope.testMessage();
-  // $scope.testMessage();
-  // $scope.testMessage();
-  // $scope.testMessage();
 
   // TODO: MOVE THE CLIENT EVENTS TO A SERVICE LATER
 
