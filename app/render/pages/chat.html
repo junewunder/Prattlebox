@@ -14,6 +14,7 @@
     <!-- Angular Directives -->
     <script src="../js/directives/chat-message.js" charset="utf-8"></script>
     <script src="../js/directives/chat-tab.js" charset="utf-8"></script>
+    <script src="../js/directives/chat-channel.js" charset="utf-8"></script>
     <!-- Angular Services -->
     <script src="../js/services/chat-events.js" charset="utf-8"></script>
     <script src="../js/services/chat-methods.js" charset="utf-8"></script>
@@ -21,18 +22,28 @@
   <body ng-controller="ChatController as chat">
     <prattle-content class="horizontal">
       <prattle-layout-axis class="left full">
+
+        <!-- Channel List -->
         <prattle-pane class="tree-view">
-          <prattle-channel>#botwar</prattle-channel>
+          <ul>
+            <div ng-repeat="(name, channel) in channels">
+              <prattle-channel
+                name="channel.name"
+                active="channel.active"
+                names="[]"
+                ng-click="makeActive(channel.name)">
+              </prattle-channel>
+            </div>
+          </ul>
         </prattle-pane>
-        <prattle-pane class="messages-view outline">
-
-          <prattle-pane class="vertical outline">
-
+        <!-- Messages -->
+        <prattle-pane class="messages-view ">
+          <prattle-pane class="vertical ">
             <!-- Messages -->
-            <prattle-pane class="messages-container outline">
-              <ul class="outline">
+            <prattle-pane class="messages-container ">
+              <ul class="">
                 <!-- prattle-message is just an li -->
-                <div ng-repeat="message in active.messages" class="outline">
+                <div ng-repeat="message in active.messages" class="">
                   <!-- Still have to do "self" and "type" -->
                   <prattle-message
                     nick="message.nick"
@@ -45,7 +56,7 @@
             </prattle-pane>
 
             <!-- Input -->
-            <prattle-pane class="horizontal outline">
+            <prattle-pane class="horizontal">
               <form id="input-form" ng-submit="submitMessage()" >
                 <input type="text" id="input-text" ng-model="active.currentMessage">
                 <button type="button" id="input-button" ng-click="submitMessage()">send</button>

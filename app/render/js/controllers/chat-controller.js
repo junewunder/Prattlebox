@@ -33,7 +33,10 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.makeActive = function (name) {
     // assign "active" as a reference to the current channel
+    console.log(`making ${name} active`);
+    $scope.active.active = false;
     $scope.active = $scope.channels[name];
+    $scope.active.active = true;
   };
 
   $scope.popUp = function () {
@@ -46,6 +49,7 @@ chat.controller('ChatController', function ($scope) {
 
   // $scope.joinChannel('jaywunder');
   $scope.joinChannel('#botwar'); // the order of channels isn't preserved yet, they'll be in alphabetical order
+  $scope.joinChannel('#python');
 
   /*
    * For right now I'm going to store all the messaging methods in this scope.  I don't
@@ -64,7 +68,7 @@ chat.controller('ChatController', function ($scope) {
     var isSelf = nick === client.nick;
     // push a message to the active channel's messages array
     $scope.active.messages.push({
-      self: isSelf,    // the css class the nick will be given: either 'self' or 'other'
+      self: isSelf,    // the css class the nick will be given: either 'self-true' or 'self-false'
       type: 'message', // the css class the message will be given
       nick: nick,      // nickname of the sender
       text: text       // text in the message
@@ -75,7 +79,7 @@ chat.controller('ChatController', function ($scope) {
   $scope.announce = function (name, text) {
     // push a message to the active channel's messages array
     $scope.active.messages.push({
-      self: false,        // have no nickname
+      self: false,        // annoucments don't have a nickname
       type: 'annoucment', // the class the message text will be given
       nick: '',           // annoncments aren't sent by anyone
       text: text          // include the text of the message
@@ -127,9 +131,5 @@ chat.controller('ChatController', function ($scope) {
 
   ipc.on('client-kick', function () {
     // $scope.announce('You were kicked.. :(');
-  });
-
-  ipc.on('', function () {
-
   });
 });

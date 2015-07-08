@@ -1,5 +1,6 @@
 //VIEW
 .messages-wrapper
+  none
 
 .messages-view
   display flex
@@ -48,6 +49,21 @@ prattle-annoucment
   color base01
   display table
   margin 0 auto
+
+//CHANNEL LIST
+.channel
+  list-style-type none
+  &:before
+    content '▶'
+    font-size 0.8em
+    font-weight normal
+
+.channel-active-true
+  color base02
+  font-weight bold
+
+.channel-active-false
+  color base02
 
 
 //////////////////////////////////////////////////
