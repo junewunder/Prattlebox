@@ -10,10 +10,13 @@
     <script src="../js/chat.js"></script>
     <!-- Angular Controllers -->
     <script src="../js/controllers/chat-controller.js"></script>
-    <script src="../js/controllers/chat-channel-controller.js"></script>
+    <!-- // <script src="../js/controllers/chat-channel-controller.js"></script> -->
     <!-- Angular Directives -->
     <script src="../js/directives/chat-message.js" charset="utf-8"></script>
     <script src="../js/directives/chat-tab.js" charset="utf-8"></script>
+    <!-- Angular Services -->
+    <script src="../js/services/chat-events.js" charset="utf-8"></script>
+    <script src="../js/services/chat-methods.js" charset="utf-8"></script>
   </head>
   <body ng-controller="ChatController as chat">
     <prattle-content class="horizontal">
@@ -21,12 +24,13 @@
         <prattle-pane class="tree-view">
           <prattle-channel>#botwar</prattle-channel>
         </prattle-pane>
-        <prattle-pane class="messages-view" ng-controller="ChannelController as channel">
+        <prattle-pane class="messages-view">
 
-          <prattle-pane class="vertical full">
+          <prattle-pane class="vertical">
+
             <!-- Messages -->
-            <prattle-pane>
-              <ul class="messages-container">
+            <prattle-pane class="messages-container">
+              <ul>
                 <!-- prattle-message is just an li -->
                 <div ng-repeat="message in channels[active].messages">
                   <!-- Still have to do "self" and "type" -->
@@ -39,8 +43,9 @@
                 </div>
               </ul>
             </prattle-pane>
-            <!--  -->
-            <prattle-pane class="horizontal full">
+
+            <!-- Input -->
+            <prattle-pane class="horizontal">
               <form id="input-form" ng-submit="submitMessage()" >
                 <input type="text" id="input-text" ng-model="currentMessage">
                 <button type="button" id="input-button" ng-click="submitMessage()">send</button>

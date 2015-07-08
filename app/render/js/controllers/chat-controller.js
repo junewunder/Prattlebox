@@ -17,7 +17,8 @@ chat.controller('ChatController', function ($scope) {
       client.join(name); // have the client join the channel
       $scope.channels[name] = { // add the channel to the $scope.channels object
         messages: [],
-        active: false
+        active: false,
+        currentMessage: 'testing' // change back to nothing later
       };
       $scope.makeActive(name); // make the channel active
     }
@@ -88,19 +89,59 @@ chat.controller('ChatController', function ($scope) {
   $scope.testMessage = function () {
     // test the messages
     $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
-    $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
+    // $scope.message($scope.active, 'chester', 'ayy lmao');
     // $scope.announce($scope.active, '$scope is something important');
   };
 
   $scope.testMessage();
-  $scope.testMessage();
-  $scope.testMessage();
-  $scope.testMessage();
-})
+  // $scope.testMessage();
+  // $scope.testMessage();
+  // $scope.testMessage();
+  // $scope.testMessage();
+
+  // TODO: LET'S MOVE THE EVENTS TO A SERVICE LATER
+
+  ipc.on('client-error', function (error) {
+    $scope.message($scope.active, 'error: ', error);
+    console.log(error);
+  });
+
+  ipc.on('client-motd', function (motd) {
+    $scope.announce(motd);
+  });
+
+  ipc.on('client-selfMessage', function (to, text) {
+    $scope.message(to, client.nick, text);
+  });
+
+  ipc.on('client-message', function (nick, to, text, message) {
+    $scope.message(to, nick, text);
+  });
+
+  ipc.on('client-names', function (names) {
+
+  });
+
+  ipc.on('client-kill', function (nick, reason, channels, message) {
+    // $scope.announce();
+  });
+
+  ipc.on('client-pm', function (nick, text, message) {
+
+  });
+
+  ipc.on('client-kick', function () {
+    // $scope.announce('You were kicked.. :(');
+  });
+
+  ipc.on('', function () {
+
+  });
+});
