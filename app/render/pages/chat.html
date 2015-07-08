@@ -32,7 +32,7 @@
             <prattle-pane class="messages-container outline">
               <ul class="outline">
                 <!-- prattle-message is just an li -->
-                <div ng-repeat="message in channels[active].messages" class="outline">
+                <div ng-repeat="message in active.messages" class="outline">
                   <!-- Still have to do "self" and "type" -->
                   <prattle-message
                     nick="message.nick"
@@ -47,7 +47,7 @@
             <!-- Input -->
             <prattle-pane class="horizontal outline">
               <form id="input-form" ng-submit="submitMessage()" >
-                <input type="text" id="input-text" ng-model="currentMessage">
+                <input type="text" id="input-text" ng-model="active.currentMessage">
                 <button type="button" id="input-button" ng-click="submitMessage()">send</button>
               </form>
             </prattle-pane>

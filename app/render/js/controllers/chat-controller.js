@@ -8,20 +8,16 @@ chat.controller('ChatController', function ($scope) {
   var chat = $scope;
 
   $scope.channels = {}; // { name : { channel-vars } }
-  $scope.active = ''; // the name of the channel that is active
+  $scope.active = {}; // the name of the channel that is active
 
   $scope.foo = 'foo'; // test variable
-
-  $scope.getCurrentChannel = function() {
-    return $scope.channels[$scope.active];
-  };
 
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
       client.join(name); // have the client join the channel
       $scope.channels[name] = { // add the channel to the $scope.channels object
+        name: name,
         messages: [],
-        active: false,
         currentMessage: 'testing' // change back to nothing later
       };
       $scope.makeActive(name); // make the channel active
@@ -29,14 +25,15 @@ chat.controller('ChatController', function ($scope) {
   };
 
   $scope.leaveChannel = function (name) {
-    client.part(name); // have the client leave the channel
-    delete $scope.channels[name]; // delete the channel from the channel list
+    // client leaves the channel
+    client.part(name);
+    // delete the channel from the channel object
+    delete $scope.channels[name];
   };
 
   $scope.makeActive = function (name) {
-    $scope.getCurrentChannel.active = false; // make the current channel inactive
-    $scope.channels[name].active = true; // let the channel know it's active
-    $scope.active = name; // point $scope.active to the active channel
+    // assign "active" as a reference to the current channel
+    $scope.active = $scope.channels[name];
   };
 
   $scope.popUp = function () {
@@ -54,35 +51,34 @@ chat.controller('ChatController', function ($scope) {
    * For right now I'm going to store all the messaging methods in this scope.  I don't
    * like it this way, but the first version is a "good 'nuf" version. So this'll have to do.
    * Maybe it'll get fixed? 😅
-   */
+   **/
 
   $scope.submitMessage = function () {
-    if ($scope.currentMessage !== '') {// prevent sending empty strings
-      client.say('' + $scope.active, '' + $scope.currentMessage); // send message to server
-      $scope.currentMessage = ''; // clear the current message
+    if ($scope.active.currentMessage !== '') {// prevent sending empty strings
+      client.say('' + $scope.active.name, '' + $scope.active.currentMessage); // send message to server
+      $scope.active.currentMessage = ''; // clear the current message
     }
   };
 
   $scope.message = function (name, nick, text) {
-    var typeNick = nick === client.nick;
+    var isSelf = nick === client.nick;
     // push a message to the active channel's messages array
-    $scope.channels[name].messages.push({
-      self: typeNick, // the css class the nick will be given: either 'self' or 'other'
+    $scope.active.messages.push({
+      self: isSelf,    // the css class the nick will be given: either 'self' or 'other'
       type: 'message', // the css class the message will be given
-      nick: nick, // include the nickname
-      text: text // include the text
+      nick: nick,      // nickname of the sender
+      text: text       // text in the message
     });
-    if (typeNick !== 'self') $scope.$apply();
-    // $('#messages-container').animate({ scrollTop: $(document)[0].scrollHeight }, 100);
+    if (!isSelf) $scope.$apply();
   };
 
   $scope.announce = function (name, text) {
     // push a message to the active channel's messages array
-    $scope.channels[name].messages.push({
-      typeNick: 'none', // have no nickname
-      typeMessage: 'annoucment', // the class the message text will be given
-      nick: '', // annoncments aren't sent by anyone
-      text: text // include the text of the message
+    $scope.active.messages.push({
+      self: false,        // have no nickname
+      type: 'annoucment', // the class the message text will be given
+      nick: '',           // annoncments aren't sent by anyone
+      text: text          // include the text of the message
     });
     $scope.$apply();
   };
@@ -98,10 +94,10 @@ chat.controller('ChatController', function ($scope) {
   // $scope.testMessage();
   // $scope.testMessage();
 
-  // TODO: LET'S MOVE THE EVENTS TO A SERVICE LATER
+  // TODO: MOVE THE CLIENT EVENTS TO A SERVICE LATER
 
   ipc.on('client-error', function (error) {
-    $scope.message($scope.active, 'error: ', error);
+    $scope.message($scope.active, 'error', error);
     console.log(error);
   });
 
