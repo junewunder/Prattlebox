@@ -10,7 +10,11 @@ chat.controller('ChatController', function ($scope) {
   $scope.channels = {}; // { name : { channel-vars } }
   $scope.active = ''; // the name of the channel that is active
 
-  $scope.hello = 'world'; // test variable
+  $scope.foo = 'foo'; // test variable
+
+  $scope.getCurrentChannel = function() {
+    return $scope.channels[$scope.active];
+  };
 
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
@@ -30,10 +34,7 @@ chat.controller('ChatController', function ($scope) {
   };
 
   $scope.makeActive = function (name) {
-    for (var i = 0; i < Object.keys($scope.channels).length; i++) { // iterate over the keys
-      var key = Object.keys($scope.channels)[i]; // get the key
-      $scope.channels[key].active = false;// make everything inactive
-    }
+    $scope.getCurrentChannel.active = false; // make the current channel inactive
     $scope.channels[name].active = true; // let the channel know it's active
     $scope.active = name; // point $scope.active to the active channel
   };
@@ -50,7 +51,7 @@ chat.controller('ChatController', function ($scope) {
   $scope.joinChannel('#botwar'); // the order of channels isn't preserved yet, they'll be in alphabetical order
 
   /*
-   * For right now I'm going to store all the messagin methods in this scope.  I don't
+   * For right now I'm going to store all the messaging methods in this scope.  I don't
    * like it this way, but the first version is a "good 'nuf" version. So this'll have to do.
    * Maybe it'll get fixed? 😅
    */
@@ -63,11 +64,11 @@ chat.controller('ChatController', function ($scope) {
   };
 
   $scope.message = function (name, nick, text) {
-    var typeNick = nick === client.nick ? 'self' : 'other';
+    var typeNick = nick === client.nick;
     // push a message to the active channel's messages array
     $scope.channels[name].messages.push({
-      typeNick: typeNick, // the css class the nick will be given: either 'self' or 'other'
-      typeMessage: 'text', // the css class the message will be given
+      self: typeNick, // the css class the nick will be given: either 'self' or 'other'
+      type: 'message', // the css class the message will be given
       nick: nick, // include the nickname
       text: text // include the text
     });
@@ -89,15 +90,6 @@ chat.controller('ChatController', function ($scope) {
   $scope.testMessage = function () {
     // test the messages
     $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.message($scope.active, 'chester', 'ayy lmao');
-    // $scope.announce($scope.active, '$scope is something important');
   };
 
   $scope.testMessage();

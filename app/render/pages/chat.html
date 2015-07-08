@@ -24,20 +24,20 @@
         <prattle-pane class="tree-view">
           <prattle-channel>#botwar</prattle-channel>
         </prattle-pane>
-        <prattle-pane class="messages-view">
+        <prattle-pane class="messages-view outline">
 
-          <prattle-pane class="vertical">
+          <prattle-pane class="vertical outline">
 
             <!-- Messages -->
-            <prattle-pane class="messages-container">
-              <ul>
+            <prattle-pane class="messages-container outline">
+              <ul class="outline">
                 <!-- prattle-message is just an li -->
-                <div ng-repeat="message in channels[active].messages">
+                <div ng-repeat="message in channels[active].messages" class="outline">
                   <!-- Still have to do "self" and "type" -->
                   <prattle-message
                     nick="message.nick"
-                    self="false"
-                    type="'message'"
+                    self="message.self"
+                    type="message.type"
                     text="message.text">
                   </prattle-message>
                 </div>
@@ -45,7 +45,7 @@
             </prattle-pane>
 
             <!-- Input -->
-            <prattle-pane class="horizontal">
+            <prattle-pane class="horizontal outline">
               <form id="input-form" ng-submit="submitMessage()" >
                 <input type="text" id="input-text" ng-model="currentMessage">
                 <button type="button" id="input-button" ng-click="submitMessage()">send</button>
