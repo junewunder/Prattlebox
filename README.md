@@ -14,7 +14,8 @@ irc using electron(formerly atom-shell).
   * [ ] Decent looking ui (I might never check this box)
   * [x] Send and receive messages
   * [x] Join channels from tab button
-  * [ ] Leave channels from tab button
+  * [x] Leave channels from tab button
+  * [ ] Receive commands and ~~messages~~
 
  * `v0.2`
   * [ ] Logo maybe
