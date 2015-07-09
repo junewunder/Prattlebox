@@ -13,7 +13,8 @@ irc using electron(formerly atom-shell).
   * [x] Can connect to multiple channels
   * [ ] Decent looking ui (I might never check this box)
   * [x] Send and receive messages
-  * [ ] Join channels from tab button
+  * [x] Join channels from tab button
+  * [ ] Leave channels from tab button
 
  * `v0.2`
   * [ ] Logo maybe

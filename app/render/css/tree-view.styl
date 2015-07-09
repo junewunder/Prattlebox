@@ -4,6 +4,7 @@
   background base0
   padding-left .5em
   padding-right .5em
+  overflow scroll
 
 prattle-channel
   color base02
@@ -29,13 +30,26 @@ prattle-channel
     font-size .8em
     font-weight normal
 
-// .channel-name
+.channel-name
+  none
 
 .channel-unread
   font-size .8em
   background base01
   padding .2em
   border-radius .5em
+
+.channel:hover.channel-close
+  // the thought here is that when you hover over the .channel,
+  // the .channel-close will become visible
+  display inline
+
+.channel-close
+  display inline
+  cursor pointer
+  &:before
+    content 'x'
+    color sol-red
 
 // CHANNEL BUTTONS
 
