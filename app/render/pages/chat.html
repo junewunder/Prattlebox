@@ -1,37 +1,118 @@
 <!DOCTYPE html>
 <html ng-app="chat">
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="../css/style.css">
-  <script src="../lib/jquery-1.11.3.min.js"></script>
-  <script src="../lib/angular.min.js"></script>
-  <script src="../js/chat.js"></script>
-</head>
-<body ng-controller="ChatController as chat">
-  <div class="tab-container">
-    <div ng-repeat="(name, channel) in channels" class="tab tab-active-{{channel.active}}"
-      ng-click="makeActive(name)">
-      <div class="tab-title" data-name="{{name}}"></div>
-      <button type="button" ng-click="leaveChannel(name)" class="tab-close-icon"></button>
-    </div>
-    <button type="button" class="tab-join" ng-click="popUp()"> + </button> <!-- add channel button -->
-  </div>
-  <div class="content">
-    <div id="messages-container" ng-controller="ChannelController as channel">
-      <ul id="messages">
-        <li class="message" ng-repeat="message in channels[active].messages">
-          <span class="nick {{message.typeNick}}">{{message.nick}}</span>
-          <span class="{{message.typeMessage}}">{{message.text}}</span>
-        </li>
-      </ul>
-    </div>
-    <div id="input-container">
-      <form id="input-form" ng-submit="submitMessage()" >
-        <input type="text" id="input-text" ng-model="currentMessage">
-        <button type="button" id="input-button" ng-click="submitMessage()">send</button>
-        <button type="button" id="input-button" ng-click="testMessage()">test</button>
-      </form>
-    </div>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Stylesheets -->
+    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <!-- Libraries -->
+    <script src="../lib/jquery-1.11.3.min.js"></script>
+    <script src="../lib/angular.min.js"></script>
+    <script src="../js/chat.js"></script>
+    <!-- Angular Controllers -->
+    <script src="../js/controllers/chat-controller.js"></script>
+    <!-- // <script src="../js/controllers/chat-channel-controller.js"></script> -->
+    <!-- Angular Directives -->
+    <script src="../js/directives/chat-message.js" charset="utf-8"></script>
+    <script src="../js/directives/chat-tab.js" charset="utf-8"></script>
+    <script src="../js/directives/chat-channel.js" charset="utf-8"></script>
+    <!-- Angular Services -->
+    <script src="../js/services/chat-events.js" charset="utf-8"></script>
+    <script src="../js/services/chat-methods.js" charset="utf-8"></script>
+  </head>
+  <body ng-controller="ChatController as chat">
+    <prattle-content class="horizontal">
+      <prattle-layout-axis class="left full">
+
+        <!-- Channel List -->
+        <prattle-pane class="tree-view">
+          <ul>
+            <!-- Channel Buttons -->
+            <prattle-pane class="channel-buttons">
+              <span class="channel-gear"></span>
+              <span class="channel-add" ng-click="popUp()"></span>
+            </prattle-pane>
+            <!-- Channel Labels -->
+            <ul>
+              <div class="channel" ng-repeat="(name, channel) in channels">
+                <prattle-channel
+                  name="channel.name"
+                  active="channel.active"
+                  names="[]"
+                  unread="channel.unread"
+                  ng-click="makeActive(channel.name)">
+                </prattle-channel>
+                <span class="channel-close" ng-click="leaveChannel(channel.name)"></span>
+              </div>
+            </ul>
+          </ul>
+        </prattle-pane>
+        <!-- Messages -->
+        <prattle-pane class="messages-view ">
+          <prattle-pane class="vertical ">
+            <!-- Messages -->
+            <prattle-pane class="messages-container ">
+              <ul class="">
+                <!-- prattle-message is just an li -->
+                <div ng-repeat="message in active.messages" class="">
+                  <!-- Still have to do "self" and "type" -->
+                  <prattle-message
+                    nick="message.nick"
+                    self="message.self"
+                    type="message.type"
+                    text="message.text">
+                  </prattle-message>
+                </div>
+              </ul>
+            </prattle-pane>
+
+            <!-- Input -->
+            <prattle-pane class="horizontal">
+              <form id="input-form" ng-submit="submitMessage()" >
+                <input type="text" id="input-text" ng-model="active.currentMessage">
+                <button type="button" id="input-button" ng-click="submitMessage()">send</button>
+              </form>
+            </prattle-pane>
+
+          </prattle-pane>
+        </prattle-pane>
+      </prattle-layout-axis>
+    </prattle-content>
+  </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="tab-container">
+  <tab></tab>
+  <div ng-repeat="(name, channel) in channels" class="tab tab-active-{{channel.active}}"
+    ng-click="makeActive(name)">
+    <div class="tab-title" data-name="{{name}}"></div>
+    <button type="button" ng-click="leaveChannel(name)" class="tab-close-icon"></button>
+  </div>
+  <button type="button" class="tab-join" ng-click="popUp()"> + </button>
+</div>
+<div class="content">
+  <div id="messages-container" ng-controller="ChannelController as channel">
+    <ul id="messages">
+      <li class="message" ng-repeat="message in channels[active].messages">
+        <span class="nick {{message.typeNick}}">{{message.nick}}</span>
+        <span class="{{message.typeMessage}}">{{message.text}}</span>
+      </li>
+    </ul>
+  </div>
+  <div id="input-container">
+    <form id="input-form" ng-submit="submitMessage()" >
+      <input type="text" id="input-text" ng-model="currentMessage">
+      <button type="button" id="input-button" ng-click="submitMessage()">send</button>
+      <button type="button" id="input-button" ng-click="testMessage()">test</button>
+    </form>
+  </div>
+</div> -->
