@@ -2,8 +2,69 @@
   display flex
   flex-grow 1
   background base0
-  padding-left 0.5em
-  padding-right 0.5em
+  padding-left .5em
+  padding-right .5em
 
 prattle-channel
   color base02
+
+//CHANNEL LIST
+.channel
+  list-style-type none
+  &:highlight
+    display none
+  &:hover
+    cursor pointer
+
+.channel-active-true
+  color base02
+  font-weight bold
+
+.channel-active-false
+  color base02
+
+.channel-arrow
+  &:before
+    content '▶'
+    font-size .8em
+    font-weight normal
+
+// .channel-name
+
+.channel-unread
+  font-size .8em
+  background base01
+  padding .2em
+  border-radius .5em
+
+// CHANNEL BUTTONS
+
+.channel-buttons
+  display flex
+  flex-direction row
+  justify-content center
+  // align-items stretch
+  background base01
+  padding 0
+  padding-left .4em
+  padding-top .2em
+
+.channel-gear
+  background sol-yellow //base0
+  padding .2em
+  border-radius .5em
+  align-self flex-start
+  // float left
+  cursor pointer
+  &:before
+    content '⚙'
+
+.channel-add
+  background sol-yellow //base0
+  padding .2em
+  border-radius .5em
+  align-self flex-end
+  // float right
+  cursor pointer
+  &:before
+    content '+'

@@ -12,6 +12,10 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.foo = 'foo'; // test variable
 
+  ///////////////////
+  // SCOPE METHODS //
+  ///////////////////
+
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
       client.join(name); // have the client join the channel
@@ -19,9 +23,10 @@ chat.controller('ChatController', function ($scope) {
         name: name,         // name of channel
         messages: [],       // the list of messages
         currentMessage: '', // change back to nothing later
-        unread: 0        // int value of unread messages
+        unread: 0           // int value of unread messages
       };
       $scope.makeActive(name); // make the channel active
+      $scope.$apply();
     }
   };
 
@@ -34,24 +39,11 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.makeActive = function (name) {
     // assign "active" as a reference to the current channel
-    console.log(`making ${name} active`);
     $scope.active.active = false;
     $scope.active = $scope.channels[name];
     $scope.active.active = true;
     $scope.active.unread = 0;
   };
-
-  $scope.popUp = function () {
-    ipc.send('pop-up', {
-      filename: 'join'
-    }, function () {
-      console.log('this is a callback');
-    });
-  };
-
-  // $scope.joinChannel('jaywunder');
-  $scope.joinChannel('#botwar'); // the order of channels isn't preserved yet, they'll be in alphabetical order
-  $scope.joinChannel('#jaywunder');
 
   $scope.submitMessage = function () {
     if ($scope.active.currentMessage !== '') {// prevent sending empty strings
@@ -89,8 +81,29 @@ chat.controller('ChatController', function ($scope) {
     $scope.message($scope.active.name, 'chester', 'ayy lmao');
   };
 
-  // TODO: MOVE THE CLIENT EVENTS TO A SERVICE LATER
+  $scope.popUp = function () {
+    ipc.send('pop-up', {
+      filename: 'join' // will point to /render/pages/popup-{filename}.html
+    });
+  };
 
+  // the order of channels isn't preserved yet, they'll be in alphabetical order
+  $scope.joinChannel('#jaywunder');
+  $scope.joinChannel('#jaywunder2');
+
+  ////////////////////////
+  // ANGULAR IPC EVENTS //
+  ////////////////////////
+
+  ipc.on('channel-join', function(args) {
+    $scope.joinChannel(args.channelName);
+  });
+
+  ///////////////////
+  // CLIENT EVENTS //
+  ///////////////////
+
+  // TODO: MOVE THE CLIENT EVENTS TO A SERVICE LATER
   ipc.on('client-error', function (error) {
     $scope.message($scope.active.name, 'error', error);
     console.log(error);

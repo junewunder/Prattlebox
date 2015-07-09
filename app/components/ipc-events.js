@@ -17,8 +17,7 @@ module.exports = function (app, mainWindow) {
     console.log(`> loading: ${__dirname}/../render/pages/${page}.html`);
   });
 
-  ipc.on('pop-up', function (event, args, cb) {
-    console.log(args, cb);
-    new PopUp(args, cb);
+  ipc.on('pop-up', function (event, args) {
+    new PopUp(args, mainWindow);
   });
 };
