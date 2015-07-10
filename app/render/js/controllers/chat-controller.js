@@ -18,7 +18,8 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
-      client.join(name); // have the client join the channel
+      if(name[0] == '#')
+        client.join(name); // have the client join the channel
       $scope.channels[name] = { // add the channel to the $scope.channels object
         name: name,         // name of channel
         messages: [],       // the list of messages
@@ -113,15 +114,19 @@ chat.controller('ChatController', function ($scope) {
     $scope.announce(motd);
   });
 
-  ipc.on('client-selfMessage', function (to, text) {
-    $scope.message(to, client.nick, text);
-  });
-
   ipc.on('client-message', function (nick, to, text, message) {
     $scope.message(to, nick, text);
   });
 
+  ipc.on('client-selfMessage', function (to, text) {
+    $scope.message(to, client.nick, text);
+  });
+
   ipc.on('client-names', function (names) {
+
+  });
+
+  ipc.on('client-topic', function(channel, topic, nick, message) {
 
   });
 
@@ -130,10 +135,26 @@ chat.controller('ChatController', function ($scope) {
   });
 
   ipc.on('client-pm', function (nick, text, message) {
+    //check if the person is already messaing the pm'er
+    if(!$scope.channels[nick])
+      $scope.joinChannel(nick);
+    $scope.message(nick, nick, text);
+    //the message variable isn't relevant right now
+  });
+
+  ipc.on('client-kick', function (channel, nick, by, reason, message) {
+    // $scope.announce('You were kicked.. :(');
+  });
+
+  ipc.on('client-notice', function(nick, to, text, message) {
 
   });
 
-  ipc.on('client-kick', function () {
-    // $scope.announce('You were kicked.. :(');
+  ipc.on('client-action', function(from, to, text, message) {
+
+  });
+
+  ipc.on('client-', function() {
+
   });
 });
