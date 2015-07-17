@@ -1,5 +1,6 @@
 <li class="channel channel-active-{{active}}">
   <span class="channel-arrow"></span>
-  <span class="channel-name">{{name}}</span>
+  <span class="channel-name" ng-click="makeActive(name)">{{name}}</span>
   <span class="channel-unread" ng-show="unread > 0">{{unread}}</span>
+  <span class="channel-close" ng-click="leaveChannel(name)"></span>
 </li>

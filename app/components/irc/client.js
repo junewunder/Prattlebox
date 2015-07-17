@@ -73,4 +73,8 @@ module.exports = function (app, mainWindow, clientData) {
   mainWindow.client.addListener('action', function (from, to, text, message) {
     mainWindow.send('client-action', from, to, text, message);
   });
+
+  mainWindow.client.addListener('raw', function (message) {
+    mainWindow.send('client-raw', message);
+  });
 };

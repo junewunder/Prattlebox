@@ -19,7 +19,7 @@ chat.controller('ChatController', function ($scope) {
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
       if(name[0] == '#')
-        client.join(name); // have the client join the channel
+        client.join(name);  // have the client join the channel
       $scope.channels[name] = { // add the channel to the $scope.channels object
         name: name,         // name of channel
         messages: [],       // the list of messages
@@ -27,7 +27,7 @@ chat.controller('ChatController', function ($scope) {
         unread: 0           // int value of unread messages
       };
       $scope.makeActive(name); // make the channel active
-      $scope.$apply();
+      // $scope.$apply();
     }
   };
 
@@ -47,23 +47,61 @@ chat.controller('ChatController', function ($scope) {
   };
 
   $scope.submitMessage = function () {
+    var currentChannel = $scope.active.name;
     if ($scope.active.currentMessage !== '') {// prevent sending empty strings
-      client.say('' + $scope.active.name, '' + $scope.active.currentMessage); // send message to server
-      $scope.active.currentMessage = ''; // clear the current message
+      if($scope.active.currentMessage[0] == '/') {
+        // if the message starts with a '/' then it's a command
+        var msgLength = $scope.active.currentMessage.length;
+        var totalmsg = $scope.active.currentMessage;
+
+        if (totalmsg.slice(0, 3) == '/me') {
+          var finalMsg = $scope.active.currentMessage.slice(4, msgLength);
+          client.action($scope.active.name, finalMsg);
+          $scope.action($scope.active.name, client.nick, finalMsg);
+
+        } else if (totalmsg.slice(0, 5) == '/join') {
+          var channelName = totalmsg.slice(6, msgLength);
+          $scope.joinChannel(channelName);
+
+        } else if (totalmsg.slice(0, 6) == '/leave') {
+          var channelName = totalmsg.slice(7, msgLength);
+          $scope.leaveChannel(channelName);
+        }
+
+      } else {
+        // send message to server
+        client.say('' + $scope.active.name, '' + $scope.active.currentMessage);
+        $scope.message($scope.active.name, client.nick, $scope.active.currentMessage);
+      }
+      $scope.channels[currentChannel].currentMessage = ''; // clear the current message
     }
   };
 
   $scope.message = function (name, nick, text) {
-    var isSelf = nick === client.nick;
     // push a message to the active channel's messages array
-    $scope.channels[name].messages.push({
-      self: isSelf,    // the css class the nick will be given: either 'self-true' or 'self-false'
-      type: 'message', // the css class the message will be given
-      nick: nick,      // nickname of the sender
-      text: text       // text in the message
-    });
+    var isSelf = nick === client.nick;
+    if (!$scope.channels[name]) return;
+    $scope.pushMessage(name, isSelf, 'message', nick, text);
     if(name !== $scope.active.name) $scope.channels[name].unread++;
     if (!isSelf) $scope.$apply();
+  };
+
+  $scope.action = function(name, nick, text) {
+    // push an action to the active channel's messages array
+    var isSelf = nick === client.nick;
+    if (!$scope.channels[name]) return;
+    $scope.pushMessage(name, isSelf, 'action', nick, text);
+    if(name !== $scope.active.name) $scope.channels[name].unread++;
+    if (!isSelf) $scope.$apply();
+  };
+
+  $scope.pushMessage = function(name, self, type, nick, text) {
+    $scope.channels[name].messages.push({
+      self: self, // Bool - the css class the nick will be given: either 'self-true' or 'self-false'
+      type: type, // String - the css class the message will be given
+      nick: nick, // String - nickname of the sender
+      text: text  // String - text in the message
+    });
   };
 
   $scope.announce = function (name, text) {
@@ -72,14 +110,15 @@ chat.controller('ChatController', function ($scope) {
       self: false,        // annoucments don't have a nickname
       type: 'annoucment', // the class the message text will be given
       nick: '',           // annoncments aren't sent by anyone
-      text: text          // include the text of the message
+      text: text,         // include the text of the message
+      users: []           // the names of the users
     });
     $scope.$apply();
   };
 
   $scope.testMessage = function () {
     // test the messages
-    $scope.message($scope.active.name, 'chester', 'ayy lmao');
+    $scope.action($scope.active.name, 'chester', 'ayy lmao');
   };
 
   $scope.popUp = function () {
@@ -119,7 +158,15 @@ chat.controller('ChatController', function ($scope) {
   });
 
   ipc.on('client-selfMessage', function (to, text) {
-    $scope.message(to, client.nick, text);
+    // this is to handle client messages, but I'm not going to actually
+    // handle this event because it's badly done.
+
+    // self-message has to handle ACTIONs and messsages
+    // if(text.slice(1, 7) === 'ACTION') {
+    //   $scope.action(to, client.nick, text.slice(7, text.length));
+    // } else {
+    //   $scope.message(to, client.nick, text);
+    // }
   });
 
   ipc.on('client-names', function (names) {
@@ -147,11 +194,22 @@ chat.controller('ChatController', function ($scope) {
   });
 
   ipc.on('client-notice', function(nick, to, text, message) {
-
+    $scope.message(nick, to, text);
   });
 
   ipc.on('client-action', function(from, to, text, message) {
+    $scope.action(to, from, text);
+  });
 
+  ipc.on('client-raw', function(message) {
+    console.log(message);
+    switch (message.command) {
+      case 'JOIN':
+        $scope.message($scope.active.name, 'raw', 'join' + message.args);
+        break;
+      default:
+
+    }
   });
 
   ipc.on('client-', function() {

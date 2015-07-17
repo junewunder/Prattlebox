@@ -39,15 +39,15 @@
                   active="channel.active"
                   names="[]"
                   unread="channel.unread"
-                  ng-click="makeActive(channel.name)">
+                  make-active="makeActive(name)"
+                  leave-channel="leaveChannel(name)">
                 </prattle-channel>
-                <span class="channel-close" ng-click="leaveChannel(channel.name)"></span>
               </div>
             </ul>
           </ul>
         </prattle-pane>
         <!-- Messages -->
-        <prattle-pane class="messages-view ">
+        <prattle-pane class="messages-view">
           <prattle-pane class="vertical ">
             <!-- Messages -->
             <prattle-pane class="messages-container ">
@@ -79,40 +79,3 @@
     </prattle-content>
   </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-<!-- <div class="tab-container">
-  <tab></tab>
-  <div ng-repeat="(name, channel) in channels" class="tab tab-active-{{channel.active}}"
-    ng-click="makeActive(name)">
-    <div class="tab-title" data-name="{{name}}"></div>
-    <button type="button" ng-click="leaveChannel(name)" class="tab-close-icon"></button>
-  </div>
-  <button type="button" class="tab-join" ng-click="popUp()"> + </button>
-</div>
-<div class="content">
-  <div id="messages-container" ng-controller="ChannelController as channel">
-    <ul id="messages">
-      <li class="message" ng-repeat="message in channels[active].messages">
-        <span class="nick {{message.typeNick}}">{{message.nick}}</span>
-        <span class="{{message.typeMessage}}">{{message.text}}</span>
-      </li>
-    </ul>
-  </div>
-  <div id="input-container">
-    <form id="input-form" ng-submit="submitMessage()" >
-      <input type="text" id="input-text" ng-model="currentMessage">
-      <button type="button" id="input-button" ng-click="submitMessage()">send</button>
-      <button type="button" id="input-button" ng-click="testMessage()">test</button>
-    </form>
-  </div>
-</div> -->
