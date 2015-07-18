@@ -22,11 +22,18 @@ irc using electron(formerly atom-shell).
  * `v0.2`
   * [ ] Clean up the ui
 
- <!-- * `v0.3`
-  * [ ]  -->
+ * `v0.3`
+  * [ ] `~/.prattle` folder maybe
+  * [ ] Settings
+    * [ ] Username
+    * [ ] Real name
+    * [ ] Password
+    * [ ] Server
+    * [ ] Default channels
+    * [ ]
 
- <!-- * `v0.4`
-  * [ ]  -->
+ * `v0.4`
+  * [ ] 
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
