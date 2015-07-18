@@ -12,14 +12,21 @@ irc using electron(formerly atom-shell).
  * `v0.1`
   * [x] Simple login home page
   * [x] Can connect to multiple channels
-  * [ ] Decent looking ui (I might never check this box)
   * [x] Send and receive messages
   * [x] Join channels from tab button
   * [x] Leave channels from tab button
-  * [ ] Receive commands and ~~messages~~
+  * [x] Receive commands and messages
+  * [ ] See topic
+  * [ ] Channel list somewhere
 
  * `v0.2`
-  * [ ] Logo maybe
+  * [ ] Clean up the ui
+
+ <!-- * `v0.3`
+  * [ ]  -->
+
+ <!-- * `v0.4`
+  * [ ]  -->
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

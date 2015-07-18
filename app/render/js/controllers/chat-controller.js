@@ -53,6 +53,7 @@ chat.controller('ChatController', function ($scope) {
         // if the message starts with a '/' then it's a command
         var msgLength = $scope.active.currentMessage.length;
         var totalmsg = $scope.active.currentMessage;
+        var channelName;
 
         if (totalmsg.slice(0, 3) == '/me') {
           var finalMsg = $scope.active.currentMessage.slice(4, msgLength);
@@ -60,11 +61,11 @@ chat.controller('ChatController', function ($scope) {
           $scope.action($scope.active.name, client.nick, finalMsg);
 
         } else if (totalmsg.slice(0, 5) == '/join') {
-          var channelName = totalmsg.slice(6, msgLength);
+          channelName = totalmsg.slice(6, msgLength);
           $scope.joinChannel(channelName);
 
         } else if (totalmsg.slice(0, 6) == '/leave') {
-          var channelName = totalmsg.slice(7, msgLength);
+          channelName = totalmsg.slice(7, msgLength);
           $scope.leaveChannel(channelName);
         }
 
@@ -80,40 +81,34 @@ chat.controller('ChatController', function ($scope) {
   $scope.message = function (name, nick, text) {
     // push a message to the active channel's messages array
     var isSelf = nick === client.nick;
-    if (!$scope.channels[name]) return;
     $scope.pushMessage(name, isSelf, 'message', nick, text);
-    if(name !== $scope.active.name) $scope.channels[name].unread++;
     if (!isSelf) $scope.$apply();
   };
 
   $scope.action = function(name, nick, text) {
     // push an action to the active channel's messages array
     var isSelf = nick === client.nick;
-    if (!$scope.channels[name]) return;
     $scope.pushMessage(name, isSelf, 'action', nick, text);
-    if(name !== $scope.active.name) $scope.channels[name].unread++;
+    if (!isSelf) $scope.$apply();
+  };
+
+  $scope.announce = function (name, nick, text) {
+    // push an announcement to the active channel's messages array
+    var isSelf = nick === client.nick;
+    $scope.pushMessage(name, isSelf, 'announcement', nick, text);
     if (!isSelf) $scope.$apply();
   };
 
   $scope.pushMessage = function(name, self, type, nick, text) {
+    if(name !== $scope.active.name) $scope.channels[name].unread++;
     $scope.channels[name].messages.push({
-      self: self, // Bool - the css class the nick will be given: either 'self-true' or 'self-false'
-      type: type, // String - the css class the message will be given
-      nick: nick, // String - nickname of the sender
-      text: text  // String - text in the message
+      self: self,          // Bool - the css class the nick will be given: either 'self-true' or 'self-false'
+      type: type,          // String - the css class the message will be given
+      nick: nick,          // String - nickname of the sender
+      text: text,          // String - text in the message
+      users: [],           // the names of the users
+      previouslySent: [],  // String[] the list of previously sent messages by the user
     });
-  };
-
-  $scope.announce = function (name, text) {
-    // push a message to the active channel's messages array
-    $scope.active.messages.push({
-      self: false,        // annoucments don't have a nickname
-      type: 'annoucment', // the class the message text will be given
-      nick: '',           // annoncments aren't sent by anyone
-      text: text,         // include the text of the message
-      users: []           // the names of the users
-    });
-    $scope.$apply();
   };
 
   $scope.testMessage = function () {
@@ -203,12 +198,31 @@ chat.controller('ChatController', function ($scope) {
 
   ipc.on('client-raw', function(message) {
     console.log(message);
+    var channelName;
     switch (message.command) {
       case 'JOIN':
-        $scope.message($scope.active.name, 'raw', 'join' + message.args);
-        break;
-      default:
+        var userJoined = message.nick;
+        channelName = message.args[0];
+        // var users = message.args[3].split(' ');
+        // $scope.channels[channelName].users = users;
 
+        $scope.announce(channelName, userJoined, ' has joined the channel');
+        break;
+
+      case 'PART':
+        var userLeft = message.nick;
+        channelName = message.args[0];
+
+        $scope.announce(channelName, userLeft, ' has left the channel');
+        break;
+
+      case 'NOTICE':
+        var sender = message.args[0];
+        channelName = message.args[0];
+        var noticeText = message.args[1];
+
+        $scope.announce(channelName, sender, noticeText);
+        break;
     }
   });
 
