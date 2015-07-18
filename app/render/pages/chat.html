@@ -37,10 +37,13 @@
                 <prattle-channel
                   name="channel.name"
                   active="channel.active"
-                  names="[]"
+                  channel="channel"
+                  nicks="channel.nicks"
                   unread="channel.unread"
+                  show-nicks="channel.showNicks"
                   make-active="makeActive(name)"
-                  leave-channel="leaveChannel(name)">
+                  leave-channel="leaveChannel(name)"
+                  toggle-nicks="toggleNicks(name)">
                 </prattle-channel>
               </div>
             </ul>
@@ -49,6 +52,9 @@
         <!-- Messages -->
         <prattle-pane class="messages-view">
           <prattle-pane class="vertical ">
+            <div class="topic">
+              {{active.topic}}
+            </div>
             <!-- Messages -->
             <prattle-pane class="messages-container ">
               <ul class="">

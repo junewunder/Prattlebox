@@ -17,10 +17,12 @@ irc using electron(formerly atom-shell).
   * [x] Leave channels from tab button
   * [x] Receive commands and messages
   * [ ] See topic
-  * [ ] Channel list somewhere
+  * [x] Channel list
 
  * `v0.2`
   * [ ] Clean up the ui
+  * [ ] Click people's names to start private messaging them
+  * [ ] Timestamp each message
 
  * `v0.3`
   * [ ] `~/.prattle` folder maybe
@@ -30,10 +32,14 @@ irc using electron(formerly atom-shell).
     * [ ] Password
     * [ ] Server
     * [ ] Default channels
-    * [ ]
 
  * `v0.4`
-  * [ ] 
+  * [ ] Friend list
+
+ * `v0.5`
+  * [ ] Notifications
+  * [ ] Sounds?
+  * [ ] Option to keep history of chat
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)

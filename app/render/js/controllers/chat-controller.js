@@ -24,7 +24,11 @@ chat.controller('ChatController', function ($scope) {
         name: name,         // name of channel
         messages: [],       // the list of messages
         currentMessage: '', // change back to nothing later
-        unread: 0           // int value of unread messages
+        unread: 0,           // int value of unread messages
+        nicks: [],           // String[] - the nicknames of the users
+        previouslySent: [],  // String[] - the list of previously sent messages by the user
+        topic: 'no topic has been set',           // String the topic for the room
+        showNicks: false,    // Boolean - whether or not to show the user list
       };
       $scope.makeActive(name); // make the channel active
       // $scope.$apply();
@@ -106,9 +110,12 @@ chat.controller('ChatController', function ($scope) {
       type: type,          // String - the css class the message will be given
       nick: nick,          // String - nickname of the sender
       text: text,          // String - text in the message
-      users: [],           // the names of the users
-      previouslySent: [],  // String[] the list of previously sent messages by the user
     });
+  };
+
+  $scope.toggleNicks = function(name) {
+    // toggle the boolean
+    $scope.channels[name].showNicks = !$scope.channels[name].showNicks;
   };
 
   $scope.testMessage = function () {
@@ -198,7 +205,8 @@ chat.controller('ChatController', function ($scope) {
 
   ipc.on('client-raw', function(message) {
     console.log(message);
-    var channelName;
+    var channelName, userLeft, userList; // for the linter
+    $scope.message($scope.active.name, message.command, message.args);
     switch (message.command) {
       case 'JOIN':
         var userJoined = message.nick;
@@ -210,10 +218,17 @@ chat.controller('ChatController', function ($scope) {
         break;
 
       case 'PART':
-        var userLeft = message.nick;
+        userLeft = message.nick;
         channelName = message.args[0];
 
         $scope.announce(channelName, userLeft, ' has left the channel');
+        break;
+
+      case 'QUIT':
+        userLeft = message.nick;
+        channelName = message.args[0];
+
+        $scope.announce(channelName, userLeft, ' has left the channel (quitting)');
         break;
 
       case 'NOTICE':
@@ -222,6 +237,21 @@ chat.controller('ChatController', function ($scope) {
         var noticeText = message.args[1];
 
         $scope.announce(channelName, sender, noticeText);
+        break;
+
+      case 'rpl_topic':
+        channelName = message.args[1];
+        var topic = message.args[2];
+
+        $scope.channels[name].topic = topic;
+        break;
+
+      case 'rpl_namreply':
+        channelName = message.args[2];
+        var nickList = message.args[3].split(' ');
+        console.log('Users:' + userList);
+        // $scope.message(channelName, 'name list', userList);
+        $scope.channels[channelName].nicks = nickList;
         break;
     }
   });

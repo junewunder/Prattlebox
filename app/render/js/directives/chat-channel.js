@@ -4,11 +4,13 @@ chat.directive('prattleChannel', function() {
     scope: {
       name:         '=', // String
       channel:      '=', // Object
-      active:       '=', // Bool
+      active:       '=', // Boolean
       unread:       '=', // Int
-      names:        '=', // Array
+      nicks:        '=', // Array
+      showNicks:    '=', // Boolean
+      toggleNicks:  '&toggleNicks',  // Function
       leaveChannel: '&leaveChannel', // Function
-      makeActive:   '&makeActive', // Function
+      makeActive:   '&makeActive',   // Function
     },
     // __dirname is ./app/render/pages/
     templateUrl: `file://${__dirname}/../templates/chat/channel.html`
