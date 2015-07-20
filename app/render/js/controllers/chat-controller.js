@@ -204,22 +204,24 @@ chat.controller('ChatController', function ($scope) {
   });
 
   ipc.on('client-raw', function(message) {
-    console.log(message);
-    var channelName, userLeft, userList; // for the linter
-    $scope.message($scope.active.name, message.command, message.args);
+    console.log(message.command);
+    var channelName, userLeft, userList, topic, nick, nicks, userJoined,
+        noticeText; // for the linter
+    // uncomment below for a mesage with every command
+    // $scope.message($scope.active.name, message.command, message.args);
     switch (message.command) {
       case 'JOIN':
-        var userJoined = message.nick;
+        userJoined = message.nick;
         channelName = message.args[0];
-        // var users = message.args[3].split(' ');
-        // $scope.channels[channelName].users = users;
 
+        $scope.channels[channelName].nicks += userJoined;
         $scope.announce(channelName, userJoined, ' has joined the channel');
         break;
 
       case 'PART':
         userLeft = message.nick;
         channelName = message.args[0];
+        nicks = $scope.channels[channelName].nicks;
 
         $scope.announce(channelName, userLeft, ' has left the channel');
         break;
@@ -232,25 +234,36 @@ chat.controller('ChatController', function ($scope) {
         break;
 
       case 'NOTICE':
-        var sender = message.args[0];
         channelName = message.args[0];
-        var noticeText = message.args[1];
+        noticeText = message.args[1];
 
-        $scope.announce(channelName, sender, noticeText);
+        $scope.announce(channelName, channelName, noticeText);
+        break;
+
+      case 'TOPIC':
+        channelName = message.args[0];
+        topic = message.args[1];
+        nick = message.nick;
+
+        $scope.announce(channelName, nick, ' has set the topic to: "' + topic + '"');
+        $scope.channels[channelName].topic = topic;
+        $scope.$apply();
         break;
 
       case 'rpl_topic':
         channelName = message.args[1];
-        var topic = message.args[2];
+        topic = message.args[2];
 
-        $scope.channels[name].topic = topic;
+        $scope.channels[channelName].topic = topic;
+        try {
+          $scope.$apply();
+        } catch (e) {  }
         break;
 
       case 'rpl_namreply':
         channelName = message.args[2];
         var nickList = message.args[3].split(' ');
-        console.log('Users:' + userList);
-        // $scope.message(channelName, 'name list', userList);
+
         $scope.channels[channelName].nicks = nickList;
         break;
     }

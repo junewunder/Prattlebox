@@ -1,9 +1,9 @@
-<li class="channel channel-active-{{active}}">
-  <span class="channel-arrow show-{{showNicks}}" ng-click="toggleNicks(name)"></span>
-  <span class="channel-name" ng-click="makeActive(name)">{{name}}</span>
-  <span class="channel-unread" ng-show="unread > 0">{{unread}}</span>
-  <span class="channel-close" ng-click="leaveChannel(name)"></span>
-  <ul class="channel-nick-list" ng-show="showNicks == true">
-    <li ng-repeat="nick in nicks">{{nick}}</li>
+<li class="channel channel-active-{{channel.active}}">
+  <span class="channel-arrow show-{{channel.showNicks}}" ng-click="toggleNicks(channel.name)"></span>
+  <span class="channel-name" ng-click="makeActive(channel.name)">{{channel.name}}</span>
+  <span class="channel-unread" ng-show="channel.unread > 0">{{channel.unread}}</span>
+  <span class="channel-close" ng-click="leaveChannel(channel.name)"></span>
+  <ul class="channel-nick-list" ng-show="channel.showNicks == true">
+    <li ng-repeat="nick in channel.nicks">{{nick}}</li>
   </ul>
 </li>

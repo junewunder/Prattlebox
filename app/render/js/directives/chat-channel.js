@@ -2,12 +2,7 @@ chat.directive('prattleChannel', function() {
   return {
     restrict: 'E',
     scope: {
-      name:         '=', // String
-      channel:      '=', // Object
-      active:       '=', // Boolean
-      unread:       '=', // Int
-      nicks:        '=', // Array
-      showNicks:    '=', // Boolean
+      channel:      '=', // Object reference to the channel
       toggleNicks:  '&toggleNicks',  // Function
       leaveChannel: '&leaveChannel', // Function
       makeActive:   '&makeActive',   // Function

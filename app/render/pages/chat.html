@@ -35,11 +35,7 @@
             <ul>
               <div class="channel" ng-repeat="(name, channel) in channels">
                 <prattle-channel
-                  name="channel.name"
-                  active="channel.active"
                   channel="channel"
-                  nicks="channel.nicks"
-                  unread="channel.unread"
                   show-nicks="channel.showNicks"
                   make-active="makeActive(name)"
                   leave-channel="leaveChannel(name)"
