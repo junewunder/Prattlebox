@@ -22,12 +22,18 @@ module.exports = function (app, mainWindow, clientData) {
    * I haven't implemented all of them, but I've done the important ones
    **/
 
+
+  // console.log(mainWindow.client);
+
+  // TODO: Bind to all the envents in a prettier way, instead of writing them out individually
+
   app.on('before-quit', function (event) {
     mainWindow.client.disconnect();
   });
 
   mainWindow.client.addListener('registered', function (message) {
     mainWindow.send('connect-ready', message);
+    console.log(mainWindow.client);
   });
 
   mainWindow.client.addListener('error', function (message) {
