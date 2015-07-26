@@ -36,7 +36,6 @@
               <div class="channel" ng-repeat="(name, channel) in channels">
                 <prattle-channel
                   channel="channel"
-                  show-nicks="channel.showNicks"
                   make-active="makeActive(name)"
                   leave-channel="leaveChannel(name)"
                   toggle-nicks="toggleNicks(name)">

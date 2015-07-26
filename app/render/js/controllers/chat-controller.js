@@ -16,6 +16,9 @@ chat.controller('ChatController', function ($scope) {
   // SCOPE METHODS //
   ///////////////////
 
+  // TODO: move all the buissness logic to the main process
+  // all the important stuff shouldn't be done by the renderer
+
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
       if(name[0] == '#')
@@ -31,7 +34,7 @@ chat.controller('ChatController', function ($scope) {
         showNicks: false,    // Boolean - whether or not to show the user list
       };
       $scope.makeActive(name); // make the channel active
-      // $scope.$apply();
+      $scope.$apply();
     }
   };
 
@@ -52,25 +55,29 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.submitMessage = function () {
     var currentChannel = $scope.active.name;
-    if ($scope.active.currentMessage !== '') {// prevent sending empty strings
-      if($scope.active.currentMessage[0] == '/') {
-        // if the message starts with a '/' then it's a command
+    if ($scope.active.currentMessage !== '') { // prevent sending empty strings
+      if($scope.active.currentMessage[0] == '/') { // if the message starts with a '/' then it's a command
+        console.log($scope.active.currentMessage);
         var msgLength = $scope.active.currentMessage.length;
         var totalmsg = $scope.active.currentMessage;
         var channelName;
 
-        if (totalmsg.slice(0, 3) == '/me') {
+        // if (totalmsg.slice(0, 3) == '/me') {
+        if (totalmsg.match(/\/me\b.*/)) { // the /me command
           var finalMsg = $scope.active.currentMessage.slice(4, msgLength);
           client.action($scope.active.name, finalMsg);
           $scope.action($scope.active.name, client.nick, finalMsg);
 
-        } else if (totalmsg.slice(0, 5) == '/join') {
+        } else if (totalmsg.match(/\/join\b.*/)) { // the /join command
           channelName = totalmsg.slice(6, msgLength);
           $scope.joinChannel(channelName);
 
-        } else if (totalmsg.slice(0, 6) == '/leave') {
+        } else if (totalmsg.match(/\/leave\b.*/)) { // the /leave command
           channelName = totalmsg.slice(7, msgLength);
           $scope.leaveChannel(channelName);
+
+        } else if (totalmsg.match(/\/help\b.*/)) { // the /help command
+
         }
 
       } else {
@@ -129,147 +136,28 @@ chat.controller('ChatController', function ($scope) {
     });
   };
 
-  // the order of channels isn't preserved yet, they'll be in alphabetical order
+  // channels will be in alphabetical order
   $scope.joinChannel('#jaywunder');
   $scope.joinChannel('#jaywunder2');
 
-  ////////////////////////
-  // ANGULAR IPC EVENTS //
-  ////////////////////////
-
+  // pop-ups
   ipc.on('channel-join', function(args) {
     $scope.joinChannel(args.channelName);
   });
 
-  ///////////////////
-  // CLIENT EVENTS //
-  ///////////////////
-
-  // TODO: MOVE THE CLIENT EVENTS TO A SERVICE LATER
-  ipc.on('client-error', function (error) {
-    $scope.message($scope.active.name, 'error', error);
-    console.log(error);
-  });
-
-  ipc.on('client-motd', function (motd) {
-    $scope.announce(motd);
-  });
-
-  ipc.on('client-message', function (nick, to, text, message) {
-    $scope.message(to, nick, text);
-  });
-
-  ipc.on('client-selfMessage', function (to, text) {
-    // this is to handle client messages, but I'm not going to actually
-    // handle this event because it's badly done.
-
-    // self-message has to handle ACTIONs and messsages
-    // if(text.slice(1, 7) === 'ACTION') {
-    //   $scope.action(to, client.nick, text.slice(7, text.length));
-    // } else {
-    //   $scope.message(to, client.nick, text);
-    // }
-  });
-
-  ipc.on('client-names', function (names) {
-
-  });
-
-  ipc.on('client-topic', function(channel, topic, nick, message) {
-
-  });
-
-  ipc.on('client-kill', function (nick, reason, channels, message) {
-    // $scope.announce();
-  });
-
-  ipc.on('client-pm', function (nick, text, message) {
-    //check if the person is already messaing the pm'er
-    if(!$scope.channels[nick])
-      $scope.joinChannel(nick);
-    $scope.message(nick, nick, text);
-    //the message variable isn't relevant right now
-  });
-
-  ipc.on('client-kick', function (channel, nick, by, reason, message) {
-    // $scope.announce('You were kicked.. :(');
-  });
-
-  ipc.on('client-notice', function(nick, to, text, message) {
-    $scope.message(nick, to, text);
-  });
-
-  ipc.on('client-action', function(from, to, text, message) {
-    $scope.action(to, from, text);
-  });
-
+  // handle all the commands
+  var clientCommandHandler = require('./chat-command-handler.js');
   ipc.on('client-raw', function(message) {
-    console.log(message.command);
-    var channelName, userLeft, userList, topic, nick, nicks, userJoined,
-        noticeText; // for the linter
-    // uncomment below for a mesage with every command
-    // $scope.message($scope.active.name, message.command, message.args);
-    switch (message.command) {
-      case 'JOIN':
-        userJoined = message.nick;
-        channelName = message.args[0];
-
-        $scope.channels[channelName].nicks += userJoined;
-        $scope.announce(channelName, userJoined, ' has joined the channel');
-        break;
-
-      case 'PART':
-        userLeft = message.nick;
-        channelName = message.args[0];
-        nicks = $scope.channels[channelName].nicks;
-
-        $scope.announce(channelName, userLeft, ' has left the channel');
-        break;
-
-      case 'QUIT':
-        userLeft = message.nick;
-        channelName = message.args[0];
-
-        $scope.announce(channelName, userLeft, ' has left the channel (quitting)');
-        break;
-
-      case 'NOTICE':
-        channelName = message.args[0];
-        noticeText = message.args[1];
-
-        $scope.announce(channelName, channelName, noticeText);
-        break;
-
-      case 'TOPIC':
-        channelName = message.args[0];
-        topic = message.args[1];
-        nick = message.nick;
-
-        $scope.announce(channelName, nick, ' has set the topic to: "' + topic + '"');
-        $scope.channels[channelName].topic = topic;
-        $scope.$apply();
-        break;
-
-      case 'rpl_topic':
-        channelName = message.args[1];
-        topic = message.args[2];
-
-        $scope.channels[channelName].topic = topic;
-        try {
-          $scope.$apply();
-        } catch (e) {  }
-        break;
-
-      case 'rpl_namreply':
-        channelName = message.args[2];
-        var nickList = message.args[3].split(' ');
-
-        $scope.channels[channelName].nicks = nickList;
-        break;
+    console.log("command: " + message.command);
+    console.log("args: " + message.args);
+    try {
+      clientCommandHandler[message.command]($scope, message);
+    } catch(err) {
+      $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
     }
   });
 
-  ipc.on('client-', function() {
+  // client events
+  require('../js/controllers/chat-client-events.js')($scope);
 
-  });
 });
