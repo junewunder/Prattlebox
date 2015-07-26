@@ -17,13 +17,6 @@ module.exports = function ($scope) {
   ipc.on('client-selfMessage', function (to, text) {
     // this is to handle client messages, but I'm not going to actually
     // handle this event because it's badly done.
-
-    // self-message has to handle ACTIONs and messsages
-    // if(text.slice(1, 7) === 'ACTION') {
-    //   $scope.action(to, client.nick, text.slice(7, text.length));
-    // } else {
-    //   $scope.message(to, client.nick, text);
-    // }
   });
 
   ipc.on('client-names', function (names) {
@@ -58,12 +51,15 @@ module.exports = function ($scope) {
     $scope.action(to, from, text);
   });
 
-  var commandhandler = require('./chat-command-handler.js');
+  var clientCommandHandler = require('./chat-command-handler.js');
   ipc.on('client-raw', function(message) {
-    console.log(message.command);
-    console.log(message.args);
-
-    commandHandler[message.command]($scope, message);
+    console.log("command: " + message.command);
+    console.log("args: " + message.args);
+    try {
+      clientCommandHandler[message.command]($scope, message);
+    } catch(err) {
+      $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
+    }
   });
 
   ipc.on('client-', function() {

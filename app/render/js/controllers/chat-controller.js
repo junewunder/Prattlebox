@@ -16,6 +16,9 @@ chat.controller('ChatController', function ($scope) {
   // SCOPE METHODS //
   ///////////////////
 
+  // TODO: move all the buissness logic to the main process
+  // all the important stuff shouldn't be done by the renderer
+
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
       if(name[0] == '#')
@@ -31,7 +34,7 @@ chat.controller('ChatController', function ($scope) {
         showNicks: false,    // Boolean - whether or not to show the user list
       };
       $scope.makeActive(name); // make the channel active
-      // $scope.$apply();
+      $scope.$apply();
     }
   };
 
@@ -52,25 +55,29 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.submitMessage = function () {
     var currentChannel = $scope.active.name;
-    if ($scope.active.currentMessage !== '') {// prevent sending empty strings
-      if($scope.active.currentMessage[0] == '/') {
-        // if the message starts with a '/' then it's a command
+    if ($scope.active.currentMessage !== '') { // prevent sending empty strings
+      if($scope.active.currentMessage[0] == '/') { // if the message starts with a '/' then it's a command
+        console.log($scope.active.currentMessage);
         var msgLength = $scope.active.currentMessage.length;
         var totalmsg = $scope.active.currentMessage;
         var channelName;
 
-        if (totalmsg.slice(0, 3) == '/me') {
+        // if (totalmsg.slice(0, 3) == '/me') {
+        if (totalmsg.match(/\/me\b.*/)) { // the /me command
           var finalMsg = $scope.active.currentMessage.slice(4, msgLength);
           client.action($scope.active.name, finalMsg);
           $scope.action($scope.active.name, client.nick, finalMsg);
 
-        } else if (totalmsg.slice(0, 5) == '/join') {
+        } else if (totalmsg.match(/\/join\b.*/)) { // the /join command
           channelName = totalmsg.slice(6, msgLength);
           $scope.joinChannel(channelName);
 
-        } else if (totalmsg.slice(0, 6) == '/leave') {
+        } else if (totalmsg.match(/\/leave\b.*/)) { // the /leave command
           channelName = totalmsg.slice(7, msgLength);
           $scope.leaveChannel(channelName);
+
+        } else if (totalmsg.match(/\/help\b.*/)) { // the /help command
+
         }
 
       } else {
@@ -129,18 +136,28 @@ chat.controller('ChatController', function ($scope) {
     });
   };
 
-  // the order of channels isn't preserved yet, they'll be in alphabetical order
+  // channels will be in alphabetical order
   $scope.joinChannel('#jaywunder');
   $scope.joinChannel('#jaywunder2');
 
-  ////////////////////////
-  // ANGULAR IPC EVENTS //
-  ////////////////////////
-
+  // pop-ups
   ipc.on('channel-join', function(args) {
     $scope.joinChannel(args.channelName);
   });
 
-  require('./chat-ipc-events.js')($scope);
+  // handle all the commands
+  var clientCommandHandler = require('./chat-command-handler.js');
+  ipc.on('client-raw', function(message) {
+    console.log("command: " + message.command);
+    console.log("args: " + message.args);
+    try {
+      clientCommandHandler[message.command]($scope, message);
+    } catch(err) {
+      $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
+    }
+  });
+
+  // client events
+  require('../js/controllers/chat-client-events.js')($scope);
 
 });
