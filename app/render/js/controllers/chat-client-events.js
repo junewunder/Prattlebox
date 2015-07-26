@@ -51,16 +51,16 @@ module.exports = function ($scope) {
     $scope.action(to, from, text);
   });
 
-  var clientCommandHandler = require('./chat-command-handler.js');
-  ipc.on('client-raw', function(message) {
-    console.log("command: " + message.command);
-    console.log("args: " + message.args);
-    try {
-      clientCommandHandler[message.command]($scope, message);
-    } catch(err) {
-      $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
-    }
-  });
+  // var clientCommandHandler = require('../js/controllers/chat-command-handler.js');
+  // ipc.on('client-raw', function(message) {
+  //   console.log("command: " + message.command);
+  //   console.log("args: " + message.args);
+  //   try {
+  //     clientCommandHandler[message.command]($scope, message);
+  //   } catch(err) {
+  //     $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
+  //   }
+  // });
 
   ipc.on('client-', function() {
 

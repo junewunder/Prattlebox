@@ -1,34 +1,28 @@
 module.exports = {
   'me': {
-    match: / /,
+    match: /\/me\b.*/,
     func: function(text) {
 
     }
   },
   'help': {
-    match: / /,
+    match: /\/help\b.*/,
     func: function(text) {
 
     }
   },
   'join': {
-    match: / /,
+    match: /\/join\b.*/,
     func: function(text) {
 
     }
   },
   'leave': {
-    match: / /,
+    match: /\/leave\b.*/,
     func: function(text) {
 
     }
   },
-  // 'help': {
-  //   match: / /,
-  //   func: function(text) {
-  //
-  //   }
-  // },
   // 'me': {
   //   match: / /,
   //   func: function(text) {

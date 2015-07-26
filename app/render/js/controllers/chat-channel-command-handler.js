@@ -1,5 +1,4 @@
 module.exports = {
-
   ADMIN: function($scope, message) {
 
   },

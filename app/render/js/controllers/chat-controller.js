@@ -53,6 +53,7 @@ chat.controller('ChatController', function ($scope) {
     $scope.active.unread = 0;
   };
 
+  var clientCommandHandler = require('../js/controllers/chat-client-command-handler.js');
   $scope.submitMessage = function () {
     var currentChannel = $scope.active.name;
     if ($scope.active.currentMessage !== '') { // prevent sending empty strings
@@ -62,7 +63,10 @@ chat.controller('ChatController', function ($scope) {
         var totalmsg = $scope.active.currentMessage;
         var channelName;
 
-        // if (totalmsg.slice(0, 3) == '/me') {
+        for(var cmd of clientCommandHandler) {
+          console.log(cmd);
+        }
+
         if (totalmsg.match(/\/me\b.*/)) { // the /me command
           var finalMsg = $scope.active.currentMessage.slice(4, msgLength);
           client.action($scope.active.name, finalMsg);
@@ -146,18 +150,19 @@ chat.controller('ChatController', function ($scope) {
   });
 
   // handle all the commands
-  var clientCommandHandler = require('./chat-command-handler.js');
+  var channelCommandHandler = require('../js/controllers/chat-channel-command-handler.js');
   ipc.on('client-raw', function(message) {
     console.log("command: " + message.command);
     console.log("args: " + message.args);
     try {
-      clientCommandHandler[message.command]($scope, message);
+      channelCommandHandler[message.command]($scope, message);
     } catch(err) {
       $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
     }
   });
 
   // client events
+  // eventually I want to rely on solely raw messages
   require('../js/controllers/chat-client-events.js')($scope);
 
 });
