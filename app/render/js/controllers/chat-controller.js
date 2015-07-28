@@ -16,18 +16,29 @@ chat.controller('ChatController', function ($scope) {
   // SCOPE METHODS //
   ///////////////////
 
+  // TODO: move all the buissness logic to the main process
+  // all the important stuff shouldn't be done by the renderer
+
   $scope.joinChannel = function (name) {
     if (!$scope.channels[name]) { // check if the channel exists
       if(name[0] == '#')
-        client.join(name); // have the client join the channel
+        client.join(name);  // have the client join the channel
       $scope.channels[name] = { // add the channel to the $scope.channels object
         name: name,         // name of channel
         messages: [],       // the list of messages
         currentMessage: '', // change back to nothing later
-        unread: 0           // int value of unread messages
+        unread: 0,           // int value of unread messages
+        nicks: [],           // String[] - the nicknames of the users
+        previouslySent: [],  // String[] - the list of previously sent messages by the user
+        topic: 'no topic has been set',           // String the topic for the room
+        showNicks: false,    // Boolean - whether or not to show the user list
       };
       $scope.makeActive(name); // make the channel active
-      $scope.$apply();
+      try{
+        $scope.$apply();
+      } catch (err) {
+
+      }
     }
   };
 
@@ -46,40 +57,69 @@ chat.controller('ChatController', function ($scope) {
     $scope.active.unread = 0;
   };
 
+  var clientCommandHandler = require('../js/controllers/chat-client-command-handler.js');
   $scope.submitMessage = function () {
-    if ($scope.active.currentMessage !== '') {// prevent sending empty strings
-      client.say('' + $scope.active.name, '' + $scope.active.currentMessage); // send message to server
-      $scope.active.currentMessage = ''; // clear the current message
+    var currentChannel = $scope.active.name;
+    if ($scope.active.currentMessage !== '') { // prevent sending empty strings
+      if($scope.active.currentMessage[0] == '/') { // if the message starts with a '/' then it's a command
+        var message = $scope.active.currentMessage;
+
+        var cmd;
+        for (var cmdName in clientCommandHandler) {
+          cmd = clientCommandHandler[cmdName];
+
+          if (message.match(cmd.match)) {
+            cmd.func($scope, client, message);
+          }
+        }
+      } else {
+        // send message to server
+        client.say('' + $scope.active.name, '' + $scope.active.currentMessage);
+        $scope.message($scope.active.name, client.nick, $scope.active.currentMessage);
+      }
+      $scope.channels[currentChannel].currentMessage = ''; // clear the current message
     }
   };
 
   $scope.message = function (name, nick, text) {
-    var isSelf = nick === client.nick;
     // push a message to the active channel's messages array
-    $scope.channels[name].messages.push({
-      self: isSelf,    // the css class the nick will be given: either 'self-true' or 'self-false'
-      type: 'message', // the css class the message will be given
-      nick: nick,      // nickname of the sender
-      text: text       // text in the message
-    });
-    if(name !== $scope.active.name) $scope.channels[name].unread++;
+    var isSelf = nick === client.nick;
+    $scope.pushMessage(name, isSelf, 'message', nick, text);
     if (!isSelf) $scope.$apply();
   };
 
-  $scope.announce = function (name, text) {
-    // push a message to the active channel's messages array
-    $scope.active.messages.push({
-      self: false,        // annoucments don't have a nickname
-      type: 'annoucment', // the class the message text will be given
-      nick: '',           // annoncments aren't sent by anyone
-      text: text          // include the text of the message
+  $scope.action = function(name, nick, text) {
+    // push an action to the active channel's messages array
+    var isSelf = nick === client.nick;
+    $scope.pushMessage(name, isSelf, 'action', nick, text);
+    if (!isSelf) $scope.$apply();
+  };
+
+  $scope.announce = function (name, nick, text) {
+    // push an announcement to the active channel's messages array
+    var isSelf = nick === client.nick;
+    $scope.pushMessage(name, isSelf, 'announcement', nick, text);
+    if (!isSelf) $scope.$apply();
+  };
+
+  $scope.pushMessage = function(name, self, type, nick, text) {
+    if(name !== $scope.active.name) $scope.channels[name].unread++;
+    $scope.channels[name].messages.push({
+      self: self,          // Bool - the css class the nick will be given: either 'self-true' or 'self-false'
+      type: type,          // String - the css class the message will be given
+      nick: nick,          // String - nickname of the sender
+      text: text,          // String - text in the message
     });
-    $scope.$apply();
+  };
+
+  $scope.toggleNicks = function(name) {
+    // toggle the boolean
+    $scope.channels[name].showNicks = !$scope.channels[name].showNicks;
   };
 
   $scope.testMessage = function () {
     // test the messages
-    $scope.message($scope.active.name, 'chester', 'ayy lmao');
+    $scope.message($scope.active.name, '😈', 'ayy lmao');
   };
 
   $scope.popUp = function () {
@@ -88,73 +128,46 @@ chat.controller('ChatController', function ($scope) {
     });
   };
 
-  // the order of channels isn't preserved yet, they'll be in alphabetical order
+  // channels will be in alphabetical order
   $scope.joinChannel('#jaywunder');
-  $scope.joinChannel('#jaywunder2');
+  // $scope.joinChannel('#jaywunder2');
 
-  ////////////////////////
-  // ANGULAR IPC EVENTS //
-  ////////////////////////
-
+  // pop-ups
   ipc.on('channel-join', function(args) {
     $scope.joinChannel(args.channelName);
   });
 
-  ///////////////////
-  // CLIENT EVENTS //
-  ///////////////////
+  // handle all the commands
+  var channelCommandHandler = require('../js/controllers/chat-channel-command-handler.js');
 
-  // TODO: MOVE THE CLIENT EVENTS TO A SERVICE LATER
-  ipc.on('client-error', function (error) {
-    $scope.message($scope.active.name, 'error', error);
-    console.log(error);
-  });
-
-  ipc.on('client-motd', function (motd) {
-    $scope.announce(motd);
-  });
-
+  // PRIVMSG is hard, so let's not do it right now
   ipc.on('client-message', function (nick, to, text, message) {
     $scope.message(to, nick, text);
   });
 
-  ipc.on('client-selfMessage', function (to, text) {
-    $scope.message(to, client.nick, text);
-  });
-
-  ipc.on('client-names', function (names) {
-
-  });
-
-  ipc.on('client-topic', function(channel, topic, nick, message) {
-
-  });
-
-  ipc.on('client-kill', function (nick, reason, channels, message) {
-    // $scope.announce();
-  });
-
   ipc.on('client-pm', function (nick, text, message) {
-    //check if the person is already messaing the pm'er
-    if(!$scope.channels[nick])
-      $scope.joinChannel(nick);
     $scope.message(nick, nick, text);
-    //the message variable isn't relevant right now
-  });
-
-  ipc.on('client-kick', function (channel, nick, by, reason, message) {
-    // $scope.announce('You were kicked.. :(');
-  });
-
-  ipc.on('client-notice', function(nick, to, text, message) {
-
   });
 
   ipc.on('client-action', function(from, to, text, message) {
-
+    $scope.action(to, from, text);
   });
 
-  ipc.on('client-', function() {
-
+  ipc.on('client-raw', function(message) {
+    console.log('--');
+    console.log("command: " + message.command);
+    console.log("args: " + message.args);
+    console.log(message);
+    try {
+      channelCommandHandler[message.command]($scope, message);
+      // console.log(channelCommandHandler[message.command]);
+    } catch(err) {
+      // $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
+    }
   });
+
+  // client events
+  // eventually I want to rely on solely raw messages
+  // require('../js/controllers/chat-client-events.js')($scope);
+
 });

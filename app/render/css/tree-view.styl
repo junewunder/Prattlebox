@@ -25,6 +25,15 @@ prattle-channel
   color base02
 
 .channel-arrow
+  none
+
+.channel-arrow.show-true
+  &:before
+    content '▼'
+    font-size .8em
+    font-weight normal
+
+.channel-arrow.show-false
   &:before
     content '▶'
     font-size .8em
@@ -45,14 +54,12 @@ prattle-channel
   display inline
 
 .channel-close
-  display inline
   cursor pointer
   &:before
-    content 'x'
+    content '×'
     color sol-red
 
 // CHANNEL BUTTONS
-
 .channel-buttons
   display flex
   flex-direction row
@@ -68,7 +75,6 @@ prattle-channel
   padding .2em
   border-radius .5em
   align-self flex-start
-  // float left
   cursor pointer
   &:before
     content '⚙'
@@ -82,3 +88,7 @@ prattle-channel
   cursor pointer
   &:before
     content '+'
+
+// CHANNEL LIST
+.channel-nick-list
+  padding-left 1.5em

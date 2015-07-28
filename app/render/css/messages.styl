@@ -1,4 +1,4 @@
-//VIEW
+// VIEW
 .messages-wrapper
   none
 
@@ -10,33 +10,37 @@
   align-items stretch
 
 .messages-container
-  // flex-grow 10
   overflow-y scroll
   flex 0 1 auto
+  // &:nth-child(odd)
+  //   background base03
 
 .input-container
-  // flex-grow 1
   flex 0 0 auto
+
+.topic
+  color base03
 
 // MESSAGES
 prattle-message
   color base03
   list-style-type none
   font-size 1em
+  line-height 1.2em
+
 
 .message
   color base03
 
-// .message-text
+.message-text
+  none
 
-.nick
+.nick-message
   font-family menlo, monospace
-
-.nick::before
-  content '<'
-
-.nick::after
-  content '>'
+  &:before
+    content '<'
+  &:after
+    content '>'
 
 .self-true
   color sol-blue
@@ -44,11 +48,47 @@ prattle-message
 .self-false
   color sol-cyan
 
-//ANNOUNCEMENT
-prattle-annoucment
+// ANNOUNCEMENT
+.announcement
   color base01
   display table
-  margin 0 auto
+  padding-left 1em
+
+.nick-announcement
+  none
+
+// ACTION
+.action
+  color base03
+  padding-left 1em
+
+.nick-action
+  none
+
+// INPUT
+#input-form
+  justify-content space-around
+  width 100%
+
+#input-button
+  flex-grow 1
+  // margin 3px
+  font-size font-size
+  border 2px solid base03
+  border-radius .2em
+  background base02
+  color base0
+  padding 5px
+
+#input-text
+  flex-grow 10
+  width 80%
+  // margin 3px
+  font-size font-size
+  padding .2em
+  border 2px solid base01
+  background base2
+
 
 //////////////////////////////////////////////////
 // EVERYTHIG BELOW THIS LINE NEEDS TO BE APAPTED//

@@ -12,14 +12,34 @@ irc using electron(formerly atom-shell).
  * `v0.1`
   * [x] Simple login home page
   * [x] Can connect to multiple channels
-  * [ ] Decent looking ui (I might never check this box)
   * [x] Send and receive messages
   * [x] Join channels from tab button
   * [x] Leave channels from tab button
-  * [ ] Receive commands and ~~messages~~
+  * [x] Receive commands and messages
+  * [x] See topic
+  * [x] Channel list
 
  * `v0.2`
-  * [ ] Logo maybe
+  * [ ] Clean up the ui
+  * [ ] Click people's names to start private messaging them
+  * [ ] Timestamp each message
+
+ * `v0.3`
+  * [ ] `~/.prattle` folder maybe
+  * [ ] Settings
+    * [ ] Username
+    * [ ] Real name
+    * [ ] Password
+    * [ ] Server
+    * [ ] Default channels
+
+ * `v0.4`
+  * [ ] Friend list
+
+ * `v0.5`
+  * [ ] Notifications
+  * [ ] Sounds?
+  * [ ] Option to keep history of chat
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
