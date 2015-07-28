@@ -1,5 +1,4 @@
 module.exports = {
-
   ADMIN: function($scope, message) {
 
   },
@@ -36,8 +35,12 @@ module.exports = {
   ISON: function($scope, message) {
 
   },
-  JOIN: function($scope, message) {
+  JOIN: function ($scope, message) {
+    var userJoined = message.nick;
+    var channelName = message.args[0];
 
+    $scope.channels[channelName].nicks.push(userJoined);
+    $scope.announce(channelName, userJoined, ' has joined the channel');
   },
   KICK: function($scope, message) {
 
@@ -72,14 +75,21 @@ module.exports = {
   NICK: function($scope, message) {
 
   },
-  NOTICE: function($scope, message) {
+  NOTICE: function ($scope, message){
+    var channelName = message.args[0];
+    var noticeText = message.args[1];
 
+    $scope.announce(channelName, channelName, noticeText);
   },
   OPER: function($scope, message) {
 
   },
-  PART: function($scope, message) {
+  PART: function ($scope, message) {
+    var userLeft = message.nick;
+    var channelName = message.args[0];
+    var nicks = $scope.channels[channelName].nicks;
 
+    $scope.announce(channelName, userLeft, ' has left the channel');
   },
   PASS: function($scope, message) {
 
@@ -91,10 +101,18 @@ module.exports = {
 
   },
   PRIVMSG: function($scope, message) {
-
+    // can't figure out how to handle actions quite yet, so I'm just going to
+    // not do anything
+    // if (message.args[1].match(/ACTION\b.*/))
+    //   $scope.action(message.args[0], message.nick, message.args[1].slice(7, message.args[1].length));
+    // else
+    //   $scope.message(message.args[0], message.nick, message.args[1]);
   },
-  QUIT: function($scope, message) {
+  QUIT: function ($scope, message){
+    var userLeft = message.nick;
+    var channelName = message.args[0];
 
+    $scope.announce(channelName, userLeft, ' has left the channel (quitting)');
   },
   REHASH: function($scope, message) {
 
@@ -135,8 +153,14 @@ module.exports = {
   TIME: function($scope, message) {
 
   },
-  TOPIC: function($scope, message) {
+  TOPIC: function ($scope, message) {
+    var channelName = message.args[0];
+    var topic = message.args[1];
+    var nick = message.nick;
 
+    $scope.announce(channelName, nick, ' has set the topic to: "' + topic + '"');
+    $scope.channels[channelName].topic = topic;
+    $scope.$apply();
   },
   TRACE: function($scope, message) {
 
@@ -175,42 +199,7 @@ module.exports = {
 
   },
 
-  JOIN: function ($scope, message) {
-    var userJoined = message.nick;
-    var channelName = message.args[0];
-
-    $scope.channels[channelName].nicks += userJoined;
-    $scope.announce(channelName, userJoined, ' has joined the channel');
-  },
-  PART: function ($scope, message) {
-    var userLeft = message.nick;
-    var channelName = message.args[0];
-    var nicks = $scope.channels[channelName].nicks;
-
-    $scope.announce(channelName, userLeft, ' has left the channel');
-  },
-  QUIT: function ($scope, message){
-    var userLeft = message.nick;
-    var channelName = message.args[0];
-
-    $scope.announce(channelName, userLeft, ' has left the channel (quitting)');
-  },
-  NOTICE: function ($scope, message){
-    var channelName = message.args[0];
-    var noticeText = message.args[1];
-
-    $scope.announce(channelName, channelName, noticeText);
-  },
-  TOPIC: function ($scope, message) {
-    var channelName = message.args[0];
-    var topic = message.args[1];
-    var nick = message.nick;
-
-    $scope.announce(channelName, nick, ' has set the topic to: "' + topic + '"');
-    $scope.channels[channelName].topic = topic;
-    $scope.$apply();
-  },
-  rpl_topic: function ($scope, message) {
+  rpl_topic: function($scope, message) {
     var channelName = message.args[1];
     var topic = message.args[2];
 
@@ -219,10 +208,19 @@ module.exports = {
       $scope.$apply();
     } catch (e) {  }
   },
-  rpl_namreply: function ($scope, message) {
+  rpl_namreply: function($scope, message) {
     var channelName = message.args[2];
     var nickList = message.args[3].split(' ');
 
     $scope.channels[channelName].nicks = nickList;
-  }
+  },
+  rpl_away: function($scope,message) {
+    // when a user is away
+  },
+  err_nosuchchannel: function($scope, message) {
+    $scope.announce($scope.current.name, 'info', `${message.args[2]} (${message.args[1]})`);
+  },
+  err_nosuchnick: function($scope, message) {
+    $scope.announce($scope.current.name, 'info', `${message.args[2]} (${message.args[1]})`);
+  },
 };
