@@ -16,7 +16,7 @@ irc using electron(formerly atom-shell).
   * [x] Join channels from tab button
   * [x] Leave channels from tab button
   * [x] Receive commands and messages
-  * [ ] See topic
+  * [x] See topic
   * [x] Channel list
 
  * `v0.2`
