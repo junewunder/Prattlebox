@@ -34,7 +34,11 @@ chat.controller('ChatController', function ($scope) {
         showNicks: false,    // Boolean - whether or not to show the user list
       };
       $scope.makeActive(name); // make the channel active
-      $scope.$apply();
+      try{
+        $scope.$apply();
+      } catch (err) {
+
+      }
     }
   };
 
@@ -58,32 +62,16 @@ chat.controller('ChatController', function ($scope) {
     var currentChannel = $scope.active.name;
     if ($scope.active.currentMessage !== '') { // prevent sending empty strings
       if($scope.active.currentMessage[0] == '/') { // if the message starts with a '/' then it's a command
-        console.log($scope.active.currentMessage);
-        var msgLength = $scope.active.currentMessage.length;
-        var totalmsg = $scope.active.currentMessage;
-        var channelName;
+        var message = $scope.active.currentMessage;
 
-        for(var cmd of clientCommandHandler) {
-          console.log(cmd);
+        var cmd;
+        for (var cmdName in clientCommandHandler) {
+          cmd = clientCommandHandler[cmdName];
+
+          if (message.match(cmd.match)) {
+            cmd.func($scope, client, message);
+          }
         }
-
-        if (totalmsg.match(/\/me\b.*/)) { // the /me command
-          var finalMsg = $scope.active.currentMessage.slice(4, msgLength);
-          client.action($scope.active.name, finalMsg);
-          $scope.action($scope.active.name, client.nick, finalMsg);
-
-        } else if (totalmsg.match(/\/join\b.*/)) { // the /join command
-          channelName = totalmsg.slice(6, msgLength);
-          $scope.joinChannel(channelName);
-
-        } else if (totalmsg.match(/\/leave\b.*/)) { // the /leave command
-          channelName = totalmsg.slice(7, msgLength);
-          $scope.leaveChannel(channelName);
-
-        } else if (totalmsg.match(/\/help\b.*/)) { // the /help command
-
-        }
-
       } else {
         // send message to server
         client.say('' + $scope.active.name, '' + $scope.active.currentMessage);
@@ -131,7 +119,7 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.testMessage = function () {
     // test the messages
-    $scope.action($scope.active.name, 'chester', 'ayy lmao');
+    $scope.message($scope.active.name, '😈', 'ayy lmao');
   };
 
   $scope.popUp = function () {
@@ -142,7 +130,7 @@ chat.controller('ChatController', function ($scope) {
 
   // channels will be in alphabetical order
   $scope.joinChannel('#jaywunder');
-  $scope.joinChannel('#jaywunder2');
+  // $scope.joinChannel('#jaywunder2');
 
   // pop-ups
   ipc.on('channel-join', function(args) {
@@ -151,18 +139,35 @@ chat.controller('ChatController', function ($scope) {
 
   // handle all the commands
   var channelCommandHandler = require('../js/controllers/chat-channel-command-handler.js');
+
+  // PRIVMSG is hard, so let's not do it right now
+  ipc.on('client-message', function (nick, to, text, message) {
+    $scope.message(to, nick, text);
+  });
+
+  ipc.on('client-pm', function (nick, text, message) {
+    $scope.message(nick, nick, text);
+  });
+
+  ipc.on('client-action', function(from, to, text, message) {
+    $scope.action(to, from, text);
+  });
+
   ipc.on('client-raw', function(message) {
+    console.log('--');
     console.log("command: " + message.command);
     console.log("args: " + message.args);
+    console.log(message);
     try {
       channelCommandHandler[message.command]($scope, message);
+      // console.log(channelCommandHandler[message.command]);
     } catch(err) {
-      $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
+      // $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
     }
   });
 
   // client events
   // eventually I want to rely on solely raw messages
-  require('../js/controllers/chat-client-events.js')($scope);
+  // require('../js/controllers/chat-client-events.js')($scope);
 
 });

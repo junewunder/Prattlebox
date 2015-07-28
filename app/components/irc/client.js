@@ -83,4 +83,8 @@ module.exports = function (app, mainWindow, clientData) {
   mainWindow.client.addListener('raw', function (message) {
     mainWindow.send('client-raw', message);
   });
+
+  mainWindow.client.addListener('ctcp', function (from, to, text, type, message) {
+    mainWindow.send('client-ctcp', from, to, text, type, message);
+  });
 };
