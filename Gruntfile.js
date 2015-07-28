@@ -4,6 +4,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-stylus');
 
+grunt.registerTask('default', ['electron']);
+
   grunt.initConfig({
     babel: {
       dist: {
@@ -29,9 +31,52 @@ module.exports = function(grunt) {
           livereload: true
         }
       }
+    },
+    electron: {
+      all: {
+        options: {
+            name: 'Prattlebox',
+            dir: './',
+            out: 'dist',
+            version: '0.27.1',
+            platform: 'all',
+            arch: 'x64'
+        }
+      },
+      linux: {
+        options: {
+            name: 'Prattlebox',
+            dir: './',
+            out: 'dist',
+            version: '0.27.1',
+            platform: 'linux',
+            arch: 'x64'
+        }
+      },
+      win32: {
+        options: {
+            name: 'Prattlebox',
+            dir: './',
+            out: 'dist',
+            version: '0.27.1',
+            platform: 'win32',
+            arch: 'x64'
+        }
+      },
+      darwin: {
+        options: {
+            name: 'Prattlebox',
+            dir: './',
+            out: 'dist',
+            version: '0.27.1',
+            platform: 'darwin',
+            arch: 'x64'
+        }
+      },
     }
   });
 
+  grunt.registerTask('build', ['electron']);
   grunt.registerTask('default', ['watch']);
   grunt.registerTask('compile', ['stylus']);
 };
