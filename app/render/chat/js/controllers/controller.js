@@ -124,8 +124,9 @@ chat.controller('ChatController', function ($scope) {
   };
 
   $scope.popUp = function () {
+    // will open /render/popup/{filename}/index.html
     ipc.send('pop-up', {
-      filename: 'join' // will point to /render/pages/popup-{filename}.html
+      filename: 'new-channel'
     });
   };
 
