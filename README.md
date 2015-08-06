@@ -20,11 +20,14 @@ irc using electron(formerly atom-shell).
   * [x] Channel list
 
  * `v0.2`
-  * [ ] Clean up the ui
-  * [ ] Click people's names to start private messaging them
-  * [ ] Timestamp each message
+  * [ ] Move all message handling to main process, instead of the renderer
+  * [ ] Make the renderer filesystem better laid out, with folders for each
+  component rather than appending a prefix to the beginning of each file
+  * [ ] Fix whatever dumb architecture I've put in place
 
  * `v0.3`
+  * [ ] Click people's names to start private messaging them
+  * [ ] Timestamp each message
   * [ ] `~/.prattle` folder maybe
   * [ ] Settings
     * [ ] Username
