@@ -1,6 +1,7 @@
 chat.controller('ChatController', function ($scope) {
   'use strict';
-  var $ = require('../lib/jquery-1.11.3.min.js');
+  // don't even use jQuery right now
+  // var $ = require('../../../../static/lib/jquery$-1.11.3.min.js');
   var ipc = require('ipc');
   var remote = require('remote');
   var mainWindow = remote.getCurrentWindow();
@@ -57,7 +58,7 @@ chat.controller('ChatController', function ($scope) {
     $scope.active.unread = 0;
   };
 
-  var clientCommandHandler = require('../js/controllers/chat-client-command-handler.js');
+  var clientCommandHandler = require('./js/controllers/client-command-handler.js');
   $scope.submitMessage = function () {
     var currentChannel = $scope.active.name;
     if ($scope.active.currentMessage !== '') { // prevent sending empty strings
@@ -123,8 +124,9 @@ chat.controller('ChatController', function ($scope) {
   };
 
   $scope.popUp = function () {
+    // will open /render/popup/{filename}/index.html
     ipc.send('pop-up', {
-      filename: 'join' // will point to /render/pages/popup-{filename}.html
+      filename: 'new-channel'
     });
   };
 
@@ -138,7 +140,7 @@ chat.controller('ChatController', function ($scope) {
   });
 
   // handle all the commands
-  var channelCommandHandler = require('../js/controllers/chat-channel-command-handler.js');
+  var channelCommandHandler = require('./js/controllers/channel-command-handler.js');
 
   // PRIVMSG is hard, so let's not do it right now
   ipc.on('client-message', function (nick, to, text, message) {
@@ -165,9 +167,4 @@ chat.controller('ChatController', function ($scope) {
       // $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
     }
   });
-
-  // client events
-  // eventually I want to rely on solely raw messages
-  // require('../js/controllers/chat-client-events.js')($scope);
-
 });

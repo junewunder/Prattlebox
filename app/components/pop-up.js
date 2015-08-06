@@ -8,7 +8,7 @@ module.exports = function(args, mainWindow) {
     frame: false
   });
 
-  popUp.loadUrl(`file://${__dirname}/../render/pages/popup-${args.filename}.html`);
+  popUp.loadUrl(`file://${__dirname}/../render/popup/${args.filename}/index.html`);
 
   popUp.on('blur', function (event) {
     popUp.close();

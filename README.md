@@ -20,6 +20,7 @@ irc using electron(formerly atom-shell).
   * [x] Channel list
 
  * `v0.2`
+  * [ ] Add "Font Awesome"
   * [ ] Move all message handling to main process, instead of the renderer
   * [ ] Make the renderer filesystem better laid out, with folders for each
   component rather than appending a prefix to the beginning of each file
