@@ -2,14 +2,14 @@
 <html ng-app="login">
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="../../css/style.css">
-  <script src="../../../static/lib/angular.min.js"></script>
-  <script src="../js/login.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+  <script src="../../static/lib/angular.min.js"></script>
+  <script src="./js/login.js"></script>
 </head>
 <body>
   <div class="content" ng-controller="LoginController as login">
     <div class="logo-container">
-      <img class="login-logo-img" src="../../../static/assets/img/logo.jpg" alt="logo isn't loading 😖" />
+      <img class="login-logo-img" src="../../static/assets/img/logo.jpg" alt="logo isn't loading 😖" />
     </div>
     <div class="login-container">
       <form class="login-form" id="login-form">
@@ -26,8 +26,6 @@
         <input type="password" ng-model="login.nickPass" class="login-input">
 
         <button ng-click="login.connectionTry()" class="login-input">connect</button>
-        <!-- replace this  ^^^^^^^^^^^^^^^^^^^ to login.connectionTry() when done testing -->
-        <!-- <button ng-click="login.connectionReady()" class="login-input">don't connect</button> -->
       </form>
     </div>
   </div>

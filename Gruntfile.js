@@ -19,7 +19,7 @@ grunt.registerTask('default', ['electron']);
       compile: {
         files: {
           // compile to: compile from
-          'app/render/css/style.css': 'app/render/css/style.styl'
+          'app/static/css/style.css': 'app/static/css/style.styl'
         }
       }
     },

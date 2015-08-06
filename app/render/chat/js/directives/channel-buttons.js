@@ -8,6 +8,6 @@ chat.directive('prattleChannel', function() {
       names:  '='  // Array
     },
     // __dirname is ./app/render/pages/
-    templateUrl: `file://${__dirname}/../templates/chat/channel-buttons.html`
+    templateUrl: `file://${__dirname}/templates/chat/channel-buttons.html`
   };
 });

@@ -8,7 +8,7 @@ module.exports = function (app, mainWindow, clientData) {
   });
 
   /*
-   * Here we have to pretty much re-implmet the API for the Client object.
+   * Here we have to pretty much re-implement the API for the Client object.
    * It's very bad for the render process to send callbacks to the main process,
    *  SEE: https://github.com/atom/electron/blob/master/docs/api/remote.md#passing-callbacks-to-the-main-process
    * so the rendering process can bind to an event on the mainWindow,
@@ -21,9 +21,6 @@ module.exports = function (app, mainWindow, clientData) {
    * http://node-irc.readthedocs.org/en/latest/API.html#events
    * I haven't implemented all of them, but I've done the important ones
    **/
-
-
-  // console.log(mainWindow.client);
 
   // TODO: Bind to all the envents in a prettier way, instead of writing them out individually
 

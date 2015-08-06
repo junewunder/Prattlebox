@@ -8,6 +8,6 @@ chat.directive('prattleMessage', function() {
       text: '='  // String
     },
     // __dirname is ./app/render/pages/
-    templateUrl: `file://${__dirname}/../templates/chat/message.html`
+    templateUrl: `file://${__dirname}/templates/chat/message.html`
   };
 });
