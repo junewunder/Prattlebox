@@ -25,7 +25,7 @@ app.on('ready', function () {
 		app.quit();
 	});
 
-	mainWindow.loadUrl(`file://${__dirname}/app/render/pages/login.html`);
+	mainWindow.loadUrl(`file://${__dirname}/app/render/login/pages/login.html`);
 
 	//add menus
 	require('./app/components/menu.js')(app, mainWindow);

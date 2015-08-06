@@ -13,8 +13,8 @@ module.exports = function (app, mainWindow) {
   });
 
   ipc.on('load-page', function (event, page) {
-    mainWindow.loadUrl(`file://${__dirname}/../render/pages/${page}.html`);
-    console.log(`> loading: ${__dirname}/../render/pages/${page}.html`);
+    mainWindow.loadUrl(`file://${__dirname}/../render/chat/pages/${page}.html`);
+    console.log(`> loading: ${__dirname}/../render/chat/pages/${page}.html`);
   });
 
   ipc.on('pop-up', function (event, args) {

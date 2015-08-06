@@ -51,7 +51,7 @@ module.exports = function ($scope) {
     $scope.action(to, from, text);
   });
 
-  // var clientCommandHandler = require('../js/controllers/chat-command-handler.js');
+  // var clientCommandHandler = require('../js/controllers/command-handler.js');
   // ipc.on('client-raw', function(message) {
   //   console.log("command: " + message.command);
   //   console.log("args: " + message.args);

@@ -3,21 +3,21 @@
   <head>
     <meta charset="UTF-8">
     <!-- Stylesheets -->
-    <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <!-- Libraries -->
-    <script src="../lib/jquery-1.11.3.min.js"></script>
-    <script src="../lib/angular.min.js"></script>
+    <script src="../../../static/lib/jquery-1.11.3.min.js"></script>
+    <script src="../../../static/lib/angular.min.js"></script>
+    <!-- Define angular module -->
     <script src="../js/chat.js"></script>
     <!-- Angular Controllers -->
-    <script src="../js/controllers/chat-controller.js"></script>
-    <!-- // <script src="../js/controllers/chat-channel-controller.js"></script> -->
+    <script src="../js/controllers/controller.js"></script>
     <!-- Angular Directives -->
-    <script src="../js/directives/chat-message.js" charset="utf-8"></script>
-    <script src="../js/directives/chat-tab.js" charset="utf-8"></script>
-    <script src="../js/directives/chat-channel.js" charset="utf-8"></script>
+    <script src="../js/directives/message.js" charset="utf-8"></script>
+    <script src="../js/directives/tab.js" charset="utf-8"></script>
+    <script src="../js/directives/channel.js" charset="utf-8"></script>
     <!-- Angular Services -->
-    <script src="../js/services/chat-events.js" charset="utf-8"></script>
-    <script src="../js/services/chat-methods.js" charset="utf-8"></script>
+    <script src="../js/services/events.js" charset="utf-8"></script>
+    <script src="../js/services/methods.js" charset="utf-8"></script>
   </head>
   <body ng-controller="ChatController as chat">
     <prattle-content class="horizontal">
