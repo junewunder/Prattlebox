@@ -121,8 +121,12 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.testMessage = function () {
     // test the messages
-    $scope.message($scope.active.name, '😈', 'ayy lmao');
+    $scope.message($scope.channels['#jaywunder'], '😈', 'ayy lmao');
   };
+
+  // for (var i = 0; i < 100; i++) {
+  //   $scope.testMessage();
+  // }
 
   $scope.popUp = function () {
     // will open /render/popup/{filename}/index.html
