@@ -1,9 +1,10 @@
 .tree-view
   background base0
   overflow scroll
-  max-height
+  // max-height
+  flex-grow 1
   &:highlight
-    none
+    display none
 
 prattle-channel
   color base02
@@ -47,15 +48,12 @@ prattle-channel
 
 // CHANNEL BUTTONS
 .channel-buttons
-  flex-grow 1
   flex-direction row
-  justify-content center
-  align-items stretch
   background base01
 
 .channel-button
   color base03
-  background sol-yellow
-  padding .2em
+  padding .3em
   align-self flex-start
   cursor pointer
+  height 100%

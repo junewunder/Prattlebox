@@ -24,13 +24,7 @@
       <!-- Everything -->
       <prattle-pane class="horizontal full">
         <!-- Tree View -->
-        <prattle-pane class="tree-view">
-
-          <!-- Channel Buttons -->
-          <prattle-pane class="horizontal channel-buttons">
-            <span class="channel-button"> <i class="fa fa-cogs"></i> </span>
-            <span class="channel-button" ng-click="popUp()"> <i class="fa fa-plus"></i> </span>
-          </prattle-pane>
+        <prattle-pane class="vertical tree-view">
 
           <!-- Channel Labels -->
           <prattle-pane class="vertical top channel-list">
@@ -43,6 +37,13 @@
               </prattle-channel>
             </div>
           </prattle-pane>
+
+          <!-- Channel Buttons -->
+          <prattle-pane class="horizontal channel-buttons">
+            <span class="channel-button"> <i class="fa fa-cogs"></i> </span>
+            <span class="channel-button" ng-click="popUp()"> <i class="fa fa-plus"></i> </span>
+          </prattle-pane>
+
         </prattle-pane>
 
         <!-- Chat View -->
