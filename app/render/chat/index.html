@@ -40,8 +40,16 @@
 
           <!-- Channel Buttons -->
           <prattle-pane class="horizontal channel-buttons">
-            <span class="channel-button"> <i class="fa fa-cogs"></i> </span>
-            <span class="channel-button" ng-click="popUp()"> <i class="fa fa-plus"></i> </span>
+            <span class="channel-button" title="Notification Sounds">
+              <i class="fa fa-cogs"></i>
+            </span>
+            <span class="channel-button" title="Join Channel" ng-click="popUp()">
+              <i class="fa fa-plus"></i>
+            </span>
+            <span class="channel-button" title="Open Settings">
+              <i class="fa fa-volume-up" ng-show="notificationSounds"></i>
+              <i class="fa fa-volume-off" ng-show="!notificationSounds"></i>
+            </span>
           </prattle-pane>
 
         </prattle-pane>

@@ -10,6 +10,7 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.channels = {}; // { name : { channel-vars } }
   $scope.active = {}; // the name of the channel that is active
+  $scope.notificationSounds = false;
 
   $scope.foo = 'foo'; // test variable
 
