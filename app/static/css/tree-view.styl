@@ -1,15 +1,19 @@
 .tree-view
-  display flex
-  flex-grow 1
   background base0
-  padding-left .5em
-  padding-right .5em
   overflow scroll
+  // max-height
+  flex-grow 1
+  &:highlight
+    display none
 
 prattle-channel
   color base02
 
 //CHANNEL LIST
+.channel-list
+  flex-grow 20
+  margin .8em
+
 .channel
   list-style-type none
   &:highlight
@@ -24,24 +28,6 @@ prattle-channel
 .channel-active-false
   color base02
 
-.channel-arrow
-  none
-
-.channel-arrow.show-true
-  &:before
-    content '▼'
-    font-size .8em
-    font-weight normal
-
-.channel-arrow.show-false
-  &:before
-    content '▶'
-    font-size .8em
-    font-weight normal
-
-.channel-name
-  none
-
 .channel-unread
   font-size .8em
   background base01
@@ -49,46 +35,25 @@ prattle-channel
   border-radius .5em
 
 .channel:hover.channel-close
-  // the thought here is that when you hover over the .channel,
-  // the .channel-close will become visible
-  display inline
+  display inline-block
 
 .channel-close
   cursor pointer
-  &:before
-    content '×'
-    color sol-red
-
-// CHANNEL BUTTONS
-.channel-buttons
-  display flex
-  flex-direction row
-  justify-content center
-  // align-items stretch
-  background base01
-  padding 0
-  padding-left .4em
-  padding-top .2em
-
-.channel-gear
-  background sol-yellow //base0
-  padding .2em
-  border-radius .5em
-  align-self flex-start
-  cursor pointer
-  &:before
-    content '⚙'
-
-.channel-add
-  background sol-yellow //base0
-  padding .2em
-  border-radius .5em
-  align-self flex-end
-  // float right
-  cursor pointer
-  &:before
-    content '+'
+  color sol-red
 
 // CHANNEL LIST
 .channel-nick-list
+  list-style-type none
   padding-left 1.5em
+
+// CHANNEL BUTTONS
+.channel-buttons
+  flex-direction row
+  background base01
+
+.channel-button
+  color base03
+  padding .3em
+  align-self flex-start
+  cursor pointer
+  height 100%

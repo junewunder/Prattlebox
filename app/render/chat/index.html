@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../../static/assets/font-awesome/css/font-awesome.min.css">
     <!-- Libraries -->
     <script src="../../static/lib/jquery-1.11.3.min.js"></script>
     <script src="../../static/lib/angular.min.js"></script>
@@ -13,70 +14,79 @@
     <script src="./js/controllers/controller.js"></script>
     <!-- Angular Directives -->
     <script src="./js/directives/message.js" charset="utf-8"></script>
-    <script src="./js/directives/tab.js" charset="utf-8"></script>
     <script src="./js/directives/channel.js" charset="utf-8"></script>
     <!-- Angular Services -->
     <script src="./js/services/events.js" charset="utf-8"></script>
     <script src="./js/services/methods.js" charset="utf-8"></script>
   </head>
   <body ng-controller="ChatController as chat">
-    <prattle-content class="horizontal">
-      <prattle-layout-axis class="left full">
+    <prattle-content>
+      <!-- Everything -->
+      <prattle-pane class="horizontal full">
+        <!-- Tree View -->
+        <prattle-pane class="vertical tree-view">
 
-        <!-- Channel List -->
-        <prattle-pane class="tree-view">
-          <ul>
-            <!-- Channel Buttons -->
-            <prattle-pane class="channel-buttons">
-              <span class="channel-gear"></span>
-              <span class="channel-add" ng-click="popUp()"></span>
-            </prattle-pane>
-            <!-- Channel Labels -->
-            <ul>
-              <div class="channel" ng-repeat="(name, channel) in channels">
-                <prattle-channel
-                  channel="channel"
-                  make-active="makeActive(name)"
-                  leave-channel="leaveChannel(name)"
-                  toggle-nicks="toggleNicks(name)">
-                </prattle-channel>
-              </div>
-            </ul>
-          </ul>
-        </prattle-pane>
-        <!-- Messages -->
-        <prattle-pane class="messages-view">
-          <prattle-pane class="vertical ">
-            <div class="topic">
-              {{active.topic}}
+          <!-- Channel Labels -->
+          <prattle-pane class="vertical top channel-list">
+            <div class="channel" ng-repeat="(name, channel) in channels">
+              <prattle-channel
+                channel="channel"
+                make-active="makeActive(name)"
+                leave-channel="leaveChannel(name)"
+                toggle-nicks="toggleNicks(name)">
+              </prattle-channel>
             </div>
-            <!-- Messages -->
-            <prattle-pane class="messages-container ">
-              <ul class="">
-                <!-- prattle-message is just an li -->
-                <div ng-repeat="message in active.messages" class="">
-                  <!-- Still have to do "self" and "type" -->
-                  <prattle-message
-                    nick="message.nick"
-                    self="message.self"
-                    type="message.type"
-                    text="message.text">
-                  </prattle-message>
-                </div>
-              </ul>
-            </prattle-pane>
-
-            <!-- Input -->
-            <prattle-pane class="horizontal">
-              <form id="input-form" ng-submit="submitMessage()" >
-                <input type="text" id="input-text" ng-model="active.currentMessage">
-                <button type="button" id="input-button" ng-click="submitMessage()">send</button>
-              </form>
-            </prattle-pane>
-
           </prattle-pane>
+
+          <!-- Channel Buttons -->
+          <prattle-pane class="horizontal channel-buttons">
+            <span class="channel-button" title="Notification Sounds">
+              <i class="fa fa-cogs"></i>
+            </span>
+            <span class="channel-button" title="Join Channel" ng-click="popUp()">
+              <i class="fa fa-plus"></i>
+            </span>
+            <span class="channel-button" title="Open Settings">
+              <i class="fa fa-volume-up" ng-show="notificationSounds"></i>
+              <i class="fa fa-volume-off" ng-show="!notificationSounds"></i>
+            </span>
+          </prattle-pane>
+
         </prattle-pane>
-      </prattle-layout-axis>
+
+        <!-- Chat View -->
+        <prattle-pane class="vertical chat-container">
+          <!-- Topic -->
+          <div class="topic">
+            {{active.topic}}
+          </div>
+
+          <!-- Messages Container -->
+          <prattle-pane class="messages-container">
+
+            <!-- Messages -->
+            <ul class="messages">
+              <prattle-message
+                ng-repeat="message in active.messages"
+                class="message"
+                nick="message.nick"
+                self="message.self"
+                type="message.type"
+                text="message.text">
+              </prattle-message>
+            </ul>
+          </prattle-pane>
+
+          <!-- Input -->
+          <prattle-pane class="horizontal input-container">
+            <form id="input-form" ng-submit="submitMessage()" >
+              <input type="text" id="input-text" ng-model="active.currentMessage">
+              <button type="button" id="input-button" ng-click="submitMessage()">send</button>
+            </form>
+          </prattle-pane>
+
+        </prattle-pane>
+      </prattle-pane>
     </prattle-content>
   </body>
 </html>
