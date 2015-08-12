@@ -124,10 +124,6 @@ chat.controller('ChatController', function ($scope) {
     $scope.message($scope.channels['#jaywunder'], '😈', 'ayy lmao');
   };
 
-  // for (var i = 0; i < 100; i++) {
-  //   $scope.testMessage();
-  // }
-
   $scope.popUp = function () {
     // will open /render/popup/{filename}/index.html
     ipc.send('pop-up', {
@@ -138,6 +134,10 @@ chat.controller('ChatController', function ($scope) {
   // channels will be in alphabetical order
   $scope.joinChannel('#jaywunder');
   // $scope.joinChannel('#jaywunder2');
+
+  // for (var i = 0; i < 100; i++) {
+  //   $scope.testMessage();
+  // }
 
   // pop-ups
   ipc.on('channel-join', function(args) {

@@ -1,24 +1,31 @@
 angular.module('login', [])
-.controller('LoginController', function () {
+.controller('LoginController', function ($scope) {
   'use strict';
+  var $ = require('../../static/lib/jquery-1.11.3.min.js');
   var ipc = require('ipc'); //inter protocol communicator
-  this.hostAddr = 'irc.freenode.net';
-  this.realName = 'Wunder Bot';
-  this.nickName = 'wunder-bot';
-  this.nickPass = 'bot-pass';
+  $scope.hostAddr = 'irc.freenode.net';
+  $scope.realName = 'Wunder Bot';
+  $scope.nickName = 'wunder-bot';
+  $scope.nickPass = 'bot-pass';
 
-  this.connectionTry = function () {
+  $scope.loading = false;
+
+  $scope.connectionTry = function () {
+    $scope.loading = true;
     ipc.send('connect-try', {
-      hostAddr: this.hostAddr,
-      realName: this.realName,
-      nickName: this.nickName,
-      nickPass: this.nickPass
+      hostAddr: $scope.hostAddr,
+      realName: $scope.realName,
+      nickName: $scope.nickName,
+      nickPass: $scope.nickPass
     });
   };
 
-  this.connectionReady = function () {
-    ipc.send('load-page', 'chat');
+  $scope.openSettings = function() {
+    
   };
 
-  ipc.on('connect-ready', this.connectionReady);
+  ipc.on('connect-ready', function() {
+    // after the client is created, load the chatter page
+    ipc.send('load-page', 'chat');
+  });
 });

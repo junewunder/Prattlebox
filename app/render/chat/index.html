@@ -40,18 +40,23 @@
 
           <!-- Channel Buttons -->
           <prattle-pane class="horizontal channel-buttons">
-            <span class="channel-button" title="Notification Sounds">
+            <span class="channel-button" title="Open Settings">
               <i class="fa fa-cogs"></i>
             </span>
             <span class="channel-button" title="Join Channel" ng-click="popUp()">
               <i class="fa fa-plus"></i>
             </span>
-            <span class="channel-button" title="Open Settings">
+            <span class="channel-button" title="Notification Sounds">
               <i class="fa fa-volume-up" ng-show="notificationSounds"></i>
               <i class="fa fa-volume-off" ng-show="!notificationSounds"></i>
             </span>
+            <!-- <span class="channel-button">
+              <span class="fa-stack">
+                <i class="fa fa-arrows-v fa-stack-1x"></i>
+                <i class="fa fa-arrows-h fa-stack-1x"></i>
+              </span>
+            </span> -->
           </prattle-pane>
-
         </prattle-pane>
 
         <!-- Chat View -->
@@ -63,28 +68,30 @@
 
           <!-- Messages Container -->
           <prattle-pane class="messages-container">
-
             <!-- Messages -->
-            <ul class="messages">
-              <prattle-message
-                ng-repeat="message in active.messages"
-                class="message"
-                nick="message.nick"
-                self="message.self"
-                type="message.type"
-                text="message.text">
-              </prattle-message>
-            </ul>
+            <!-- <div class="messages-wrapper"> -->
+              <div class="messages">
+                <prattle-message
+                  ng-repeat="message in active.messages"
+                  class="message"
+                  nick="message.nick"
+                  self="message.self"
+                  type="message.type"
+                  text="message.text">
+                </prattle-message>
+              </div>
+            <!-- </div> -->
           </prattle-pane>
 
           <!-- Input -->
           <prattle-pane class="horizontal input-container">
             <form id="input-form" ng-submit="submitMessage()" >
               <input type="text" id="input-text" ng-model="active.currentMessage">
-              <button type="button" id="input-button" ng-click="submitMessage()">send</button>
+              <button type="button" id="input-button" ng-click="submitMessage()">
+                <i class="fa fa-paper-plane"></i> <!-- Used to say "send" but I'm pretty sure this is cooler-->
+              </button>
             </form>
           </prattle-pane>
-
         </prattle-pane>
       </prattle-pane>
     </prattle-content>

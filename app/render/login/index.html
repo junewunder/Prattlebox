@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
+  <link rel="stylesheet" type="text/css" href="../../static/assets/font-awesome/css/font-awesome.min.css">
   <script src="../../static/lib/angular.min.js"></script>
   <script src="./js/login.js"></script>
 </head>
@@ -12,39 +13,32 @@
       <img class="login-logo-img" src="../../static/assets/img/logo.jpg" alt="logo isn't loading 😖" />
     </div>
     <div class="login-container">
-      <form class="login-form" id="login-form">
-        <ul>
-
-
-
-          <!-- TODO -->
-          <!--
-            http://fortawesome.github.io/Font-Awesome/examples/#animated
-            do this when connecting to the server
-          -->
-
-
-          <li class="login-item">
+      <form class="login-form">
+        <ul class="login-list">
+          <li class="login-list-item">
             <h3>Host</h3>
-            <input type="text" ng-model="login.hostAddr" class="login-input" required>
+            <input type="text" ng-model="hostAddr" class="login-input" required>
           </li>
-          <li>
+          <li class="login-list-item">
             <h3>Real Name</h3>
-            <input type="text" ng-model="login.realName" class="login-input" required>
+            <input type="text" ng-model="realName" class="login-input" required>
           </li>
-          <li>
+          <li class="login-list-item">
             <h3>Nickname</h3>
-            <input type="text" ng-model="login.nickName" class="login-input" required>
+            <input type="text" ng-model="nickName" class="login-input" required>
           </li>
-          <li>
+          <li class="login-list-item">
             <h3>Password</h3>
-            <input type="password" ng-model="login.nickPass" class="login-input">
+            <input type="password" ng-model="nickPass" class="login-input">
+          </li>
+          <li class="login-list-item">
+            <button ng-click="connectionTry()" class="login-button">connect</button>
           </li>
         </ul>
-
-        <button ng-click="login.connectionTry()" class="login-input">connect</button>
       </form>
     </div>
+    <i class="login-loading fa fa-spinner fa-spin fa-3x" ng-show="loading"></i>
+    <i class="login-settings fa fa-cogs fa-3x" ng-click="openSettings()"></i>
   </div>
 </body>
 </html>

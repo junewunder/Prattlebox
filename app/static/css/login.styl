@@ -1,27 +1,47 @@
 /////////
 //LOGIN//
 /////////
-
 .logo-container
-  container-col()
   align-items: center
   background base3
   color base03
 
 .login-form
-  container-col()
+  color base02
   align-items: center
 
-.login-item
-  container-row()
+.login-list
+  display flex
+  flex-direction column
+  list-style-type none
+  align-items stretch
+
+.login-list-item
+  width 50%
+  margin-left 25%
+  padding .4em
 
 .login-input
+  width 100%
+  display inline-block
+
+.login-button
   width 50%
+  margin-left 25%
+  padding .4em
 
 .login-logo-container
   width: 200px;
   height: 120px;
 
-// .login-logo-container img
-  // width: auto;
-  // height: auto;
+.login-loading
+  color base03
+  position absolute
+  bottom .2em
+  left .2em
+
+.login-settings
+  color base03
+  position absolute
+  bottom .2em
+  right .2em

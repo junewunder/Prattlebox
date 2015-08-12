@@ -1,39 +1,44 @@
 // VIEW
 .chat-container
   flex-grow 10
-  // padding .3em
 
 .messages-container
   overflow scroll
-  // flex 0 1 auto
   padding .8em
-  // flex-grow 20
+  max-height calc(100% - 2.6em)
+  flex-grow 20
 
 .input-container
-  // flex-grow 1
+  max-height 2.6em
+  min-height 2.6em
   padding .8em
   align-self flex-end
   width 95%
+  flex-grow 1
 
 .topic
   padding .3em
   color base03
-  border-bottom .1em base03
+  background base2
+  border-bottom base03 .1em solid
 
 // MESSAGES
+.messages-wrapper
+  overflow scroll
+  display block
+
+.messages
+  list-style none
+  overflow scroll
+
+.message
+  none
+
 prattle-message
   color base03
   list-style-type none
   font-size 1em
   line-height 1.2em
-
-.messages
-  list-style none
-  max-height 100%
-  overflow scroll
-
-.message
-  color base03
 
 .message-text
   none
