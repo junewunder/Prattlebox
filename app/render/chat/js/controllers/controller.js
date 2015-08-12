@@ -1,13 +1,13 @@
 chat.controller('ChatController', function ($scope) {
   'use strict';
-  // don't even use jQuery right now
-  // var $ = require('../../../../static/lib/jquery$-1.11.3.min.js');
+  var $ = require('../../static/lib/jquery.min.js');
   var ipc = require('ipc');
   var remote = require('remote');
   var mainWindow = remote.getCurrentWindow();
   var client = mainWindow.client;
   var chat = $scope;
 
+  $scope.client = client;
   $scope.channels = {}; // { name : { channel-vars } }
   $scope.active = {}; // the name of the channel that is active
   $scope.notificationSounds = false;
@@ -85,43 +85,47 @@ chat.controller('ChatController', function ($scope) {
 
   $scope.message = function (name, nick, text) {
     // push a message to the active channel's messages array
-    var isSelf = nick === client.nick;
-    $scope.pushMessage(name, isSelf, 'message', nick, text);
-    if (!isSelf) $scope.$apply();
+    $scope.pushMessage(name, 'message', nick, text);
   };
 
   $scope.action = function(name, nick, text) {
     // push an action to the active channel's messages array
-    var isSelf = nick === client.nick;
-    $scope.pushMessage(name, isSelf, 'action', nick, text);
-    if (!isSelf) $scope.$apply();
+    $scope.pushMessage(name, 'action', nick, text);
   };
 
   $scope.announce = function (name, nick, text) {
     // push an announcement to the active channel's messages array
-    var isSelf = nick === client.nick;
-    $scope.pushMessage(name, isSelf, 'announcement', nick, text);
-    if (!isSelf) $scope.$apply();
+    $scope.pushMessage(name, 'announcement', nick, text);
   };
 
-  $scope.pushMessage = function(name, self, type, nick, text) {
+  $scope.pushMessage = function(name, type, nick, text) {
+    var isSelf = nick === client.nick;
+
+    if(!$scope.channels[name]) $scope.joinChannel(name);
     if(name !== $scope.active.name) $scope.channels[name].unread++;
+
     $scope.channels[name].messages.push({
-      self: self,          // Bool - the css class the nick will be given: either 'self-true' or 'self-false'
+      self: isSelf,          // Bool - the css class the nick will be given: either 'self-true' or 'self-false'
       type: type,          // String - the css class the message will be given
       nick: nick,          // String - nickname of the sender
       text: text,          // String - text in the message
     });
+
+    if (!isSelf) $scope.$apply();
+
+    // console.log();
+    // console.log('scrolling...');
+    // console.log($('.messages-container').get(0).scrollHeight);
+    // console.log($('.messages-container').scrollTop());
+
+    $('.messages-container').animate({
+      scrollTop: $('.messages-container').get(0).scrollHeight + 100
+    }, 200);
   };
 
   $scope.toggleNicks = function(name) {
     // toggle the boolean
     $scope.channels[name].showNicks = !$scope.channels[name].showNicks;
-  };
-
-  $scope.testMessage = function () {
-    // test the messages
-    $scope.message($scope.channels['#jaywunder'], '😈', 'ayy lmao');
   };
 
   $scope.popUp = function () {
@@ -134,10 +138,6 @@ chat.controller('ChatController', function ($scope) {
   // channels will be in alphabetical order
   $scope.joinChannel('#jaywunder');
   // $scope.joinChannel('#jaywunder2');
-
-  // for (var i = 0; i < 100; i++) {
-  //   $scope.testMessage();
-  // }
 
   // pop-ups
   ipc.on('channel-join', function(args) {

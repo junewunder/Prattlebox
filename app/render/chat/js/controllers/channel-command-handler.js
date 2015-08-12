@@ -79,7 +79,9 @@ module.exports = {
     var channelName = message.args[0];
     var noticeText = message.args[1];
 
-    $scope.announce(channelName, channelName, noticeText);
+    if(channelName === $scope.client.nick) channelName = $scope.active.name;
+
+    $scope.announce(channelName, channelName, ' ' + noticeText);
   },
   OPER: function($scope, message) {
 
@@ -110,9 +112,13 @@ module.exports = {
   },
   QUIT: function ($scope, message){
     var userLeft = message.nick;
-    var channelName = message.args[0];
+    var reason = message.args[0];
 
-    $scope.announce(channelName, userLeft, ' has left the channel (quitting)');
+    for (var channel in $scope.channels) {
+      if (channel.nickList.indexOf(userLeft) > 1) {
+        $scope.announce(channel.name, userLeft, reason);
+      }
+    }
   },
   REHASH: function($scope, message) {
 

@@ -6,10 +6,11 @@
     <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
     <link rel="stylesheet" type="text/css" href="../../static/assets/font-awesome/css/font-awesome.min.css">
     <!-- Libraries -->
-    <script src="../../static/lib/jquery-1.11.3.min.js"></script>
+    <script src="../../static/lib/jquery.min.js"></script>
     <script src="../../static/lib/angular.min.js"></script>
     <!-- Define angular module -->
     <script src="./js/chat.js"></script>
+    <script src="./js/ui.js" charset="utf-8"></script>
     <!-- Angular Controllers -->
     <script src="./js/controllers/controller.js"></script>
     <!-- Angular Directives -->
@@ -80,7 +81,8 @@
           <!-- Input -->
           <prattle-pane class="horizontal input-container">
             <form id="input-form" ng-submit="submitMessage()" >
-              <input type="text" id="input-text" ng-model="active.currentMessage">
+              <!-- <input type="text" id="input-text" ng-model="active.currentMessage"> -->
+              <input type="textarea" id="input-text" ng-model="active.currentMessage">
               <button type="button" id="input-button" ng-click="submitMessage()">
                 <i class="fa fa-paper-plane"></i> <!-- Used to say "send" but I'm pretty sure this is cooler-->
               </button>
