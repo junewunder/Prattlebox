@@ -5,6 +5,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-stylus');
   grunt.loadNpmTasks('grunt-electron-app-builder');
 
+  var electronVersion = '0.30.4';
+
   grunt.initConfig({
     babel: {
       dist: {
@@ -37,8 +39,18 @@ module.exports = function(grunt) {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.30.4',
+            version: electronVersion,
             platform: 'all',
+            arch: 'x64'
+        }
+      },
+      darwin: {
+        options: {
+            name: 'Prattlebox',
+            dir: './',
+            out: 'dist',
+            version: electronVersion,
+            platform: 'darwin',
             arch: 'x64'
         }
       },
@@ -47,7 +59,7 @@ module.exports = function(grunt) {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.30.4',
+            version: electronVersion,
             platform: 'linux',
             arch: 'x64'
         }
@@ -57,21 +69,21 @@ module.exports = function(grunt) {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.30.4',
+            version: electronVersion,
             platform: 'win32',
-            arch: 'x64'
+            arch: 'ia32'
         }
       },
-      darwin: {
+      win64: {
         options: {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.30.4',
-            platform: 'darwin',
+            version: electronVersion,
+            platform: 'win32',
             arch: 'x64'
         }
-      },
+      }
     }
   });
 
