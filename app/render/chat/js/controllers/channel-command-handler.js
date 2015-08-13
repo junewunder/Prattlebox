@@ -229,4 +229,16 @@ module.exports = {
   err_nosuchnick: function($scope, message) {
     $scope.announce($scope.current.name, 'info', `${message.args[2]} (${message.args[1]})`);
   },
+  err_chanoprivsneeded: function ($scope, message) {
+    var channelName = message.args[1];
+    var text = message.args[2];
+
+    $scope.announce(channelName, channelName, text);
+  },
+  err_cannotsendtochan: function ($scope, message) {
+    var channelName = message.args[1];
+    var text = message.args[2];
+
+    $scope.announce(channelName, channelName, text);    
+  }
 };

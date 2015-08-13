@@ -3,8 +3,7 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-stylus');
-
-grunt.registerTask('default', ['electron']);
+  grunt.loadNpmTasks('grunt-electron-app-builder');
 
   grunt.initConfig({
     babel: {
@@ -32,13 +31,21 @@ grunt.registerTask('default', ['electron']);
         }
       }
     },
+    'build-electron-app': {
+        options: {
+            platforms: ['darwin', 'win32', 'linux64'],
+            // electron_version: '0.30.0',
+            app_dir: './',
+            build_dir: './build'
+        }
+    },
     electron: {
       all: {
         options: {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.27.1',
+            version: '0.30.0',
             platform: 'all',
             arch: 'x64'
         }
@@ -48,7 +55,7 @@ grunt.registerTask('default', ['electron']);
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.27.1',
+            version: '0.30.0',
             platform: 'linux',
             arch: 'x64'
         }

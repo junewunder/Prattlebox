@@ -113,11 +113,6 @@ chat.controller('ChatController', function ($scope) {
 
     if (!isSelf) $scope.$apply();
 
-    // console.log();
-    // console.log('scrolling...');
-    // console.log($('.messages-container').get(0).scrollHeight);
-    // console.log($('.messages-container').scrollTop());
-
     $('.messages-container').animate({
       scrollTop: $('.messages-container').get(0).scrollHeight + 100
     }, 200);
@@ -138,6 +133,10 @@ chat.controller('ChatController', function ($scope) {
   // channels will be in alphabetical order
   $scope.joinChannel('#jaywunder');
   // $scope.joinChannel('#jaywunder2');
+
+  for(var channelName in client.channels)
+    if (!$scope.channels[channelName])
+      $scope.joinChannel(channelName);
 
   // pop-ups
   ipc.on('channel-join', function(args) {

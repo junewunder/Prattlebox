@@ -26,6 +26,12 @@ angular.module('login', [])
 
   ipc.on('connect-ready', function() {
     // after the client is created, load the chatter page
+    var mainWindow = require('remote').getCurrentWindow();
+
+    if ($scope.nickPass) {
+      mainWindow.client.say('nickserv', 'identify ' + $scope.nickPass);
+    }
+
     ipc.send('load-page', 'chat');
   });
 });
