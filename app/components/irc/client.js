@@ -3,7 +3,10 @@ var irc = require('irc');
 var ipc = require('ipc');
 
 module.exports = function (app, mainWindow, clientData) {
+  // console.log(clientData);
   mainWindow.client = new irc.Client(clientData.hostAddr, clientData.nickName, {
+    userName: clientData.nickName,
+    realName: clientData.realName,
     port: 6667
   });
 
@@ -19,10 +22,9 @@ module.exports = function (app, mainWindow, clientData) {
 
   /* You can find the events at:
    * http://node-irc.readthedocs.org/en/latest/API.html#events
-   * I haven't implemented all of them, but I've done the important ones
    **/
 
-  // TODO: Bind to all the envents in a prettier way, instead of writing them out individually
+  // TODO: Bind to all the events in a prettier way, instead of writing them out individually
 
   app.on('before-quit', function (event) {
     mainWindow.client.disconnect();

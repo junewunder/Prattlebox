@@ -1,7 +1,7 @@
 angular.module('login', [])
 .controller('LoginController', function ($scope) {
   'use strict';
-  var $ = require('../../static/lib/jquery-1.11.3.min.js');
+  var $ = require('../../static/lib/jquery.min.js');
   var ipc = require('ipc'); //inter protocol communicator
   $scope.hostAddr = 'irc.freenode.net';
   $scope.realName = 'Wunder Bot';
@@ -21,11 +21,17 @@ angular.module('login', [])
   };
 
   $scope.openSettings = function() {
-    
+
   };
 
   ipc.on('connect-ready', function() {
     // after the client is created, load the chatter page
+    var mainWindow = require('remote').getCurrentWindow();
+
+    if ($scope.nickPass) {
+      mainWindow.client.say('nickserv', 'identify ' + $scope.nickPass);
+    }
+
     ipc.send('load-page', 'chat');
   });
 });

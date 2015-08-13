@@ -7,6 +7,8 @@
   padding .8em
   max-height calc(100% - 2.6em)
   flex-grow 20
+  &:-webkit-scrollbar
+    display none
 
 .input-container
   max-height 2.6em
@@ -17,19 +19,28 @@
   flex-grow 1
 
 .topic
+  min-height 1.6em
+  max-height 2.6em
+  overflow scroll
   padding .3em
   color base03
   background base2
   border-bottom base03 .1em solid
+  &:-webkit-scrollbar
+    display none
 
 // MESSAGES
 .messages-wrapper
   overflow scroll
   display block
+  &:-webkit-scrollbar
+    display none
 
 .messages
   list-style none
   overflow scroll
+  &:-webkit-scrollbar
+    display none
 
 .message
   none
@@ -84,4 +95,3 @@ prattle-message
 
 #input-text
   flex-grow 10
-  width 80%
