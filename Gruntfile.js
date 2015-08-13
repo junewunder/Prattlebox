@@ -31,21 +31,13 @@ module.exports = function(grunt) {
         }
       }
     },
-    'build-electron-app': {
-        options: {
-            platforms: ['darwin', 'win32', 'linux64'],
-            // electron_version: '0.30.0',
-            app_dir: './',
-            build_dir: './build'
-        }
-    },
     electron: {
       all: {
         options: {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.30.0',
+            version: '0.30.4',
             platform: 'all',
             arch: 'x64'
         }
@@ -55,7 +47,7 @@ module.exports = function(grunt) {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.30.0',
+            version: '0.30.4',
             platform: 'linux',
             arch: 'x64'
         }
@@ -65,7 +57,7 @@ module.exports = function(grunt) {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.27.1',
+            version: '0.30.4',
             platform: 'win32',
             arch: 'x64'
         }
@@ -75,7 +67,7 @@ module.exports = function(grunt) {
             name: 'Prattlebox',
             dir: './',
             out: 'dist',
-            version: '0.27.1',
+            version: '0.30.4',
             platform: 'darwin',
             arch: 'x64'
         }
@@ -83,7 +75,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('build', ['electron']);
+  grunt.registerTask('build', ['electron:darwin', 'electron:win32', 'electron:linux']);
   grunt.registerTask('default', ['watch']);
   grunt.registerTask('compile', ['stylus']);
 };
