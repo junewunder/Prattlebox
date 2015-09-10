@@ -16,8 +16,6 @@
     <script src="./js/directives/message.js" charset="utf-8"></script>
     <script src="./js/directives/channel.js" charset="utf-8"></script>
     <!-- Angular Services -->
-    <script src="./js/services/events.js" charset="utf-8"></script>
-    <script src="./js/services/methods.js" charset="utf-8"></script>
   </head>
   <body ng-controller="ChatController as chat">
     <prattle-content>
@@ -62,19 +60,18 @@
 
           <!-- Messages Container -->
           <prattle-pane class="messages-container">
+
             <!-- Messages -->
-            <!-- <div class="messages-wrapper"> -->
-              <div class="messages">
-                <prattle-message
-                  ng-repeat="message in active.messages"
-                  class="message"
-                  nick="message.nick"
-                  self="message.self"
-                  type="message.type"
-                  text="message.text">
-                </prattle-message>
-              </div>
-            <!-- </div> -->
+            <div class="messages">
+              <prattle-message
+                ng-repeat="message in active.messages"
+                class="message"
+                nick="message.nick"
+                self="message.self"
+                type="message.type"
+                text="message.text">
+              </prattle-message>
+            </div>
           </prattle-pane>
 
           <!-- Input -->

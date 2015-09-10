@@ -7,11 +7,14 @@ chat.directive('prattleMessage', function() {
       type: '=', // String
       text: '='  // String
     },
-    // __dirname is ./app/render/pages/
     template: `
       <li class="{{type}}">
         <span class="nick-{{type}} self-{{self}}">{{nick}}</span>
         <span class="message-text">{{text}}</span>
+        <prattle-username
+          nick={{nick}}
+          pmUser="">
+        </prattle-username>
       </li>
     `
   };

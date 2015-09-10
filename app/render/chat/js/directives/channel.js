@@ -3,7 +3,7 @@ chat.directive('prattleChannel', function() {
     restrict: 'E',
     scope: {
       channel:      '=', // Object reference to the channel
-      toggleNicks:  '&toggleNicks',  // Function
+      toggleNicks:  '&',  // Function
       leaveChannel: '&leaveChannel', // Function
       makeActive:   '&makeActive',   // Function
     },
