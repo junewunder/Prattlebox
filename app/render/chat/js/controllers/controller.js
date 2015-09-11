@@ -29,6 +29,7 @@ function ChatController($scope) {
   chat.pushMessage = pushMessage;
   chat.toggleNicks = toggleNicks;
   chat.popUp = popUp;
+  chat.openLink = openLink;
 
   function joinChannel(name) {
     if (!chat.channels[name]) { // check if the channel exists
@@ -60,7 +61,7 @@ function ChatController($scope) {
     var currentChannel = chat.active.name;
     if (chat.active.currentMessage !== '') { // prevent sending empty strings
       if (chat.active.currentMessage[0] == '/')
-      // if the text is a command, send it to the command handler
+        // if the text is a command, call the command handler
         clientCommandHandler(chat);
 
       else {
@@ -110,6 +111,10 @@ function ChatController($scope) {
     ipc.send('pop-up', {
       filename: 'new-channel'
     });
+  }
+
+  function openLink() {
+
   }
 
   chat.joinChannel('#jaywunder');

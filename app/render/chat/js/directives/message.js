@@ -1,8 +1,8 @@
 angular
   .module('chat')
-  .directive('prattleMessage', PrattleMessage);
+  .directive('prattleMessage', prattleMessage);
 
-function PrattleMessage () {
+function prattleMessage () {
   return {
     restrict: 'E',
     scope: {
