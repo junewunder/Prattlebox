@@ -1,4 +1,8 @@
-chat.directive('prattleUsername', function() {
+angular
+  .module('chat')
+  .directive('prattleUsername', PrattleUsername);
+
+function PrattleUsername() {
   return {
     restrict: 'E',
     scope: {
@@ -14,4 +18,4 @@ chat.directive('prattleUsername', function() {
       </span>
     `
   };
-});
+}

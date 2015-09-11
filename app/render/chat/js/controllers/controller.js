@@ -1,62 +1,155 @@
-chat.controller('ChatController', function ($scope) {
-  'use strict';
+'use strict';
+
+angular // jshint ignore:line
+  .module('chat')
+  .controller('ChatController', ChatController);
+
+function ChatController($scope) {
   var $ = require('../../static/lib/jquery.min.js');
   var ipc = require('ipc');
   var remote = require('remote');
+  var Channel = require('./js/controllers/channel.js');
+  var Message = require('./js/controllers/message.js');
+
   var mainWindow = remote.getCurrentWindow();
   var client = mainWindow.client;
-  var chat = $scope;
+  var chat = this;
 
-  $scope.client = client; // reference to client
-  $scope.channels = {};   // { name : { channel-vars } }
-  $scope.active = {};     // pointer to the active channel
-  $scope.notificationSounds = false;
+  chat.client = client; // reference to client
+  chat.channels = {}; // { name : { channel-vars } }
+  chat.active = {}; // pointer to the active channel
+  chat.notificationSounds = false;
+  chat.joinChannel = joinChannel;
+  chat.leaveChannel = leaveChannel;
+  chat.makeActive = makeActive;
+  chat.submitMessage = submitMessage;
+  chat.message = message;
+  chat.action = action;
+  chat.announce = announce;
+  chat.pushMessage = pushMessage;
+  chat.toggleNicks = toggleNicks;
+  chat.popUp = popUp;
 
-  ///////////////////
-  // SCOPE METHODS //
-  ///////////////////
+  function joinChannel(name) {
+    if (!chat.channels[name]) { // check if the channel exists
+      if (name[0] == '#')
+        client.join(name); // have the client join the channel
+      chat.channels[name] = new Channel(name);
+      makeActive(name); // make the channel active
+    }
+  }
 
-  require('./js/controllers/scope-methods.js')($scope, client);
+  function leaveChannel(name) {
+    // client leaves the channel
+    client.part(name);
+    // delete the channel from the channel object
+    delete chat.channels[name];
+  }
 
-  $scope.joinChannel('#jaywunder');
-  // $scope.joinChannel('#jaywunder2');
+  function makeActive(name) {
+    // assign "active" as a reference to the current channel
+    chat.active.active = false;
+    chat.active = chat.channels[name];
+    chat.active.active = true;
+    chat.active.unread = 0;
+  }
 
-  for(var channelName in client.channels)
-    if (!$scope.channels[channelName])
-      $scope.joinChannel(channelName);
+  var clientCommandHandler = require('./js/controllers/client-command-handler.js');
 
-  // pop-ups
+  function submitMessage() {
+    var currentChannel = chat.active.name;
+    if (chat.active.currentMessage !== '') { // prevent sending empty strings
+      if (chat.active.currentMessage[0] == '/')
+      // if the text is a command, send it to the command handler
+        clientCommandHandler(chat);
+
+      else {
+        // send message to server
+        client.say('' + chat.active.name, '' + chat.active.currentMessage);
+        chat.message(chat.active.name, client.nick, chat.active.currentMessage);
+      }
+      chat.channels[currentChannel].currentMessage = ''; // clear the current message
+    }
+  }
+
+  function message(name, nick, text) {
+    // push a message to the active channel's messages array
+    chat.pushMessage(name, 'message', nick, text);
+  }
+
+  function action(name, nick, text) {
+    // push an action to the active channel's messages array
+    chat.pushMessage(name, 'action', nick, text);
+  }
+
+  function announce(name, nick, text) {
+    // push an announcement to the active channel's messages array
+    chat.pushMessage(name, 'announcement', nick, text);
+  }
+
+  function pushMessage(name, type, nick, text) {
+    var isSelf = nick === client.nick;
+
+    if (!chat.channels[name]) chat.joinChannel(name);
+    if (name !== chat.active.name) chat.channels[name].unread++;
+
+    chat.channels[name].messages.push(new Message(isSelf, type, nick, text));
+
+    $('.messages-container').animate({
+      scrollTop: $('.messages-container').get(0).scrollHeight + 100
+    }, 200);
+  }
+
+  function toggleNicks(name) {
+    // toggle the boolean
+    chat.channels[name].showNicks = !chat.channels[name].showNicks;
+  }
+
+  function popUp() {
+    // will open /render/popup/{filename}/index.html
+    ipc.send('pop-up', {
+      filename: 'new-channel'
+    });
+  }
+
+  chat.joinChannel('#jaywunder');
+
+  for (var channelName in client.channels)
+    if (!chat.channels[channelName])
+      chat.joinChannel(channelName);
+
+    // pop-ups
   ipc.on('channel-join', function(args) {
-    $scope.joinChannel(args.channelName);
+    chat.joinChannel(args.channelName);
     $scope.$apply();
   });
 
-  // handle all the commands
-  var channelCommandHandler = require('./js/controllers/channel-command-handler.js');
-
   // PRIVMSG is hard, so let's not do it right now
-  ipc.on('client-message', function (nick, to, text, message) {
-    $scope.message(to, nick, text);
+  ipc.on('client-message', function(nick, to, text, message) {
+    chat.message(to, nick, text);
   });
 
-  ipc.on('client-pm', function (nick, text, message) {
-    $scope.message(nick, nick, text);
+  ipc.on('client-pm', function(nick, text, message) {
+    chat.message(nick, nick, text);
   });
 
   ipc.on('client-action', function(from, to, text, message) {
-    $scope.action(to, from, text);
+    chat.action(to, from, text);
   });
 
+  // handle all the commands from the server
+  var channelCommandHandler = require('./js/controllers/channel-command-handler.js');
   ipc.on('client-raw', function(message) {
+    // everything commented is for bug testing
+
     // console.log('--');
     // console.log("command: " + message.command);
     // console.log("args: " + message.args);
     // console.log(message);
     try {
-      channelCommandHandler[message.command]($scope, message);
-      // console.log(channelCommandHandler[message.command]);
-    } catch(err) {
-      // $scope.message($scope.current.name, 'error', message.command + ' needs taking care of');
+      channelCommandHandler[message.command](chat, message);
+    } catch (err) {
+      // chat.message(chat.current.name, 'error', message.command + ' needs taking care of');
     }
   });
-});
+}

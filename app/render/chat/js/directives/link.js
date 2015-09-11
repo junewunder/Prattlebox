@@ -1,4 +1,8 @@
-chat.directive('prattleLink', function() {
+angular
+  .module('chat')
+  .directive('prattleLink', PrattleLink);
+
+function PrattleLink() {
   return {
     restrict: 'E',
     scope: {
@@ -9,4 +13,4 @@ chat.directive('prattleLink', function() {
       <span class="link" ng-click="open">{{href}}</span>
     `
   };
-});
+}

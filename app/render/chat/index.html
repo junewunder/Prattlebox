@@ -26,12 +26,12 @@
 
           <!-- Channel Labels -->
           <prattle-pane class="vertical top channel-list">
-            <div class="channel" ng-repeat="(name, channel) in channels">
+            <div class="channel" ng-repeat="(name, channel) in chat.channels">
               <prattle-channel
                 channel="channel"
-                make-active="makeActive(name)"
-                leave-channel="leaveChannel(name)"
-                toggle-nicks="toggleNicks(name)">
+                make-active="chat.makeActive(name)"
+                leave-channel="chat.leaveChannel(name)"
+                toggle-nicks="chat.toggleNicks(name)">
               </prattle-channel>
             </div>
           </prattle-pane>
@@ -45,8 +45,8 @@
               <i class="fa fa-plus"></i>
             </span>
             <span class="channel-button" title="Notification Sounds">
-              <i class="fa fa-volume-up" ng-show="notificationSounds"></i>
-              <i class="fa fa-volume-off" ng-show="!notificationSounds"></i>
+              <i class="fa fa-volume-up" ng-show="chat.notificationSounds"></i>
+              <i class="fa fa-volume-off" ng-show="!chat.notificationSounds"></i>
             </span>
           </prattle-pane>
         </prattle-pane>
@@ -55,7 +55,7 @@
         <prattle-pane class="vertical chat-container">
           <!-- Topic -->
           <div class="topic">
-            {{active.topic}}
+            {{chat.active.topic}}
           </div>
 
           <!-- Messages Container -->
@@ -64,7 +64,7 @@
             <!-- Messages -->
             <div class="messages">
               <prattle-message
-                ng-repeat="message in active.messages"
+                ng-repeat="message in chat.active.messages"
                 class="message"
                 nick="message.nick"
                 self="message.self"
@@ -76,10 +76,10 @@
 
           <!-- Input -->
           <prattle-pane class="horizontal input-container">
-            <form id="input-form" ng-submit="submitMessage()" >
-              <!-- <input type="text" id="input-text" ng-model="active.currentMessage"> -->
-              <input type="textarea" id="input-text" ng-model="active.currentMessage">
-              <button type="button" id="input-button" ng-click="submitMessage()">
+            <form id="input-form" ng-submit="chat.submitMessage()" >
+              <!-- <input type="text" id="input-text" ng-model="chat.active.currentMessage"> -->
+              <input type="textarea" id="input-text" ng-model="chat.active.currentMessage">
+              <button type="button" id="input-button" ng-click="chat.submitMessage()">
                 <i class="fa fa-paper-plane"></i> <!-- Used to say "send" but I'm pretty sure this is cooler-->
               </button>
             </form>

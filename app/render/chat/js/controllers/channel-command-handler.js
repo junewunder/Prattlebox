@@ -1,244 +1,244 @@
 module.exports = {
-  ADMIN: function($scope, message) {
+  ADMIN: function(chat, message) {
 
   },
-  AWAY: function($scope, message) {
+  AWAY: function(chat, message) {
 
   },
-  CNOTICE: function($scope, message) {
+  CNOTICE: function(chat, message) {
 
   },
-  CPRIVMSG: function($scope, message) {
+  CPRIVMSG: function(chat, message) {
 
   },
-  CONNECT: function($scope, message) {
+  CONNECT: function(chat, message) {
 
   },
-  DIE: function($scope, message) {
+  DIE: function(chat, message) {
 
   },
-  ENCAP: function($scope, message) {
+  ENCAP: function(chat, message) {
 
   },
-  ERROR: function($scope, message) {
+  ERROR: function(chat, message) {
 
   },
-  HELP: function($scope, message) {
+  HELP: function(chat, message) {
 
   },
-  INFO: function($scope, message) {
+  INFO: function(chat, message) {
 
   },
-  INVITE: function($scope, message) {
+  INVITE: function(chat, message) {
 
   },
-  ISON: function($scope, message) {
+  ISON: function(chat, message) {
 
   },
-  JOIN: function ($scope, message) {
+  JOIN: function (chat, message) {
     var userJoined = message.nick;
     var channelName = message.args[0];
 
-    $scope.channels[channelName].nicks.push(userJoined);
-    $scope.announce(channelName, userJoined, ' has joined the channel');
+    chat.channels[channelName].nicks.push(userJoined);
+    chat.announce(channelName, userJoined, ' has joined the channel');
   },
-  KICK: function($scope, message) {
+  KICK: function(chat, message) {
 
   },
-  KILL: function($scope, message) {
+  KILL: function(chat, message) {
 
   },
-  KNOCK: function($scope, message) {
+  KNOCK: function(chat, message) {
 
   },
-  LINKS: function($scope, message) {
+  LINKS: function(chat, message) {
 
   },
-  LIST: function($scope, message) {
+  LIST: function(chat, message) {
 
   },
-  LUSERS: function($scope, message) {
+  LUSERS: function(chat, message) {
 
   },
-  MODE: function($scope, message) {
+  MODE: function(chat, message) {
 
   },
-  MOTD: function($scope, message) {
+  MOTD: function(chat, message) {
 
   },
-  NAMES: function($scope, message) {
+  NAMES: function(chat, message) {
 
   },
-  NAMESX: function($scope, message) {
+  NAMESX: function(chat, message) {
 
   },
-  NICK: function($scope, message) {
+  NICK: function(chat, message) {
 
   },
-  NOTICE: function ($scope, message){
+  NOTICE: function (chat, message){
     var channelName = message.args[0];
     var noticeText = message.args[1];
 
-    if(channelName === $scope.client.nick) channelName = $scope.active.name;
+    if(channelName === chat.client.nick) channelName = chat.active.name;
 
-    $scope.announce(channelName, channelName, ' ' + noticeText);
+    chat.announce(channelName, channelName, ' ' + noticeText);
   },
-  OPER: function($scope, message) {
+  OPER: function(chat, message) {
 
   },
-  PART: function ($scope, message) {
+  PART: function (chat, message) {
     var userLeft = message.nick;
     var channelName = message.args[0];
-    var nicks = $scope.channels[channelName].nicks;
+    var nicks = chat.channels[channelName].nicks;
 
-    $scope.announce(channelName, userLeft, ' has left the channel');
+    chat.announce(channelName, userLeft, ' has left the channel');
   },
-  PASS: function($scope, message) {
-
-  },
-  PING: function($scope, message) {
+  PASS: function(chat, message) {
 
   },
-  PONG: function($scope, message) {
+  PING: function(chat, message) {
 
   },
-  PRIVMSG: function($scope, message) {
+  PONG: function(chat, message) {
+
+  },
+  PRIVMSG: function(chat, message) {
     // can't figure out how to handle actions quite yet, so I'm just going to
     // not do anything
     // if (message.args[1].match(/ACTION\b.*/))
-    //   $scope.action(message.args[0], message.nick, message.args[1].slice(7, message.args[1].length));
+    //   chat.action(message.args[0], message.nick, message.args[1].slice(7, message.args[1].length));
     // else
-    //   $scope.message(message.args[0], message.nick, message.args[1]);
+    //   chat.message(message.args[0], message.nick, message.args[1]);
   },
-  QUIT: function ($scope, message){
+  QUIT: function (chat, message){
     var userLeft = message.nick;
     var reason = message.args[0];
 
-    for (var channel in $scope.channels) {
+    for (var channel in chat.channels) {
       if (channel.nickList.indexOf(userLeft) > 1) {
-        $scope.announce(channel.name, userLeft, reason);
+        chat.announce(channel.name, userLeft, reason);
       }
     }
   },
-  REHASH: function($scope, message) {
+  REHASH: function(chat, message) {
 
   },
-  RESTART: function($scope, message) {
+  RESTART: function(chat, message) {
 
   },
-  RULES: function($scope, message) {
+  RULES: function(chat, message) {
 
   },
-  SERVER: function($scope, message) {
+  SERVER: function(chat, message) {
 
   },
-  SERVICE: function($scope, message) {
+  SERVICE: function(chat, message) {
 
   },
-  SERVLIST: function($scope, message) {
+  SERVLIST: function(chat, message) {
 
   },
-  SQUERY: function($scope, message) {
+  SQUERY: function(chat, message) {
 
   },
-  SQUIT: function($scope, message) {
+  SQUIT: function(chat, message) {
 
   },
-  SETNAME: function($scope, message) {
+  SETNAME: function(chat, message) {
 
   },
-  SILENCE: function($scope, message) {
+  SILENCE: function(chat, message) {
 
   },
-  STATS: function($scope, message) {
+  STATS: function(chat, message) {
 
   },
-  SUMMON: function($scope, message) {
+  SUMMON: function(chat, message) {
 
   },
-  TIME: function($scope, message) {
+  TIME: function(chat, message) {
 
   },
-  TOPIC: function ($scope, message) {
+  TOPIC: function (chat, message) {
     var channelName = message.args[0];
     var topic = message.args[1];
     var nick = message.nick;
 
-    $scope.announce(channelName, nick, ' has set the topic to: "' + topic + '"');
-    $scope.channels[channelName].topic = topic;
-    $scope.$apply();
+    chat.announce(channelName, nick, ' has set the topic to: "' + topic + '"');
+    chat.channels[channelName].topic = topic;
+    chat.$apply();
   },
-  TRACE: function($scope, message) {
+  TRACE: function(chat, message) {
 
   },
-  UHNAMES: function($scope, message) {
+  UHNAMES: function(chat, message) {
 
   },
-  USER: function($scope, message) {
+  USER: function(chat, message) {
 
   },
-  USERHOST: function($scope, message) {
+  USERHOST: function(chat, message) {
 
   },
-  USERIP: function($scope, message) {
+  USERIP: function(chat, message) {
 
   },
-  USERS: function($scope, message) {
+  USERS: function(chat, message) {
 
   },
-  VERSION: function($scope, message) {
+  VERSION: function(chat, message) {
 
   },
-  WALLOPS: function($scope, message) {
+  WALLOPS: function(chat, message) {
 
   },
-  WATCH: function($scope, message) {
+  WATCH: function(chat, message) {
 
   },
-  WHO: function($scope, message) {
+  WHO: function(chat, message) {
 
   },
-  WHOIS: function($scope, message) {
+  WHOIS: function(chat, message) {
 
   },
-  WHOWAS: function($scope, message) {
+  WHOWAS: function(chat, message) {
 
   },
 
-  rpl_topic: function($scope, message) {
+  rpl_topic: function(chat, message) {
     var channelName = message.args[1];
     var topic = message.args[2];
 
-    $scope.channels[channelName].topic = topic;
+    chat.channels[channelName].topic = topic;
     try {
-      $scope.$apply();
+      chat.$apply();
     } catch (e) {  }
   },
-  rpl_namreply: function($scope, message) {
+  rpl_namreply: function(chat, message) {
     var channelName = message.args[2];
     var nickList = message.args[3].split(' ');
 
-    $scope.channels[channelName].nicks = nickList;
+    chat.channels[channelName].nicks = nickList;
   },
-  rpl_away: function($scope,message) {
+  rpl_away: function(chat,message) {
     // when a user is away
   },
-  err_nosuchchannel: function($scope, message) {
-    $scope.announce($scope.current.name, 'info', `${message.args[2]} (${message.args[1]})`);
+  err_nosuchchannel: function(chat, message) {
+    chat.announce(chat.current.name, 'info', `${message.args[2]} (${message.args[1]})`);
   },
-  err_nosuchnick: function($scope, message) {
-    $scope.announce($scope.current.name, 'info', `${message.args[2]} (${message.args[1]})`);
+  err_nosuchnick: function(chat, message) {
+    chat.announce(chat.current.name, 'info', `${message.args[2]} (${message.args[1]})`);
   },
-  err_chanoprivsneeded: function ($scope, message) {
+  err_chanoprivsneeded: function (chat, message) {
     var channelName = message.args[1];
     var text = message.args[2];
 
-    $scope.announce(channelName, channelName, text);
+    chat.announce(channelName, channelName, text);
   },
-  err_cannotsendtochan: function ($scope, message) {
+  err_cannotsendtochan: function (chat, message) {
     var channelName = message.args[1];
     var text = message.args[2];
 
-    $scope.announce(channelName, channelName, text);    
+    chat.announce(channelName, channelName, text);
   }
 };

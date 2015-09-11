@@ -1,4 +1,8 @@
-chat.directive('prattleChannel', function() {
+angular
+  .module('chat')
+  .directive('prattleChannel', PrattleChannel);
+
+function PrattleChannel() {
   return {
     restrict: 'E',
     scope: {
@@ -24,4 +28,4 @@ chat.directive('prattleChannel', function() {
       </li>
     `
   };
-});
+}

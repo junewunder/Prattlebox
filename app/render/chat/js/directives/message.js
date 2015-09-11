@@ -1,4 +1,8 @@
-chat.directive('prattleMessage', function() {
+angular
+  .module('chat')
+  .directive('prattleMessage', PrattleMessage);
+
+function PrattleMessage () {
   return {
     restrict: 'E',
     scope: {
@@ -18,4 +22,4 @@ chat.directive('prattleMessage', function() {
       </li>
     `
   };
-});
+}

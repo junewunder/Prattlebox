@@ -1,1 +1,1 @@
-var chat = angular.module('chat', []);
+angular.module('chat', []);
