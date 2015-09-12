@@ -2,7 +2,7 @@
 // https://github.com/bojzi/sound-machine-electron-guide/blob/master/configuration.js
 var nconf = require('nconf').file({file: getUserHome() + '/.prattle/config.json'});
 
-function saveSetting(settingKey, settingValue) {
+function writeSetting(settingKey, settingValue) {
   nconf.set(settingKey, settingValue);
   nconf.save();
 }
@@ -21,7 +21,7 @@ function getConfigHome() {
 }
 
 module.exports = {
-  saveSetting,
+  writeSetting,
   readSetting,
   getUserHome,
   getConfigHome,

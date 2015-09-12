@@ -42,12 +42,12 @@
             <span class="channel-button" title="Open Settings">
               <i class="fa fa-cogs"></i>
             </span>
-            <span class="channel-button" title="Join Channel" ng-click="popUp()">
+            <span class="channel-button" title="Join Channel" ng-click="chat.popUp()">
               <i class="fa fa-plus"></i>
             </span>
-            <span class="channel-button" title="Notification Sounds">
-              <i class="fa fa-volume-up" ng-show="chat.notificationSounds"></i>
-              <i class="fa fa-volume-off" ng-show="!chat.notificationSounds"></i>
+            <span class="channel-button" title="Notification Sounds" ng-click="chat.toggleSounds()">
+              <i class="fa fa-volume-up" ng-show="chat.sounds"></i>
+              <i class="fa fa-volume-off" ng-show="!chat.sounds"></i>
             </span>
           </prattle-pane>
         </prattle-pane>

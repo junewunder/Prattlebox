@@ -24,13 +24,11 @@ module.exports = function (app, mainWindow) {
     new PopUp(args, mainWindow);
   });
 
-  ipc.on('save-setting', function(event, key, value) {
-    config.saveSetting(key, value);
+  ipc.on('write-setting', function(event, key, value) {
+    config.writeSetting(key, value);
   });
 
   ipc.on('read-setting', function(event, key) {
-    // console.log('requested ' + key);
-    // console.log('got ' + config.readSetting(key));
     mainWindow.send('read-' + key, config.readSetting(key));
   });
 };

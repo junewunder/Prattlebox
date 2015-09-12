@@ -13,23 +13,23 @@ function ChatController($scope) {
   var shell = require('shell');
   var Channel = require('./js/controllers/channel.js');
   var Message = require('./js/controllers/message.js');
-  // var prattle = require('../../components/prattle');
 
   var mainWindow = remote.getCurrentWindow();
   var client = mainWindow.client;
   var chat = this;
 
-  prattle.readSetting('foo').then((value) => {
-    console.log(value);
+  prattle.readSetting('sounds').then((value) => {
+    chat.sounds = value;
   });
 
-  // prattle.saveSetting('notificationSounds', true);
+  prattle.readSetting('notifications').then((value) => {
+    chat.notifications = value;
+  });
 
   chat.client = client; // reference to client
   chat.channels = {}; // { name : { channel-vars } }
   chat.active = {}; // pointer to the active channel
   chat.foo = 'foo';
-  chat.notificationSounds = false; //prattle.readSetting('notificationSounds');
   chat.joinChannel = joinChannel;
   chat.leaveChannel = leaveChannel;
   chat.makeActive = makeActive;
@@ -40,6 +40,7 @@ function ChatController($scope) {
   chat.pushMessage = pushMessage;
   chat.toggleNicks = toggleNicks;
   chat.popUp = popUp;
+  chat.toggleSounds = toggleSounds;
   chat.openLink = openLink;
 
   function joinChannel(name) {
@@ -119,9 +120,14 @@ function ChatController($scope) {
 
   function popUp() {
     // will open /render/popup/{filename}/index.html
-    ipc.send('pop-up', {
+    prattle.popup({
       filename: 'new-channel'
     });
+  }
+
+  function toggleSounds() {
+    chat.sounds = !chat.sounds;
+    prattle.writeSetting('sounds', chat.sounds);
   }
 
   function openLink(href) {
