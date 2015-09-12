@@ -114,14 +114,13 @@ function ChatController($scope) {
   }
 
   function toggleNicks(name) {
-    // toggle the boolean
     chat.channels[name].showNicks = !chat.channels[name].showNicks;
   }
 
   function popUp() {
-    // will open /render/popup/{filename}/index.html
     prattle.popup({
-      filename: 'new-channel'
+      filename: 'new-channel',
+      killOnBlur: true
     });
   }
 

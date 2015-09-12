@@ -18,28 +18,28 @@
         <ul class="login-list">
           <li class="login-list-item">
             <h3>Host</h3>
-            <input type="text" ng-model="hostAddr" class="login-input" required>
+            <input type="text" ng-model="login.hostAddr" class="login-input" required>
           </li>
           <li class="login-list-item">
             <h3>Real Name</h3>
-            <input type="text" ng-model="realName" class="login-input" required>
+            <input type="text" ng-model="login.realName" class="login-input">
           </li>
           <li class="login-list-item">
             <h3>Nickname</h3>
-            <input type="text" ng-model="nickName" class="login-input" required>
+            <input type="text" ng-model="login.nickName" class="login-input" required>
           </li>
           <li class="login-list-item">
             <h3>Password</h3>
-            <input type="password" ng-model="nickPass" class="login-input">
+            <input type="password" ng-model="login.nickPass" class="login-input">
           </li>
           <li class="login-list-item">
-            <button ng-click="connectionTry()" class="login-button">connect</button>
+            <button ng-click="login.connectionTry()" class="login-button">connect</button>
           </li>
         </ul>
       </form>
     </div>
-    <i class="login-loading fa fa-spinner fa-spin fa-3x" ng-show="loading"></i>
-    <i class="login-settings fa fa-cogs fa-3x" ng-click="openSettings()"></i>
+    <i class="login-loading fa fa-spinner fa-spin fa-3x" ng-show="login.loading"></i>
+    <i class="login-settings fa fa-cogs fa-3x" ng-click="login.openSettings()"></i>
   </div>
 </body>
 </html>

@@ -1,4 +1,10 @@
 {
   "foo": "bar",
-  "sounds": false
+  "sounds": false,
+  "loginDetails": {
+    "hostAddr": "",
+    "realName": "",
+    "nickName": "",
+    "nickPass": ""
+  }
 }
