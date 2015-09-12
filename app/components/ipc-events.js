@@ -3,6 +3,9 @@ var ipc = require('ipc'); //inter protocol communicator
 var dialog = require('dialog');
 var Client = require('./irc/client.js');
 var PopUp = require('./pop-up.js');
+var config = require('./config');
+
+console.log(config);
 
 module.exports = function (app, mainWindow) {
   // Bind to events
@@ -19,5 +22,15 @@ module.exports = function (app, mainWindow) {
 
   ipc.on('pop-up', function (event, args) {
     new PopUp(args, mainWindow);
+  });
+
+  ipc.on('save-setting', function(event, key, value) {
+    config.saveSetting(key, value);
+  });
+
+  ipc.on('read-setting', function(event, key) {
+    // console.log('requested ' + key);
+    // console.log('got ' + config.readSetting(key));
+    mainWindow.send('read-' + key, config.readSetting(key));
   });
 };

@@ -1,8 +1,8 @@
 angular
   .module('chat')
-  .directive('prattleMessage', prattleMessage);
+  .directive('prMessage', prMessage);
 
-function prattleMessage () {
+function prMessage () {
   return {
     restrict: 'E',
     scope: {
@@ -15,10 +15,10 @@ function prattleMessage () {
       <li class="{{type}}">
         <span class="nick-{{type}} self-{{self}}">{{nick}}</span>
         <span class="message-text">{{text}}</span>
-        <prattle-username
+        <pr-username
           nick={{nick}}
           pmUser="">
-        </prattle-username>
+        </pr-username>
       </li>
     `
   };

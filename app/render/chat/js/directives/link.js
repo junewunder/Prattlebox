@@ -1,8 +1,8 @@
 angular
   .module('chat')
-  .directive('prattleLink', prattleLink);
+  .directive('prLink', prLink);
 
-function prattleLink() {
+function prLink() {
   return {
     restrict: 'E',
     scope: {

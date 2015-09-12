@@ -3,3 +3,4 @@ dist
 cache
 build
 Prattlebox-linux
+npm-debug.log

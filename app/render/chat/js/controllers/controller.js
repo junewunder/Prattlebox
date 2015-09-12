@@ -4,21 +4,32 @@ angular // jshint ignore:line
   .module('chat')
   .controller('ChatController', ChatController);
 
+// new Notification("dude...", {body:"Woahhhhhhh"}); // jshint ignore:line
+
 function ChatController($scope) {
   var $ = require('../../static/lib/jquery.min.js');
   var ipc = require('ipc');
   var remote = require('remote');
+  var shell = require('shell');
   var Channel = require('./js/controllers/channel.js');
   var Message = require('./js/controllers/message.js');
+  // var prattle = require('../../components/prattle');
 
   var mainWindow = remote.getCurrentWindow();
   var client = mainWindow.client;
   var chat = this;
 
+  prattle.readSetting('foo').then((value) => {
+    console.log(value);
+  });
+
+  // prattle.saveSetting('notificationSounds', true);
+
   chat.client = client; // reference to client
   chat.channels = {}; // { name : { channel-vars } }
   chat.active = {}; // pointer to the active channel
-  chat.notificationSounds = false;
+  chat.foo = 'foo';
+  chat.notificationSounds = false; //prattle.readSetting('notificationSounds');
   chat.joinChannel = joinChannel;
   chat.leaveChannel = leaveChannel;
   chat.makeActive = makeActive;
@@ -113,8 +124,10 @@ function ChatController($scope) {
     });
   }
 
-  function openLink() {
-
+  function openLink(href) {
+    if (href.indexOf('http://') !== 0 || href.indexOf('https://') !== 0)
+      href = 'https://' + href;
+    shell.openExternal(href);
   }
 
   chat.joinChannel('#jaywunder');
@@ -146,7 +159,6 @@ function ChatController($scope) {
   var channelCommandHandler = require('./js/controllers/channel-command-handler.js');
   ipc.on('client-raw', function(message) {
     // everything commented is for bug testing
-
     // console.log('--');
     // console.log("command: " + message.command);
     // console.log("args: " + message.args);

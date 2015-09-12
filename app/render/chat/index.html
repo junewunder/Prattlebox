@@ -2,6 +2,7 @@
 <html ng-app="chat">
   <head>
     <meta charset="UTF-8">
+    <script src="../global.js" charset="utf-8"></script>
     <!-- Stylesheets -->
     <link rel="stylesheet" type="text/css" href="../../static/css/style.css">
     <link rel="stylesheet" type="text/css" href="../../static/assets/font-awesome/css/font-awesome.min.css">
@@ -27,12 +28,12 @@
           <!-- Channel Labels -->
           <prattle-pane class="vertical top channel-list">
             <div class="channel" ng-repeat="(name, channel) in chat.channels">
-              <prattle-channel
+              <pr-channel
                 channel="channel"
                 make-active="chat.makeActive(name)"
                 leave-channel="chat.leaveChannel(name)"
                 toggle-nicks="chat.toggleNicks(name)">
-              </prattle-channel>
+              </pr-channel>
             </div>
           </prattle-pane>
 
@@ -63,14 +64,14 @@
 
             <!-- Messages -->
             <div class="messages">
-              <prattle-message
+              <pr-message
                 ng-repeat="message in chat.active.messages"
                 class="message"
                 nick="message.nick"
                 self="message.self"
                 type="message.type"
                 text="message.text">
-              </prattle-message>
+              </pr-message>
             </div>
           </prattle-pane>
 

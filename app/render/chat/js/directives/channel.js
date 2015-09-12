@@ -1,15 +1,16 @@
 angular
   .module('chat')
-  .directive('prattleChannel', prattleChannel);
+  .directive('prChannel', prChannel);
 
-function prattleChannel() {
+function prChannel() {
   return {
     restrict: 'E',
+    bindToController: true,
     scope: {
       channel:      '=', // Object reference to the channel
-      toggleNicks:  '&',  // Function
-      leaveChannel: '&leaveChannel', // Function
-      makeActive:   '&makeActive',   // Function
+      toggleNicks:  '&', // Function
+      leaveChannel: '&', // Function
+      makeActive:   '&', // Function
     },
     template: `
       <li class="channel channel-active-{{channel.active}}">

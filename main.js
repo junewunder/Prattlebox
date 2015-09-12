@@ -1,5 +1,6 @@
 #! /usr/bin/env electron
 'use strict';
+global.__base = __dirname + '/';
 var app = require('app'); // Module to control application life.
 var BrowserWindow = require('browser-window'); // Module to create native browser window.
 
@@ -29,7 +30,5 @@ app.on('ready', function () {
 	//bind to events
 	require('./app/components/ipc-events.js')(app, mainWindow);
 	//load login page
-	// mainWindow.send('load-page', 'login');
 	mainWindow.loadUrl(`file://${__dirname}/app/render/login/index.html`);
-
 });
