@@ -19,14 +19,14 @@
     <!-- Angular Services -->
   </head>
   <body ng-controller="ChatController as chat">
-    <prattle-content>
+    <pr-content>
       <!-- Everything -->
-      <prattle-pane class="horizontal full">
+      <pr-pane class="horizontal full">
         <!-- Tree View -->
-        <prattle-pane class="vertical tree-view">
+        <pr-pane class="vertical tree-view">
 
           <!-- Channel Labels -->
-          <prattle-pane class="vertical top channel-list">
+          <pr-pane class="vertical top channel-list">
             <div class="channel" ng-repeat="(name, channel) in chat.channels">
               <pr-channel
                 channel="channel"
@@ -35,10 +35,10 @@
                 toggle-nicks="chat.toggleNicks(name)">
               </pr-channel>
             </div>
-          </prattle-pane>
+          </pr-pane>
 
           <!-- Channel Buttons -->
-          <prattle-pane class="horizontal channel-buttons">
+          <pr-pane class="horizontal channel-buttons">
             <span class="channel-button" title="Open Settings">
               <i class="fa fa-cogs"></i>
             </span>
@@ -49,18 +49,18 @@
               <i class="fa fa-volume-up" ng-show="chat.sounds"></i>
               <i class="fa fa-volume-off" ng-show="!chat.sounds"></i>
             </span>
-          </prattle-pane>
-        </prattle-pane>
+          </pr-pane>
+        </pr-pane>
 
         <!-- Chat View -->
-        <prattle-pane class="vertical chat-container">
+        <pr-pane class="vertical chat-container">
           <!-- Topic -->
           <div class="topic">
             {{chat.active.topic}}
           </div>
 
           <!-- Messages Container -->
-          <prattle-pane class="messages-container">
+          <pr-pane class="messages-container">
 
             <!-- Messages -->
             <div class="messages">
@@ -73,10 +73,10 @@
                 text="message.text">
               </pr-message>
             </div>
-          </prattle-pane>
+          </pr-pane>
 
           <!-- Input -->
-          <prattle-pane class="horizontal input-container">
+          <pr-pane class="horizontal input-container">
             <form id="input-form" ng-submit="chat.submitMessage()" >
               <!-- <input type="text" id="input-text" ng-model="chat.active.currentMessage"> -->
               <input type="textarea" id="input-text" ng-model="chat.active.currentMessage">
@@ -84,9 +84,9 @@
                 <i class="fa fa-paper-plane"></i> <!-- Used to say "send" but I'm pretty sure this is cooler-->
               </button>
             </form>
-          </prattle-pane>
-        </prattle-pane>
-      </prattle-pane>
-    </prattle-content>
+          </pr-pane>
+        </pr-pane>
+      </pr-pane>
+    </pr-content>
   </body>
 </html>

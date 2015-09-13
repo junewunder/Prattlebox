@@ -3,7 +3,7 @@ module.exports = function(grunt) {
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-stylus');
-  grunt.loadNpmTasks('grunt-electron-app-builder');
+  // grunt.loadNpmTasks('grunt-electron-app-builder');
 
   var electronVersion = '0.30.4';
 

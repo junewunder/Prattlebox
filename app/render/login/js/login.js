@@ -31,7 +31,13 @@ angular.module('login', [])
   };
 
   login.openSettings = function() {
-
+    prattle.popup({
+      filename: 'settings',
+      frame: true,
+      width: 600,
+      height: 400,
+      killOnBlur: false,
+    });
   };
 
   ipc.on('connect-ready', function() {
