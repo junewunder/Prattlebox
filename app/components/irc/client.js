@@ -32,7 +32,7 @@ module.exports = function (app, mainWindow, clientData) {
 
   mainWindow.client.addListener('registered', function (message) {
     mainWindow.send('connect-ready', message);
-    console.log(mainWindow.client);
+    // console.log(mainWindow.client);
   });
 
   mainWindow.client.addListener('error', function (message) {

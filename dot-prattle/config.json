@@ -6,5 +6,8 @@
     "realName": "",
     "nickName": "",
     "nickPass": ""
-  }
+  },
+  "friendList": [],
+  "port": 6667,
+  "defaultChannels": []
 }

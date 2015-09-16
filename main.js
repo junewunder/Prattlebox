@@ -1,8 +1,11 @@
 #! /usr/bin/env electron
 'use strict';
-global.__base = __dirname + '/';
+
 var app = require('app'); // Module to control application life.
 var BrowserWindow = require('browser-window'); // Module to create native browser window.
+
+global.__base = __dirname;
+global.prattle = require('./app/components/prattle');
 
 require('crash-reporter').start();
 
@@ -16,10 +19,7 @@ app.on('ready', function () {
 		width: 800,
 		height: 600,
 		title: 'Prattlebox'
-		// fullscreen: false,
-		// frame: false,
-		// transparent: true
-		});
+	});
 
 	mainWindow.on('closed', function () {
 		app.quit();
