@@ -1,7 +1,5 @@
 'use strict';
 var ipc = require('ipc');
-var remote = require('remote');
-var currentWindow = remote.getCurrentWindow();
 
 module.exports = class PrattleRenderer {
   constructor() {
