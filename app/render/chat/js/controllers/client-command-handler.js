@@ -98,7 +98,14 @@ var commands = {
   'whois': {
     match: /^\/whois\b.*/,
     func: function(chat, client, text) {
-      var args = text.match(/^\/leave\s+([\w\-#@]+)\s*.*$/);
+      var args = text.match(/^\/whois\s+([\w\-#@]+)\s*.*$/);
+    }
+  },
+  'identify': {
+    match: /^\/identify\b.*/,
+    func: function(chat, client, text) {
+      var args = text.match(/^\/identify\s+([\w\-#@]+)\s*.*$/);
+      client.say('NickServ', 'identify ' + args[1]);
     }
   },
   '': {
