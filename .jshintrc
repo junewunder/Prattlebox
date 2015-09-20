@@ -2,5 +2,5 @@
   "esnext": true,
   "node": true,
   "globalstrict": false,
-  "predef": ["prattle", "Notification"]
+  "predef": ["prattle", "$","__base"]
 }

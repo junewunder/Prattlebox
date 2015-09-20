@@ -1,21 +1,10 @@
-var ipc = require('ipc');
+'use strict';
 
-module.exports = {
-  popup: function(args) {
-    ipc.send('pop-up', args);
-  },
-  loadPage: function(pageName) {
-    ipc.send('load-page', pageName);
-  },
-  writeSetting: function(key, value) {
-    ipc.send('write-setting', key, value);
-  },
-  readSetting: function(key) {
-    ipc.send('read-setting', key);
-    return new Promise((resolve, reject) => {
-      ipc.on('read-' + key, (value) => {
-        resolve(value);
-      });
-    });
-  }
-};
+if (process.type == 'renderer'){
+  var PrattleRenderer = require('./renderer.js');
+  module.exports = new PrattleRenderer();
+}
+else if (process.type == 'browser'){
+  var PrattleBrowser = require('./browser.js');
+  module.exports = new PrattleBrowser();
+}

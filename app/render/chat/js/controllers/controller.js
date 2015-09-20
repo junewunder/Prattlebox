@@ -7,7 +7,6 @@ angular // jshint ignore:line
 // new Notification("dude...", {body:"Woahhhhhhh"}); // jshint ignore:line
 
 function ChatController($scope) {
-  var $ = require('../../static/lib/jquery.min.js');
   var ipc = require('ipc');
   var remote = require('remote');
   var shell = require('shell');

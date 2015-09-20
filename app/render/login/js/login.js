@@ -1,8 +1,11 @@
-angular.module('login', [])
-.controller('LoginController', function ($scope) {
+angular
+  .module('login', [])
+  .controller('LoginController', LoginController);
+
+function LoginController ($scope) {
   'use strict';
   var $ = require('../../static/lib/jquery.min.js');
-  var ipc = require('ipc'); //inter protocol communicator
+  var ipc = require('ipc');
   var login = this;
 
   prattle.readSetting('loginDetails').then(details => {
@@ -57,4 +60,4 @@ angular.module('login', [])
 
     ipc.send('load-page', 'chat');
   });
-});
+}

@@ -1,13 +1,78 @@
 <!DOCTYPE html>
 <html ng-app="SettingsApp">
 <head>
-  <script src="../global.js" charset="utf-8"></script>
+  <script src="../../global.js" charset="utf-8"></script>
   <title>Settings</title>
   <link href="../../../static/css/style.css" rel="stylesheet" type="text/css">
   <script src="../../../static/lib/angular.min.js"></script>
   <script src="./js/controller.js" charset="utf-8"></script>
 </head>
 <body ng-controller="SettingsController as settings">
-  
+  <pr-content>
+    <!-- Everything -->
+    <pr-pane class="vertical full settings-wrapper">
+
+      <pr-pane class="vertical">
+        <h4>Default Channels</h4>
+        <input type="text" ng-model="settings.defaultChannels" spellcheck="true" lang="en">
+        <br>
+      </pr-pane>
+
+      <pr-pane class="vertical">
+        <h4>Friends</h4>
+        <input type="text" ng-model="settings.friendList">
+        <br>
+      </pr-pane>
+
+      <pr-pane class="vertical">
+        <h4>Username</h4>
+        <input type="text" ng-model="settings.nickName">
+        <br>
+      </pr-pane>
+
+      <pr-pane class="vertical">
+        <h4>Real Name</h4>
+        <input type="text" ng-model="settings.realName">
+        <br>
+      </pr-pane>
+
+      <pr-pane class="vertical">
+        <h4>Default Host</h4>
+        <input type="text" ng-model="settings.hostAddr">
+        <br>
+      </pr-pane>
+
+      <pr-pane class="vertical">
+        <h4>Password</h4>
+        <input ng-show="!settings.showPassword" type="password" ng-model="settings.nickPass">
+        <input ng-show="settings.showPassword" type="text" ng-model="settings.nickPass">
+        <pr-pane class="horizontal">
+          <input type="checkbox" ng-model="settings.showPassword">
+          <h4>Show Password</h4>
+        </pr-pane>
+        <br>
+      </pr-pane>
+
+      <pr-pane class="horizontal">
+        <input type="checkbox" ng-model="settings.sounds">
+        <h4>Notification Sounds</h4>
+        <br>
+      </pr-pane>
+      <br>
+
+      <pr-pane ng-show="settings.showAdvanced">
+        <pr-pane class="vertical">
+          <h4>Port</h4>
+          <input type="number" ng-model="settings.port">
+          <br>
+        </pr-pane>
+      </pr-pane>
+
+      <button type="button" ng-click="settings.toggleAdvanced()">
+        Show Advanced <i class="fa fa-cog"></i>
+      </button>
+      <br>
+    </pr-pane>
+  </pr-content>
 </body>
 </html>
