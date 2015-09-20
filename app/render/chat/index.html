@@ -16,6 +16,7 @@
     <!-- Angular Directives -->
     <script src="./js/directives/message.js" charset="utf-8"></script>
     <script src="./js/directives/channel.js" charset="utf-8"></script>
+    <script src="./js/directives/username.js" charset="utf-8"></script>
     <!-- Angular Services -->
   </head>
   <body ng-controller="ChatController as chat">
@@ -66,11 +67,12 @@
             <div class="messages">
               <pr-message
                 ng-repeat="message in chat.active.messages"
-                class="message"
-                nick="message.nick"
+                class="message">
+                <!-- nick="message.nick"
                 self="message.self"
                 type="message.type"
-                text="message.text">
+                text="message.text"
+                join-channel="chat.joinChannel"> -->
               </pr-message>
             </div>
           </pr-pane>
@@ -81,7 +83,7 @@
               <!-- <input type="text" id="input-text" ng-model="chat.active.currentMessage"> -->
               <input type="textarea" id="input-text" ng-model="chat.active.currentMessage">
               <button type="button" id="input-button" ng-click="chat.submitMessage()">
-                <i class="fa fa-paper-plane"></i> <!-- Used to say "send" but I'm pretty sure this is cooler-->
+                <i class="fa fa-paper-plane"></i>
               </button>
             </form>
           </pr-pane>

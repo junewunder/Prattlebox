@@ -5,20 +5,12 @@ angular
 function prMessage () {
   return {
     restrict: 'E',
-    scope: {
-      nick: '=', // String
-      self: '=', // Bool
-      type: '=', // String
-      text: '='  // String
-    },
+    scope: false,
     template: `
-      <li class="{{type}}">
-        <span class="nick-{{type}} self-{{self}}">{{nick}}</span>
-        <span class="message-text">{{text}}</span>
-        <pr-username
-          nick={{nick}}
-          pmUser="">
-        </pr-username>
+      <li class="{{message.type}}">
+        <!-- <span class="nick-{{message.type}} self-{{message.self}}">{{message.nick}}</span> -->
+        <pr-username></pr-username>
+        <span class="message-text">{{message.text}}</span>
       </li>
     `
   };

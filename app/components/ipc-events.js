@@ -5,8 +5,6 @@ var Client = require('./irc/client.js');
 var PopUp = require('./pop-up.js');
 var config = require('./config');
 
-console.log(config);
-
 module.exports = function (app, mainWindow) {
   // Bind to events
   ipc.on('connect-try', function (event, clientData) {

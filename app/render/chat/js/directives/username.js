@@ -2,20 +2,14 @@ angular
   .module('chat')
   .directive('prUsername', prUsername);
 
-function prUsername(scope, el, attr, ctrl) {
+function prUsername() {
   return {
     restrict: 'E',
-    scope: {
-      user:   '=', // User object
-      pmUser: '&', // Function
-    },
+    scope: false,
     template: `
       <span
-        class="nick-{{type}}
-        self-{{self}}"
-        ng-click="pmUser(nick)">
-        {{nick}}
-      </span>
+        class="nick-{{message.type}} self-{{message.self}}"
+        ng-click="chat.joinChannel(message.nick)">{{message.nick}}</span>
     `
   };
 }

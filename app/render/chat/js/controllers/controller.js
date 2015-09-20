@@ -4,7 +4,7 @@ angular // jshint ignore:line
   .module('chat')
   .controller('ChatController', ChatController);
 
-// new Notification("dude...", {body:"Woahhhhhhh"}); // jshint ignore:line
+// new Notification("dude...", {body:"Woahhhhhhh"});
 
 function ChatController($scope) {
   var ipc = require('ipc');
@@ -107,6 +107,8 @@ function ChatController($scope) {
 
     chat.channels[name].messages.push(new Message(isSelf, type, nick, text));
 
+    if (!isSelf) $scope.$apply();
+
     $('.messages-container').animate({
       scrollTop: $('.messages-container').get(0).scrollHeight + 100
     }, 200);
@@ -140,7 +142,7 @@ function ChatController($scope) {
     if (!chat.channels[channelName])
       chat.joinChannel(channelName);
 
-    // pop-ups
+  // pop-ups
   ipc.on('channel-join', function(args) {
     chat.joinChannel(args.channelName);
     $scope.$apply();
