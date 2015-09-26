@@ -38,9 +38,27 @@ function ChatController($scope) {
   chat.announce = announce;
   chat.pushMessage = pushMessage;
   chat.toggleNicks = toggleNicks;
-  chat.popUp = popUp;
+  chat.openJoinChannel = openJoinChannel;
   chat.toggleSounds = toggleSounds;
   chat.openLink = openLink;
+  chat.openSettings = openSettings;
+
+  function openSettings() {
+    prattle.popup({
+      filename: 'settings',
+      frame: true,
+      width: 600,
+      height: 400,
+      killOnBlur: false
+    });
+  }
+
+  function openJoinChannel() {
+    prattle.popup({
+      filename: 'new-channel',
+      killOnBlur: true
+    });
+  }
 
   function joinChannel(name) {
     if (!chat.channels[name]) { // check if the channel exists
@@ -116,13 +134,6 @@ function ChatController($scope) {
 
   function toggleNicks(name) {
     chat.channels[name].showNicks = !chat.channels[name].showNicks;
-  }
-
-  function popUp() {
-    prattle.popup({
-      filename: 'new-channel',
-      killOnBlur: true
-    });
   }
 
   function toggleSounds() {

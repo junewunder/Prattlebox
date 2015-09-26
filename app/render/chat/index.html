@@ -40,10 +40,10 @@
 
           <!-- Channel Buttons -->
           <pr-pane class="horizontal channel-buttons">
-            <span class="channel-button" title="Open Settings">
+            <span class="channel-button" title="Open Settings" ng-click="chat.openSettings()">
               <i class="fa fa-cogs"></i>
             </span>
-            <span class="channel-button" title="Join Channel" ng-click="chat.popUp()">
+            <span class="channel-button" title="Join Channel" ng-click="chat.openJoinChannel()">
               <i class="fa fa-plus"></i>
             </span>
             <span class="channel-button" title="Notification Sounds" ng-click="chat.toggleSounds()">
