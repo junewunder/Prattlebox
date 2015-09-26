@@ -86,4 +86,8 @@ module.exports = function (app, mainWindow, clientData) {
   mainWindow.client.addListener('ctcp', function (from, to, text, type, message) {
     mainWindow.send('client-ctcp', from, to, text, type, message);
   });
+
+  mainWindow.client.addListener('channellist', function(channellist) {
+    mainWindow.send('client-channellist', channellist);
+  });
 };

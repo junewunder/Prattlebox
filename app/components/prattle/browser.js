@@ -7,6 +7,7 @@ var dialog = require('dialog');
 var makeClientBindings = require('./client-bindings.js');
 var PopUp = require('../pop-up.js');
 var config = require('../config');
+// var app = require('app');
 
 module.exports = class PrattleBrowser {
   constructor () {
@@ -58,25 +59,25 @@ module.exports = class PrattleBrowser {
     //   });
     // });
 
-    ipc.on('load-page', (event, page) => {
-      event.sender.loadUrl(`file://${__dirname}/../render/${page}/index.html`);
-      // console.log(`> loading: ${__dirname}/../render/${page}/index.html`);
-    });
-
-    ipc.on('pop-up', (event, args) => {
-      new PopUp(args, event.sender);
-    });
-
-    ipc.on('write-setting', (event, key, value) => {
-      config.writeSetting(key, value);
-    });
-
-    ipc.on('read-setting', (event, key) => {
-      event.sender.send('read-' + key, config.readSetting(key));
-    });
-
-    ipc.on('read-setting-sync', (event, key) => {
-      event.returnValue = config.readSetting(key);
-    });
+    // ipc.on('load-page', (event, page) => {
+    //   event.sender.loadUrl(`file://${__dirname}/../render/${page}/index.html`);
+    //   // console.log(`> loading: ${__dirname}/../render/${page}/index.html`);
+    // });
+    //
+    // ipc.on('pop-up', (event, args) => {
+    //   new PopUp(args, event.sender);
+    // });
+    //
+    // ipc.on('write-setting', (event, key, value) => {
+    //   config.writeSetting(key, value);
+    // });
+    //
+    // ipc.on('read-setting', (event, key) => {
+    //   event.sender.send('read-' + key, config.readSetting(key));
+    // });
+    //
+    // ipc.on('read-setting-sync', (event, key) => {
+    //   event.returnValue = config.readSetting(key);
+    // });
   }
 };

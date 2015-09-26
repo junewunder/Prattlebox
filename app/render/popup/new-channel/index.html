@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="PopUpJoinApp">
+<html ng-app="PopupJoinApp">
 <head>
   <script src="../global.js" charset="utf-8"></script>
   <title>Join a Channel</title>
@@ -7,7 +7,7 @@
   <script src="../../../static/lib/angular.min.js"></script>
   <script src="./main.js" charset="utf-8"></script>
 </head>
-<body ng-controller="PopUpJoinController">
+<body ng-controller="PopupJoinController">
   <div class="wrapper content">
     <form class="login-form" ng-sumbit="join()" ng-model-options="{ debounce: 150 }">
       <input type="text" class="login-input" ng-model="channelName">
@@ -19,6 +19,8 @@
         Join Channel
       </button>
       <button type="button" class="login-input" ng-click="close()">Close</button>
+      <button type="button" ng-click="refreshChannelList()">i:<i class="fa fa-refresh"></i></button>
+      {{channellist}}
     </form>
   </div>
 </body>

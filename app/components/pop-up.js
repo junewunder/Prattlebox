@@ -3,18 +3,23 @@ var ipc = require('ipc');
 var fs = require('fs');
 
 module.exports = function(args, mainWindow) {
-  var width      = args.width || 400;
-  var height     = args.height || 200;
-  var frame      = args.frame || false;
-  var killOnBlur = args.killOnBlur || false;
-  var eventName  = args.eventName || '';
-  var filename   = args.filename;
+  var width           = args.width || 400;
+  var height          = args.height || 200;
+  var frame           = args.frame || false;
+  var killOnBlur      = args.killOnBlur || false;
+  var eventName       = args.eventName || '';
+  var filename        = args.filename;
+  var clientReference = args.clientReference || true;
 
   var popup = new BrowserWindow({
     width,
     height,
     frame,
   });
+
+  if (clientReference) {
+    popup.client = mainWindow.client;
+  }
 
   popup.loadUrl(`file://${__dirname}/../render/popup/${filename}/index.html`);
 
@@ -26,6 +31,6 @@ module.exports = function(args, mainWindow) {
 
   ipc.on('close', function(event, args) {
     mainWindow.send(eventName, args.info);
-    popup.close();
+    if (popup) popup.close();
   });
 };

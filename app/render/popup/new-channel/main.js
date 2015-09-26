@@ -1,13 +1,31 @@
-angular.module('PopUpJoinApp', [])
-.controller('PopUpJoinController', ['$scope', function($scope) {
+angular
+  .module('PopupJoinApp', [])
+  .controller('PopupJoinController', ['$scope', PopupJoinController]);
+
+function PopupJoinController($scope) {
   var ipc = require('ipc');
   var remote = require('remote');
-  var popUp = remote.getCurrentWindow();
+  var popup = remote.getCurrentWindow();
+  var mainWindow = remote.getCurrentWindow();
+  var client = mainWindow.client;
 
-  $scope.channelName = '#jaywunder3';
+  $scope.channelName = '';
+  $scope.channellist = [];
+  $scope.channellistRefreshing = false;
+
+  ipc.on('client-channellist', function(channellist) {
+    $scope.channellist = channellist;
+    $scope.$apply();
+  });
+
+  $scope.refreshChannelList = function() {
+    client.list();
+    console.log('heyy');
+    $scope.channellistRefreshing = true;
+  };
 
   $scope.close = function() {
-    popUp.close();
+    popup.close();
   };
 
   $scope.join = function() {
@@ -19,4 +37,4 @@ angular.module('PopUpJoinApp', [])
       }
     });
   };
-}]);
+}

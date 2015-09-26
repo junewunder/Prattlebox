@@ -17,6 +17,8 @@ function ChatController($scope) {
   var client = mainWindow.client;
   var chat = this;
 
+  console.log(client.list());
+
   prattle.readSetting('sounds').then((value) => {
     chat.sounds = value;
   });
@@ -170,6 +172,11 @@ function ChatController($scope) {
 
   ipc.on('client-action', function(from, to, text, message) {
     chat.action(to, from, text);
+  });
+
+  ipc.on('client-channellist', function(channellist) {
+    chat.channellist = channellist;
+    $scope.$apply();
   });
 
   // handle all the commands from the server
