@@ -4,8 +4,8 @@ var ipc = require('ipc');
 var irc = require('irc');
 var BrowserWindow = require('browser-window');
 var dialog = require('dialog');
-var PopUp = require('./popup.js');
-var config = require('./config');
+var Popup = require('./popup.js');
+var Menus = require('./menu.js');
 
 module.exports = class PrattleBrowser {
   constructor (app) {
@@ -13,16 +13,38 @@ module.exports = class PrattleBrowser {
 
     this.windows = {};
     this.clients = {};
+
+    this.config = require('./config.js');
+  }
+
+  createMenus (app, window) {
+    new Menus(app, window);
+  }
+
+  // broadcast (eventName, ...args) {
+  //
+  // }
+
+  createPopup (args) {
+
   }
 
   createWindow (args) {
+    var window = new BrowserWindow(args);
 
+  	window.on('closed', function () {
+  		app.quit();
+  	});
+
+    this.createMenus(this.app, window);
+
+    return window;
   }
 
   destroyWindow (window) {
     var browser = BrowserWindow.fromWebContents(window);
 
-    // do other things
+    browser.close();
   }
 
   createClient (window, clientData) {
@@ -30,7 +52,7 @@ module.exports = class PrattleBrowser {
     var client = new irc.Client(clientData.hostAddr, clientData.nickName, {
       userName: clientData.nickName,
       realName: clientData.realName,
-      port: config.readSetting('port'),
+      port: this.config.readSetting('port'),
     });
 
     var browserWindow = BrowserWindow.fromWebContents(window);
@@ -47,7 +69,7 @@ module.exports = class PrattleBrowser {
     return this.clients[window];
   }
 
-  makeBindings () {
+  createIpcBindings () {
     // don't ever call this a second time unless you wanna be seeing double...
     // k punk??
 
@@ -67,19 +89,19 @@ module.exports = class PrattleBrowser {
     });
 
     ipc.on('pop-up', (event, args) => {
-      new PopUp(args, event.sender);
+      new Popup(args, event.sender);
     });
 
     ipc.on('write-setting', (event, key, value) => {
-      config.writeSetting(key, value);
+      this.config.writeSetting(key, value);
     });
 
     ipc.on('read-setting', (event, key) => {
-      event.sender.send('read-' + key, config.readSetting(key));
+      event.sender.send('read-' + key, this.config.readSetting(key));
     });
 
     ipc.on('read-setting-sync', (event, key) => {
-      event.returnValue = config.readSetting(key);
+      event.returnValue = this.config.readSetting(key);
     });
   }
 };

@@ -3,25 +3,31 @@
 var nconf = require('nconf').file({file: getUserHome() + '/.prattle/config.json'});
 var fs = require('fs.extra');
 
-export function writeSetting(settingKey, settingValue) {
+module.exports.writeSetting = writeSetting;
+module.exports.readSetting = readSetting;
+module.exports.getUserHome = getUserHome;
+module.exports.getConfigHome = getConfigHome;
+module.exports.createDotPrattle = createDotPrattle;
+
+function writeSetting(settingKey, settingValue) {
   nconf.set(settingKey, settingValue);
   nconf.save();
 }
 
-export function readSetting(settingKey) {
+function readSetting(settingKey) {
   nconf.load();
   return nconf.get(settingKey.toString());
 }
 
-export function getUserHome() {
+function getUserHome() {
   return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 }
 
-export function getConfigHome() {
+function getConfigHome() {
   return getUserHome() + '/.prattle';
 }
 
-export function createDotPrattle() {
+function createDotPrattle() {
   // get file list of dot-prattle
   var templateFiles = fs.readdirSync(__base + '/dot-prattle');
 
@@ -48,5 +54,4 @@ export function createDotPrattle() {
       }
     });
   });
-
 }
