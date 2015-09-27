@@ -6,5 +6,5 @@ if (process.type == 'renderer'){
 }
 else if (process.type == 'browser'){
   var PrattleBrowser = require('./browser.js');
-  module.exports = new PrattleBrowser();
+  module.exports = (app) => new PrattleBrowser(app);
 }
