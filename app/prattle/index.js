@@ -1,10 +1,11 @@
 'use strict';
 
 if (process.type == 'renderer'){
-  var PrattleRenderer = require('./renderer.js');
+  var PrattleRenderer = require('./renderer');
   module.exports = new PrattleRenderer();
 }
+
 else if (process.type == 'browser'){
-  var PrattleBrowser = require('./browser.js');
+  var PrattleBrowser = require('./browser');
   module.exports = (app) => new PrattleBrowser(app);
 }
