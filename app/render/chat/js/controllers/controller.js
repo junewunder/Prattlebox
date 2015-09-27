@@ -4,8 +4,6 @@ angular // jshint ignore:line
   .module('chat')
   .controller('ChatController', ChatController);
 
-// new Notification("dude...", {body:"Woahhhhhhh"});
-
 function ChatController($scope) {
   var ipc = require('ipc');
   var remote = require('remote');
@@ -14,7 +12,7 @@ function ChatController($scope) {
   var Message = require('./js/controllers/message.js');
 
   var mainWindow = remote.getCurrentWindow();
-  var client = mainWindow.client;
+  var client = prattle.client;
   var chat = this;
 
   prattle.readSetting('sounds').then((value) => {
@@ -161,7 +159,7 @@ function ChatController($scope) {
 
   // PRIVMSG is hard, so let's not do it right now
   ipc.on('client-message', function(nick, to, text, message) {
-    chat.message(to, nick, text);
+    if (to !== client.nick) chat.message(to, nick, text);
   });
 
   ipc.on('client-pm', function(nick, text, message) {

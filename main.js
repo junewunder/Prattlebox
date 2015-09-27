@@ -7,7 +7,7 @@ var BrowserWindow = require('browser-window'); // Module to create native browse
 require('crash-reporter').start();
 
 global.__base = __dirname;
-global.prattle = require('./app/prattle')(app)
+global.prattle = require('./app/prattle')(app);
 
 
 // Quit when all windows are closed.

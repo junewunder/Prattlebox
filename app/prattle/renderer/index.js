@@ -1,9 +1,15 @@
 'use strict';
 var ipc = require('ipc');
+var remote = require('remote');
 
 module.exports = class PrattleRenderer {
-  constructor() {
+  constructor () {
 
+  }
+
+  get client () {
+    var mainWindow = remote.getCurrentWindow();
+    return mainWindow.client;
   }
 
   popup (args) {
@@ -29,5 +35,9 @@ module.exports = class PrattleRenderer {
 
   readSettingSync (key) {
     return ipc.sendSync('read-setting-sync', key);
+  }
+
+  notification (title, body) {
+    new Notification(title, {body}); // jshint ignore: line
   }
 };
