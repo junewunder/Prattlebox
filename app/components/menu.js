@@ -2,7 +2,7 @@
 var Menu = require('menu');
 var MenuItem = require('menu-item');
 
-module.exports = function (app, mainWindow) {
+module.exports = function (app, window) {
   // Example of menu from official sample
 	// https://github.com/atom/electron/blob/master/atom/browser/default_app/default_app.js
   var template;
@@ -74,19 +74,19 @@ module.exports = function (app, mainWindow) {
 				label: 'Reload',
 				accelerator: 'Command+R',
 				click: function click() {
-					mainWindow.restart();
+					window.restart();
 				}
 			}, {
 				label: 'Toggle Full Screen',
 				accelerator: 'Ctrl+Command+F',
 				click: function click() {
-					mainWindow.setFullScreen(!mainWindow.isFullScreen());
+					window.setFullScreen(!window.isFullScreen());
 				}
 			}, {
 				label: 'Toggle Developer Tools',
 				accelerator: 'Alt+Command+I',
 				click: function click() {
-					mainWindow.toggleDevTools();
+					window.toggleDevTools();
 				}
 			}]
 		}, {
@@ -141,7 +141,7 @@ module.exports = function (app, mainWindow) {
 				label: '&Close',
 				accelerator: 'Ctrl+W',
 				click: function click() {
-					mainWindow.close();
+					window.close();
 				}
 			}]
 		}, {
@@ -150,19 +150,19 @@ module.exports = function (app, mainWindow) {
 				label: '&Reload',
 				accelerator: 'Ctrl+R',
 				click: function click() {
-					mainWindow.restart();
+					window.restart();
 				}
 			}, {
 				label: 'Toggle &Full Screen',
 				accelerator: 'F11',
 				click: function click() {
-					mainWindow.setFullScreen(!mainWindow.isFullScreen());
+					window.setFullScreen(!window.isFullScreen());
 				}
 			}, {
 				label: 'Toggle &Developer Tools',
 				accelerator: 'Alt+Ctrl+I',
 				click: function click() {
-					mainWindow.toggleDevTools();
+					window.toggleDevTools();
 				}
 			}]
 		}, {
@@ -190,6 +190,6 @@ module.exports = function (app, mainWindow) {
 			}]
 		}];
 		var menu = Menu.buildFromTemplate(template);
-		mainWindow.setMenu(menu);
+		window.setMenu(menu);
 	}
 };

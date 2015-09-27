@@ -10,12 +10,10 @@ var config = require('../config');
 
 module.exports = class PrattleBrowser {
   constructor (app) {
-    // this.windows = {};
     this.app = app;
 
+    this.windows = {};
     this.clients = {};
-
-    this.makeBindings();
   }
 
   createWindow (args) {
@@ -62,6 +60,11 @@ module.exports = class PrattleBrowser {
       this.app.on('before-quit', (event) => {
         this.getClient(event.sender).disconnect();
       });
+    });
+
+    ipc.on('load-page', function (event, page) {
+  		console.log(`> loading: ${__base}/app/render/${page}/index.html`);
+      event.sender.loadUrl(`file://${__base}/app/render/${page}/index.html`);
     });
 
     ipc.on('pop-up', (event, args) => {

@@ -3,13 +3,16 @@
 
 var app = require('app'); // Module to control application life.
 var BrowserWindow = require('browser-window'); // Module to create native browser window.
-global.__base = __dirname;
 
 require('crash-reporter').start();
 
+global.__base = __dirname;
+global.prattle = require('./app/components/prattle')(app);
+
+
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-	if (process.platform != 'darwin') app.quit();
+	if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('ready', function () {
@@ -32,14 +35,8 @@ app.on('ready', function () {
 	//add menus
 	require('./app/components/menu.js')(app, mainWindow);
 
-	var ipc = require('ipc');
-	ipc.on('load-page', function (event, page) {
-		console.log(`> loading: ${__dirname}/app/render/${page}/index.html`);
-    event.sender.loadUrl(`file://${__dirname}/app/render/${page}/index.html`);
-  });
-
-	// set global variables
-	global.prattle = require('./app/components/prattle')(app);
+	// create ipc events ONLY CALL THIS ONCE
+	prattle.makeBindings();
 	//load login page
 	mainWindow.loadUrl(`file://${__dirname}/app/render/login/index.html`);
 });
