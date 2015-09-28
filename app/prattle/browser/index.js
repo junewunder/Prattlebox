@@ -21,29 +21,37 @@ module.exports = class PrattleBrowser {
     new Menus(app, window);
   }
 
-  // broadcast (eventName, ...args) {
-  //
-  // }
+  broadcast (eventName) {
+    // send event to all windows
+  }
 
-  createPopup (args) {
-
+  createPopup (args, mainWindow) {
+    new Popup(args, mainWindow);
   }
 
   createWindow (args) {
     var window = new BrowserWindow(args);
-
-  	window.on('closed', function () {
-  		app.quit();
-  	});
 
     this.createMenus(this.app, window);
 
     return window;
   }
 
+  createNewChatWindow () {
+    return prattle.createWindow({
+  		width: 800,
+  		height: 600,
+  		title: 'Prattlebox',
+  		'web-preferences': {
+  			'allow-displaying-insecure-content': true,
+  			'java': false,
+  			'webgl': false
+  		}
+  	});
+  }
+
   destroyWindow (window) {
     var browser = BrowserWindow.fromWebContents(window);
-
     browser.close();
   }
 
@@ -78,7 +86,7 @@ module.exports = class PrattleBrowser {
       // attach a client to the mainWindow AND bind to its events
       this.createClient(event.sender, clientData);
 
-      this.app.on('before-quit', (event) => {
+      event.sender.on('close', (event) => {
         this.getClient(event.sender).disconnect();
       });
     });
@@ -88,8 +96,8 @@ module.exports = class PrattleBrowser {
       event.sender.loadUrl(`file://${__base}/app/render/${page}/index.html`);
     });
 
-    ipc.on('pop-up', (event, args) => {
-      new Popup(args, event.sender);
+    ipc.on('popup', (event, args) => {
+      this.createPopup(args, event.sender);
     });
 
     ipc.on('write-setting', (event, key, value) => {

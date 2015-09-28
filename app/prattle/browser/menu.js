@@ -8,9 +8,9 @@ module.exports = function (app, window) {
   var template;
 	if (process.platform == 'darwin') {
 		template = [{
-			label: 'Electron',
+			label: 'Prattlebox',
 			submenu: [{
-				label: 'About Electron',
+				label: 'About Prattlebox',
 				selector: 'orderFrontStandardAboutPanel:'
 			}, {
 				type: 'separator'
@@ -20,7 +20,7 @@ module.exports = function (app, window) {
 			}, {
 				type: 'separator'
 			}, {
-				label: 'Hide Electron',
+				label: 'Hide Prattlebox',
 				accelerator: 'Command+H',
 				selector: 'hide:'
 			}, {
@@ -92,6 +92,12 @@ module.exports = function (app, window) {
 		}, {
 			label: 'Window',
 			submenu: [{
+				label: 'New',
+				accelerator: 'Command+N',
+        click: function click() {
+          var newWindow = prattle.createNewChatWindow();
+          newWindow.loadUrl(`file://${__base}/app/render/login/index.html`);
+        }}, {
 				label: 'Minimize',
 				accelerator: 'Command+M',
 				selector: 'performMiniaturize:'
@@ -110,22 +116,17 @@ module.exports = function (app, window) {
 			submenu: [{
 				label: 'Learn More',
 				click: function click() {
-					require('shell').openExternal('http://electron.atom.io');
+					require('shell').openExternal('https://github.com/jaywunder/Prattlebox');
 				}
 			}, {
 				label: 'Documentation',
 				click: function click() {
-					require('shell').openExternal('https://github.com/atom/electron/tree/master/docs#readme');
-				}
-			}, {
-				label: 'Community Discussions',
-				click: function click() {
-					require('shell').openExternal('https://discuss.atom.io/c/electron');
+					require('shell').openExternal('https://github.com/jaywunder/Prattlebox/wiki');
 				}
 			}, {
 				label: 'Search Issues',
 				click: function click() {
-					require('shell').openExternal('https://github.com/atom/electron/issues');
+					require('shell').openExternal('https://github.com/jaywunder/Prattlebox/issues');
 				}
 			}]
 		}];
@@ -136,6 +137,12 @@ module.exports = function (app, window) {
 		template = [{
 			label: '&File',
 			submenu: [{
+				label: '&New',
+				accelerator: 'Ctrl+N',
+        click: function click() {
+          var newWindow = prattle.createNewChatWindow();
+          newWindow.loadUrl(`file://${__base}/app/render/login/index.html`);
+        }}, {
 				label: '&Open',
 				accelerator: 'Ctrl+O' }, {
 				label: '&Close',
@@ -170,22 +177,17 @@ module.exports = function (app, window) {
 			submenu: [{
 				label: 'Learn More',
 				click: function click() {
-					require('shell').openExternal('http://electron.atom.io');
+					require('shell').openExternal('https://github.com/jaywunder/Prattlebox');
 				}
 			}, {
 				label: 'Documentation',
 				click: function click() {
-					require('shell').openExternal('https://github.com/atom/electron/tree/master/docs#readme');
-				}
-			}, {
-				label: 'Community Discussions',
-				click: function click() {
-					require('shell').openExternal('https://discuss.atom.io/c/electron');
+					require('shell').openExternal('https://github.com/jaywunder/Prattlebox/wiki');
 				}
 			}, {
 				label: 'Search Issues',
 				click: function click() {
-					require('shell').openExternal('https://github.com/atom/electron/issues');
+					require('shell').openExternal('https://github.com/jaywunder/Prattlebox/issues');
 				}
 			}]
 		}];

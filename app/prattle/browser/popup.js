@@ -16,15 +16,16 @@ module.exports = function(args, mainWindow) {
     frame,
   });
 
-  popup.loadUrl(`file://${__dirname}/../render/popup/${filename}/index.html`);
+  // console.log(`>popping file://${__dirname}/../../render/${filename}/index.html`);
+  popup.loadUrl(`file://${__dirname}/../../render/${filename}/index.html`);
 
   if (killOnBlur){
-    popup.on('blur', function (event) {
+    popup.on('blur', (event) => {
       popup.close();
     });
   }
 
-  ipc.on('close', function(event, args) {
+  ipc.on('close', (event, args) => {
     mainWindow.send(eventName, args.info);
     popup.close();
   });

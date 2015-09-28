@@ -12,8 +12,12 @@ module.exports = class PrattleRenderer {
     return mainWindow.client;
   }
 
+  openSettings () {
+
+  }
+
   popup (args) {
-    ipc.send('pop-up', args);
+    ipc.send('popup', args);
   }
 
   loadPage (pageName) {
