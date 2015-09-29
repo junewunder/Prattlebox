@@ -2,21 +2,17 @@ angular.module('PopUpJoinApp', [])
 .controller('PopUpJoinController', ['$scope', function($scope) {
   var ipc = require('ipc');
   var remote = require('remote');
-  var popUp = remote.getCurrentWindow();
+  var popup = remote.getCurrentWindow();
 
-  $scope.channelName = '#jaywunder3';
+  $scope.channelName = '';
 
   $scope.close = function() {
-    popUp.close();
+    popup.close();
   };
 
   $scope.join = function() {
-    // send the event to the ipc NOT the BrowserWindow
-    ipc.send('close', {
-      eventName: 'channel-join',
-      info: {
-        channelName: $scope.channelName
-      }
+    prattle.returnValue('channel-join', {
+      channelName: $scope.channelName
     });
   };
 }]);

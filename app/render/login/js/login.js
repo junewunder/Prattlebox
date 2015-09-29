@@ -16,6 +16,10 @@ function LoginController ($scope) {
     $scope.$apply();
   });
 
+  // prattle.readSetting('loginDetails.realName').then(details => {
+  //   console.log(details);
+  // });
+
   // login.hostAddr = 'irc.freenode.net';
   // login.realName = 'Wunder Bot';
   // login.nickName = 'wunder-bot';
@@ -25,12 +29,21 @@ function LoginController ($scope) {
 
   login.connectionTry = function () {
     login.loading = true;
-    ipc.send('connect-try', {
-      hostAddr: login.hostAddr,
-      realName: login.realName,
-      nickName: login.nickName,
-      nickPass: login.nickPass
-    });
+    if (window.navigator.onLine) {
+      ipc.send('connect-try', {
+        hostAddr: login.hostAddr,
+        realName: login.realName,
+        nickName: login.nickName,
+        nickPass: login.nickPass
+      });
+    } else {
+      ipc.send('connect-fake', {
+        hostAddr: login.hostAddr,
+        realName: login.realName,
+        nickName: login.nickName,
+        nickPass: login.nickPass
+      });
+    }
   };
 
   login.openSettings = function() {
@@ -55,9 +68,10 @@ function LoginController ($scope) {
     var mainWindow = require('remote').getCurrentWindow();
 
     if (login.nickPass) {
+      console.log(mainWindow.client);
       mainWindow.client.say('nickserv', 'identify ' + login.nickPass);
     }
 
-    ipc.send('load-page', 'chat');
+    prattle.loadPage('chat');
   });
 }

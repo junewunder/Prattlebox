@@ -12,6 +12,14 @@ module.exports = class PrattleRenderer {
     return mainWindow.client;
   }
 
+  keyBind () {
+
+  }
+
+  returnValue (eventName, args) {
+    ipc.send('popup-return', eventName, args);
+  }
+
   openSettings () {
 
   }

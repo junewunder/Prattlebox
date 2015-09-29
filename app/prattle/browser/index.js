@@ -6,6 +6,7 @@ var BrowserWindow = require('browser-window');
 var dialog = require('dialog');
 var Popup = require('./popup.js');
 var Menus = require('./menu.js');
+var FakeClient = require('./fake-client.js');
 
 module.exports = class PrattleBrowser {
   constructor (app) {
@@ -73,8 +74,26 @@ module.exports = class PrattleBrowser {
     require('./client-bindings.js')(window, client);
   }
 
+  createFakeClient(window, clientData) {
+    var client = new FakeClient(clientData.hostAddr, clientData.nickName, {
+      userName: clientData.userName,
+      realName: clientData.realName,
+      port: this.config.readSetting('port')
+    });
+    var browserWindow = BrowserWindow.fromWebContents(window);
+    browserWindow.client = client;
+
+    // put the client into the client registry
+    this.clients[window] = client;
+    window.send('connect-ready');
+  }
+
   getClient(window) {
     return this.clients[window];
+  }
+
+  loadPage(page, window) {
+    window.loadUrl(`file://${__base}/app/render/${page}/index.html`);
   }
 
   createIpcBindings () {
@@ -91,9 +110,12 @@ module.exports = class PrattleBrowser {
       });
     });
 
-    ipc.on('load-page', function (event, page) {
-  		console.log(`> loading: ${__base}/app/render/${page}/index.html`);
-      event.sender.loadUrl(`file://${__base}/app/render/${page}/index.html`);
+    ipc.on('connect-fake', (event, clientData) => {
+      this.createFakeClient(event.sender, clientData);
+    });
+
+    ipc.on('load-page', (event, page) => {
+      this.loadPage(page, event.sender);
     });
 
     ipc.on('popup', (event, args) => {

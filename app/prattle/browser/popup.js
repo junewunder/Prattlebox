@@ -16,8 +16,7 @@ module.exports = function(args, mainWindow) {
     frame,
   });
 
-  // console.log(`>popping file://${__dirname}/../../render/${filename}/index.html`);
-  popup.loadUrl(`file://${__dirname}/../../render/${filename}/index.html`);
+  prattle.loadPage(filename, popup);
 
   if (killOnBlur){
     popup.on('blur', (event) => {
@@ -25,8 +24,8 @@ module.exports = function(args, mainWindow) {
     });
   }
 
-  ipc.on('close', (event, args) => {
-    mainWindow.send(eventName, args.info);
+  ipc.on('popup-return', (event, eventName, args) => {
+    mainWindow.send(eventName, args);
     popup.close();
   });
 };
