@@ -1,18 +1,26 @@
-angular.module('PopUpJoinApp', [])
-.controller('PopUpJoinController', ['$scope', function($scope) {
+angular
+  .module('PopUpJoinApp', [])
+  .controller('PopUpJoinController', ['$scope', PopUpJoinController]);
+
+function PopUpJoinController($scope) {
   var ipc = require('ipc');
   var remote = require('remote');
   var popup = remote.getCurrentWindow();
+  var vm = this;
 
-  $scope.channelName = '';
+  vm.channelName = '';
+  vm.defaultChannels = ['#jaywunder', 'aripanda'];
+  vm.channelList = ['lel', 'jackv'];
+  vm.close = close;
+  vm.join = join;
 
-  $scope.close = function() {
+  function close() {
     popup.close();
-  };
+  }
 
-  $scope.join = function() {
+  function join() {
     prattle.returnValue('channel-join', {
-      channelName: $scope.channelName
+      channelName: join.channelName
     });
-  };
-}]);
+  }
+}

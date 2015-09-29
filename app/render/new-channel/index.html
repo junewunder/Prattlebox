@@ -7,9 +7,10 @@
   <script src="../../static/lib/angular.min.js"></script>
   <script src="./main.js" charset="utf-8"></script>
 </head>
-<body ng-controller="PopUpJoinController">
+<!-- vm means "view model" -->
+<body ng-controller="PopUpJoinController as vm">
   <div class="wrapper content">
-    <form class="login-form" ng-sumbit="join()" ng-model-options="{ debounce: 150 }">
+    <form class="login-form" ng-sumbit="vm.join()" ng-model-options="{ debounce: 150 }">
       <input type="text" class="login-input" ng-model="channelName">
       <button
         type="button"
@@ -19,7 +20,13 @@
         Join Channel
       </button>
       <button type="button" class="login-input" ng-click="close()">Close</button>
+      <select class="" name="channel">
+        <optgroup label="default">
+        <!-- <option ng-reapeat="opt in vm.channelList" ng-model="opt">{{opt}}</option> -->
+        </optgroup>
+      </select>
     </form>
   </div>
+  {{channelList}}
 </body>
 </html>
