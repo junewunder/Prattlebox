@@ -1,6 +1,7 @@
 'use strict';
 var ipc = require('ipc');
 var remote = require('remote');
+var shell = require('shell');
 
 module.exports = class PrattleRenderer {
   constructor () {
@@ -22,6 +23,10 @@ module.exports = class PrattleRenderer {
 
   openSettings () {
 
+  }
+
+  openLink (url) {
+    shell.openExternal(url);
   }
 
   popup (args) {
