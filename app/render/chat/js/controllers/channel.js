@@ -10,5 +10,6 @@ module.exports = class Channel {
     this.previouslySent = []; // String[] - the list of previously sent messages by the user
     this.topic = 'no topic has been set'; // String the topic for the room
     this.showNicks = false;   // Boolean - whether or not to show the user list
+    this.type = (name[0] == '#') ? 'channel' : 'private';
   }
 };

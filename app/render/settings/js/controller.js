@@ -25,20 +25,7 @@ function SettingsController ($scope) {
     });
   }
 
-  prattle.writeSetting('foo', 'leedle lodle leedle lodle');
-
-  // Dear morning Jacob
-  // this code is almost kinda working
-  // when it's put in the mainWindow everything is dandy
-  // then it goes in a popup and nothing happens
-  // weirdly: it can write to the file in the popup, but not read from the file
-  // this might be my fault from tonight
-  // I'm tired.... good nighty night 😴
-
-
   prattle.readSetting('defaultChannels').then((value) => {
-    console.log('IT"S HAPPENEING');
-    console.log(value);
     settings.defaultChannels = value;
     $scope.$apply();
   });

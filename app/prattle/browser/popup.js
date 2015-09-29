@@ -16,16 +16,16 @@ module.exports = function(args, mainWindow) {
     frame,
   });
 
-  popup.loadUrl(`file://${__dirname}/../render/popup/${filename}/index.html`);
+  prattle.loadPage(filename, popup);
 
   if (killOnBlur){
-    popup.on('blur', function (event) {
+    popup.on('blur', (event) => {
       popup.close();
     });
   }
 
-  ipc.on('close', function(event, args) {
-    mainWindow.send(eventName, args.info);
+  ipc.once('popup-return', function (event, eventName, args) {
+    mainWindow.send(eventName, args);
     popup.close();
   });
 };
