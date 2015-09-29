@@ -24,10 +24,6 @@ module.exports = function(args, mainWindow) {
     });
   }
 
-  popup.on('close', (event) => {
-    console.log('closed');
-  });
-
   ipc.once('popup-return', function (event, eventName, args) {
     mainWindow.send(eventName, args);
     popup.close();

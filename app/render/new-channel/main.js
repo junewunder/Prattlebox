@@ -20,7 +20,7 @@ function PopUpJoinController($scope) {
 
   function join() {
     prattle.returnValue('channel-join', {
-      channelName: join.channelName
+      channelName: vm.channelName
     });
   }
 }
