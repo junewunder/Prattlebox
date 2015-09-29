@@ -1,1 +1,7 @@
-angular.module('chat', []);
+angular
+  .module(
+    'chat',
+    [
+      'chat.filters'
+    ]
+  );

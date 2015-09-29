@@ -2,9 +2,9 @@
 
 angular // jshint ignore:line
   .module('chat')
-  .controller('ChatController', ChatController);
+  .controller('ChatController', ['$scope', '$sce', '$filter', ChatController]);
 
-function ChatController($scope) {
+function ChatController($scope, $sce, $filter) {
   var ipc = require('ipc');
   var remote = require('remote');
   var shell = require('shell');
@@ -121,7 +121,14 @@ function ChatController($scope) {
     if (!chat.channels[name]) chat.joinChannel(name);
     if (name !== chat.active.name) chat.channels[name].unread++;
 
-    chat.channels[name].messages.push(new Message(isSelf, type, nick, text));
+    chat.channels[name].messages.push(
+      new Message(
+        isSelf,
+        type,
+        nick,
+        text
+      )
+    );
 
     if (!isSelf) $scope.$apply();
 
