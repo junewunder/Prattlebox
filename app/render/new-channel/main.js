@@ -9,7 +9,7 @@ function PopUpJoinController($scope) {
   var vm = this;
 
   vm.channelName = '';
-  vm.defaultChannels = ['#jaywunder', 'aripanda'];
+  vm.favoriteChannels = ['#jaywunder', 'aripanda'];
   vm.channelList = ['lel', 'jackv'];
   vm.close = close;
   vm.join = join;

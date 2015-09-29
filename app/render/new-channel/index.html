@@ -21,8 +21,11 @@
       </button>
       <button type="button" class="login-input" ng-click="vm.close()">Close</button>
       <select class="" name="channel">
-        <optgroup label="default">
-        <!-- <option ng-reapeat="opt in vm.channelList" ng-model="opt">{{opt}}</option> -->
+        <optgroup label="favorite channels" ng-show="vm.favoriteChannels.length > 0">
+          <option ng-repeat="opt in vm.favoriteChannels" value="{{opt}}">{{opt}}</option>
+        </optgroup>
+        <optgroup label="all channels" ng-show="vm.channelList.length > 0">
+          <option ng-repeat="opt in vm.channelList" value="{{opt}}">{{opt}}</option>
         </optgroup>
       </select>
     </form>
