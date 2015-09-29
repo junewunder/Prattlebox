@@ -1,6 +1,6 @@
 angular
   .module('chat')
-  .directive('prMessage', prMessage);
+  .directive('prMessage', [prMessage]);
 
 function prMessage () {
   return {
@@ -8,10 +8,11 @@ function prMessage () {
     scope: false,
     template: `
       <li class="{{message.type}}">
-        <!-- <span class="nick-{{message.type}} self-{{message.self}}">{{message.nick}}</span> -->
         <pr-username></pr-username>
-        <span class="message-text">{{message.text}}</span>
+        <span class="message-text" ng-bind-html="message.text | sanitize"></span>
       </li>
     `
   };
 }
+
+// {{message.text}}
